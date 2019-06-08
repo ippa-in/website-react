@@ -26,14 +26,18 @@ ul.header--list {
     margin: 0;
 }
 
-li.tabs, .signIn {
-    list-style: none;
+.tabs, .signIn {
+    color: #242247;
     padding: 30px 20px;
-    cursor: pointer;
+    text-decoration: none;
 }
 
-li.tabs:hover, .signIn:hover {
+.tabs:hover, .signIn:hover {
     background: #c5c3c359;
+}
+
+.tabs.selected {
+    color: #f32c4c;
 }
 
 .getStarted {

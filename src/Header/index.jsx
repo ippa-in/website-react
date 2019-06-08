@@ -1,5 +1,6 @@
 import React from 'react';
 import './header.scss';
+import { Link } from 'react-router-dom';
 
 export default class Header extends React.PureComponent {
     constructor(props) {
@@ -10,12 +11,12 @@ export default class Header extends React.PureComponent {
     render() {
         return (
             <div className='header'>
-            <div className='d-flex'>
-                <div className='logo'>IPPA.in</div>
-                <ul className='header--list'>{this.headerList.map((list, index) =>
-                    <li className='tabs' key={`${index}-${list}`}>{list}</li>
-                )}
-                </ul>
+                <div className='d-flex'>
+                    <div className='logo'>IPPA.in</div>
+                    <div className='header--list'>{this.headerList.map((list, index) =>
+                        <Link className={'tabs'} key={`${index}-${list}`} to={`/${list.toLowerCase().replace(' ', '-')}`}>{list}</Link>
+                    )}
+                    </div>
                 </div>
                 <div className='d-flex'>
                     <div className='signIn'>Sign In</div>
