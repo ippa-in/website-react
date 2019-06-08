@@ -1,9 +1,11 @@
+$primary-color: #f32c4c;
+
 .d-flex{
     display: flex;
     align-items: center;
 }
 
-.parent {
+.header {
     display: flex;
     align-items: center;
     padding-left: 40px;
@@ -13,25 +15,30 @@
 .logo {
     font-size: 35px;
     font-weight: 900;
-    color: #f32c4c;
+    color: $primary-color;
     margin-right: 60px;
+    cursor: pointer;
 }
 
-ul {
+ul.header--list {
     display: flex;
     padding: 0;
     margin: 0;
 }
 
-li, .signIn {
+li.tabs, .signIn {
     list-style: none;
     padding: 30px 20px;
     cursor: pointer;
 }
 
+li.tabs:hover, .signIn:hover {
+    background: #c5c3c359;
+}
+
 .getStarted {
     color: #fff;
-    background: red;
+    background: $primary-color;
     padding: 30px 40px;
     cursor: pointer;
 }

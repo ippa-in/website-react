@@ -9,11 +9,11 @@ export default class Header extends React.PureComponent {
 
     render() {
         return (
-            <div className='parent'>
+            <div className='header'>
             <div className='d-flex'>
                 <div className='logo'>IPPA.in</div>
-                <ul>{this.headerList.map((list, index) =>
-                    <li>{list}</li>
+                <ul className='header--list'>{this.headerList.map((list, index) =>
+                    <li className='tabs' key={`${index}-${list}`}>{list}</li>
                 )}
                 </ul>
                 </div>

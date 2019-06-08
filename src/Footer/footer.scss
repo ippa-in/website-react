@@ -1,0 +1,56 @@
+.footer--parent {
+    background: #2d2b46;
+    color: #fff;
+    padding: 80px;
+    display: flex;
+}
+
+.title {
+    font-size: 16px;
+    color: #8381a3;
+}
+
+.content {
+    margin: 0;
+    padding: 0;
+    margin-top: 24px;
+    line-height: 2;
+    font-size: 14px;
+    color: #fff;
+}
+
+.content > li {
+    list-style: none;
+}
+
+.content.followUs {
+    display: flex;
+}
+
+.followUs > img:not(:first-child) {
+    margin-left: 30px;
+}
+
+.multi--content .title:not(:first-child) {
+    margin-top: 40px;
+}
+.footerData--left {
+    width: 40%;
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+}
+.footerData--right {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-left: 100px;
+    border-left: 1px solid white;
+}
+
+.copyRight {
+    text-align: center;
+    padding: 30px 0px;
+    background: #2a2843;
+    color: #fff;
+    font-size: 12px;
+}
