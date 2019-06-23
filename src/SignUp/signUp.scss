@@ -1,0 +1,14 @@
+.signUpContainer {
+    width: 980px;
+    display: flex;
+    /* padding: 20px 160px; */
+    margin: 80px auto;
+}
+
+.signUpContainer > div {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: baseline;
+}

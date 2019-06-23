@@ -1,0 +1,23 @@
+@mixin cur-pointer {
+    cursor: pointer;
+}
+
+.primaryButton {
+    border-radius: 6px;
+    background-color: #f32c4c;
+    font-size: 14px;
+    color: #ffffff;
+    padding: 16px 20px;
+    min-width: 130px;
+    border: none;
+    @include cur-pointer;
+}
+
+.primaryButton:focus {
+    outline: none;
+}
+
+.primaryButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
