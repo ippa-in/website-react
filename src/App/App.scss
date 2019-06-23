@@ -1,1 +1,7 @@
 $primary-color: #f32c4c;
+
+.appBody {
+    min-height: calc(100vh - 75px);
+    display: flex;
+    flex-flow: column;
+}

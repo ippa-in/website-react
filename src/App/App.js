@@ -4,11 +4,13 @@ import './App.scss';
 import Header from '../Header';
 import Footer from '../Footer';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
-    <Header />
-    <Footer />
+      <Header />
+      <div className='appBody'>
+        <Footer />
+      </div>
     </div>
   );
 }

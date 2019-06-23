@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import App from './App/App';
 import NotFoundPage from './NotFoundPage';
 import Videos from './Videos';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 const Routes = () => {
     return (
@@ -19,6 +21,9 @@ const Routes = () => {
                 <Route path="/promotions" component={Videos} />
                 <Route path="/game-finder" component={Videos} />
                 <Route path="/learning-curve" component={Videos} />
+                <Route path={['/sign-in', '/frgt-pass','/reset-pass']} component={SignIn} />
+                <Route path="/sign-up/:step" component={SignUp} />
+                <Redirect from="/sign-up" to="/sign-up/1" />
                 <Route component={NotFoundPage} />
             </Switch>
         </Router>

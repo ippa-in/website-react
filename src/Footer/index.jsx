@@ -22,7 +22,7 @@ export default class Footer extends React.PureComponent {
 
     render() {
         return (
-            <div>
+            <footer>
                 <div className='footer--parent'>
                 <div className='footerData--left'>
                     <div className='multi--content'>
@@ -39,8 +39,8 @@ export default class Footer extends React.PureComponent {
                         <div className='content followUs'>
                                 <img src='/images/facebook-logo.svg' alt='facebook' />
                                 <img src='/images/twitter-logo.svg' alt='twitter' />
-                                <img src='../images/instagram-logo.svg' alt='instagram' />
-                                <img src='../images/youtube-logo.svg' alt='youtube' />
+                                <img src='/images/instagram-logo.svg' alt='instagram' />
+                                <img src='/images/youtube-logo.svg' alt='youtube' />
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@ export default class Footer extends React.PureComponent {
                     </div>
                 </div>
                 <div className='copyRight'>Copyright © 2019 Indian Poker Players Association. All rights reserved.</div>
-            </div>
+            </footer>
         );
     }
 }

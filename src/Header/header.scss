@@ -1,5 +1,9 @@
 $primary-color: #f32c4c;
 
+@mixin cur-pointer {
+    cursor: pointer;
+}
+
 .d-flex{
     display: flex;
     align-items: center;
@@ -10,12 +14,10 @@ $primary-color: #f32c4c;
     align-items: center;
     padding-left: 40px;
     justify-content: space-between;
+    min-height: 78px;
 }
 
 .logo {
-    font-size: 35px;
-    font-weight: 900;
-    color: $primary-color;
     margin-right: 60px;
     cursor: pointer;
 }
@@ -26,13 +28,13 @@ ul.header--list {
     margin: 0;
 }
 
-.tabs, .signIn {
+.tabs {
     color: #242247;
     padding: 30px 20px;
     text-decoration: none;
 }
 
-.tabs:hover, .signIn:hover {
+.tabs:hover {
     background: #c5c3c359;
 }
 
@@ -45,4 +47,22 @@ ul.header--list {
     background: $primary-color;
     padding: 30px 40px;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.primeButton {
+    padding: 16px 30px;
+    border-radius: 6px;
+    border: solid 1px #e0e5e9;
+    background-color: #ffffff;
+    text-decoration: none;
+    color: #242247;
+    margin: 0px 25px;
+    font-size: 14px;
+}
+
+.loginText {
+    color: #596377;
+    font-size: 14px;
+    @include cur-pointer;
 }
