@@ -2,7 +2,7 @@ import React from 'react';
 import './signIn.scss';
 import Header from '../Header';
 import InputField from '../customComponents/InputField';
-import PrimaryButton from '../customComponents/PrimaryButton';
+import CustomButton from '../customComponents/CustomButton';
 
 export default class SignIn extends React.PureComponent {
     constructor(props) {
@@ -79,9 +79,10 @@ export default class SignIn extends React.PureComponent {
                     hintText='something secure.'
                     showForgotPassword={true}
                 />
-                <PrimaryButton
+                <CustomButton
                     style={{ marginTop: 15 }}
                     label={'Sign In'}
+                    isPrimary={true}
                 />
             </>
         );
@@ -99,9 +100,10 @@ export default class SignIn extends React.PureComponent {
                         label='Your email'
                         hintText='you@email.com'
                     />
-                    <PrimaryButton
+                    <CustomButton
                         style={{ marginTop: 15 }}
                         label={'Reset Link Sent!'}
+                        isPrimary={true}
                         onClick={this.sendResetLink}
                         disabled={true}
                     />
@@ -114,9 +116,10 @@ export default class SignIn extends React.PureComponent {
                     label='Your email'
                     hintText='you@email.com'
                 />
-                <PrimaryButton
+                <CustomButton
                     style={{ marginTop: 15 }}
                     label={'Send Reset Link'}
+                    isPrimary={true}
                     onClick={this.sendResetLink}
                 />
             </>
@@ -140,9 +143,10 @@ export default class SignIn extends React.PureComponent {
                     hintText='something secure.'
                     showForgotPassword={false}
                 />
-                <PrimaryButton
+                <CustomButton
                     style={{ marginTop: 15 }}
                     label={'Reset Password'}
+                    isPrimary={true}
                 />
             </>
         );

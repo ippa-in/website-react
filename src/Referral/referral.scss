@@ -1,0 +1,36 @@
+.referral--container {
+    padding: 60px 80px 60px 130px;
+    background: #f2f2ff;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.referral-header {
+    font-size: 40px;
+    margin: 0;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.referral--content {
+    color: #596377;
+    line-height: 1.75;
+    font-size: 16px;
+    font-weight: 300;
+    max-width: 618px;
+    margin: 20px 0px;
+    letter-spacing: -0.09px;
+}
+
+.refer-a-friend {
+    text-transform: uppercase;
+    color: #f32c4c;
+    font-size: 16px;
+    letter-spacing: -0.1px;
+}
+
+.referral-inputField--container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}

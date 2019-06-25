@@ -2,7 +2,7 @@ import React from 'react';
 import './signUp.scss';
 import Header from '../Header';
 import InputField from '../customComponents/InputField';
-import PrimaryButton from '../customComponents/PrimaryButton';
+import CustomButton from '../customComponents/CustomButton';
 
 export default class SignUp extends React.PureComponent {
     // constructor(props) {
@@ -69,9 +69,10 @@ export default class SignUp extends React.PureComponent {
                     label='Referral code'
                     hintText='Enter referral code'
                 />
-                <PrimaryButton
+                <CustomButton
                     style={{ marginTop: 15 }}
                     label={'sign Up'}
+                    isPrimary={true}
                 />
             </>
         );
@@ -93,11 +94,12 @@ export default class SignUp extends React.PureComponent {
                     label='City'
                     hintText='Type city name'
                 />
-                <PrimaryButton
+                <CustomButton
                     style={{ marginTop: 15 }}
                     label={'Sign Up'}
                     disabled={true}
                     onClick={this.registerAccount}
+                    isPrimary={true}
                 />
             </>
         );
