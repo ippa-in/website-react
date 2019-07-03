@@ -1,0 +1,66 @@
+.feed--parent-image {
+  max-width: 265px;
+  object-fit: contain;
+}
+
+.calendar--view--container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.calendar--view--container > div {
+  display: flex;
+  align-items: center;
+}
+
+.calendar--view--container > div:last-child {
+  margin-left: 20px;
+}
+
+.calendar--view--container > div > span {
+  margin-left: 10px;
+  letter-spacing: -0.1px;
+  color: #596377;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.feed--header {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  color: #242247;
+  margin-top: 22px;
+  display: -webkit-box;
+  max-height: 48px;
+  height: 48px;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  -webkit-line-clamp: 2;
+  line-height: 1.5;
+}
+
+.feed--details {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.54;
+  letter-spacing: -0.11px;
+  color: #596377;
+  margin: 0;
+}
+
+.popular--tags {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: -0.1px;
+  color: #f32c4c;
+  margin-top: 30px;
+}
+
+.popular--tags > span:not(:last-child) {
+  padding-right: 10px;
+  margin-right: 10px;
+  border-right: 1px solid #d6dce1;
+}

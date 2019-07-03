@@ -1,0 +1,54 @@
+.popular--header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 90px 0 120px 50px;
+}
+
+.popular--left-section {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 227px;
+  background-color: #ffffff;
+}
+
+.popular--left-section > header {
+  color: #242247;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.popular--left-section > p {
+  font-size: 13px;
+  color: #596377;
+  line-height: 1.69;
+  letter-spacing: -0.11px;
+  font-weight: 300;
+  margin: 10px 0 15px 0;
+}
+
+.popular--left--arrow {
+  transform: rotate(180deg) scaleY(-1);
+  margin-left: 20px;
+}
+
+.popular--viewAll {
+  margin-top: 40px;
+  letter-spacing: -0.09px;
+  color: #242247;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.popular--right-section {
+  width: 80%;
+  display: flex;
+  overflow: overlay;
+}
+
+@-moz-document url-prefix() {
+  .popular--right-section {
+    overflow: auto !important;
+  }
+}
