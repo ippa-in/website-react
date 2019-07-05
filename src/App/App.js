@@ -7,6 +7,8 @@ import Referral from '../Referral';
 import Carousel from '../Carousel';
 import PopularVideos from '../PopularVideos';
 import PopularArticles from '../PopularArticles';
+import OnlinePokerRooms from '../OnlinePokerRooms';
+import PopularThreads from '../PopularThreads';
 
 function App(props) {
   return (
@@ -15,6 +17,8 @@ function App(props) {
       <div className='appBody'>
         <Carousel />
         <PopularVideos />
+        <OnlinePokerRooms />
+        <PopularThreads />
         <PopularArticles />
         <Referral />
         <Footer />

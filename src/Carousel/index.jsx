@@ -37,14 +37,12 @@ const Carousel = () => {
                     <div className='img--container'>
                         <img src="/images/poker-carousel-img.jpg" style={{ width: '100%', zIndex: 1 }} alt='' />
                         <div style={{ textAlign: 'center', marginTop: 20 }}>
-                            <span className='dots' onClick={currentSlide(slideIndex, 1)}></span>
+                            <span className='dots active' onClick={currentSlide(slideIndex, 1)}></span>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <div className='carousel-arrows--container'>
-                        <div className="prev" onClick={changeSlides(slideIndex, -1)}><img src='images/carousel-arrow.svg' alt='' /></div>
-                        <div className="next" onClick={changeSlides(slideIndex, 1)}><img src='images/carousel-arrow.svg' alt='' /></div>
+                        <div className='carousel-arrows--container'>
+                            <div className="prev" onClick={changeSlides(slideIndex, -1)}><img src='images/carousel-arrow.svg' alt='' /></div>
+                            <div className="next" onClick={changeSlides(slideIndex, 1)}><img src='images/carousel-arrow.svg' alt='' /></div>
+                        </div>
                     </div>
                 </div>
             </div>

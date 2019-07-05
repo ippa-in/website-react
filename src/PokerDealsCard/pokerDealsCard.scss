@@ -1,0 +1,46 @@
+.pokerDeal--container {
+  display: inline-flex;
+  flex-flow: column;
+  padding: 20px;
+  max-width: 279px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px 0 rgba(47, 39, 56, 0.02);
+  border: solid 1px #e8e7f6;
+  background-color: #ffffff;
+}
+
+.pokerDeal--container > img {
+  object-fit: contain;
+  width: 60%;
+}
+
+.pokerDeal--container > header {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.67px;
+  color: #242247;
+  margin-top: 10px;
+}
+
+.pokerDeal--content {
+  line-height: 1.54;
+  letter-spacing: -0.11px;
+  color: #596377;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.pokerDeal--content > div {
+  padding: 10px 0px;
+}
+
+.pokerDeal--content > div:not(:first-child) {
+  border-top: 1px solid #f0eff5;
+}
+
+.pokerDealsCard--CTA {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}

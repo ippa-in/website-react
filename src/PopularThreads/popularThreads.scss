@@ -1,0 +1,58 @@
+.popularThreads--container {
+  width: 100%;
+  background-color: #fafaff;
+}
+
+.pokerRoom--header {
+  padding: 20px 30px;
+  background: #fff;
+  display: inline-block;
+  color: #242247;
+  margin: 80px;
+}
+
+.pokerRoom--header > header {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.pokerRoom--header > p {
+  line-height: 1.54;
+  letter-spacing: -0.11px;
+  font-size: 13px;
+  font-weight: 300;
+  margin-bottom: 0;
+  color: #596377;
+}
+
+.pokerRoom--cardContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: 30px;
+  margin: 80px;
+  transform: translateY(-30%);
+}
+
+.popularThreadsCard--container {
+  margin: 0 80px 30px;
+}
+
+.popularThreadsCard--container > div:not(:first-child) {
+  margin-top: 10px;
+}
+
+.viewAll--button {
+  padding: 30px 40px;
+  display: inline-block;
+  border: solid 1px #242247;
+  background-color: #ffffff;
+  color: #242247;
+  margin: 30px 0px 60px;
+}
+
+.d-flex-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
