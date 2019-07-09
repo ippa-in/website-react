@@ -10,21 +10,35 @@ import PopularArticles from '../PopularArticles';
 import OnlinePokerRooms from '../OnlinePokerRooms';
 import PopularThreads from '../PopularThreads';
 
-function App(props) {
-  return (
-    <div className="App">
-      <Header />
-      <div className='appBody'>
-        <Carousel />
-        <PopularVideos />
-        <OnlinePokerRooms />
-        <PopularThreads />
-        <PopularArticles />
-        <Referral />
-        <Footer />
-      </div>
-    </div>
-  );
-}
+export default class App extends React.PureComponent {
+  // constructor(props) {
+  //   super(props);
+  //   document.addEventListener('mousemove', (e) => {
+  //     let custCursor = document.querySelectorAll('.cursor');
+  //     // custCursor[0].setAttribute('style', `transform: matrix(1, 0, 0, 1, ${e.pageX}, ${e.pageY});`);
+  //     custCursor[0].setAttribute('style', `top: ${e.pageY}px; left: ${e.pageX}px;`)
+  //     custCursor[1].setAttribute('style', `top: ${e.pageY}px; left: ${e.pageX}px;`)
+  //     // custCursor[1].setAttribute('style', `transform: translate3d(${e.pageX}px, ${e.pageY}px, 0px);`);
+  //   });
+  // }
 
-export default App;
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <div className='appBody'>
+          <Carousel />
+          <PopularVideos />
+          <OnlinePokerRooms />
+          <PopularThreads />
+          <PopularArticles />
+          <Referral />
+          <Footer />
+          {/* <div className='cursor'></div> */}
+          {/* <div class="cursor cursor--inner"></div> */}
+          {/* <div class="cursor cursor--outer"></div> */}
+        </div>
+      </div>
+    );
+  }
+}

@@ -6,31 +6,31 @@
   background-color: #ffffff;
 }
 
-.popularThreads--header {
+.popularThreadsCard--header {
   letter-spacing: -0.13px;
   color: #242247;
   font-size: 16px;
   font-weight: 500;
 }
 
-.popularThreads--value {
+.popularThreadsCard--value {
   letter-spacing: -0.1px;
   color: #596377;
   font-size: 12px;
   font-weight: 300;
 }
 
-.popularThreads--details {
+.popularThreadsCard--details {
   display: flex;
   margin-top: 14px;
 }
 
-.popularThreads--details > div:not(:first-child) {
+.popularThreadsCard--details > div:not(:first-child) {
   display: flex;
   align-items: center;
   margin-left: 20px;
 }
 
-.popularThreads--details > div > img {
+.popularThreadsCard--details > div > img {
   margin-right: 10px;
 }

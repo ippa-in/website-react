@@ -11,7 +11,7 @@ export default class PopularThreads extends React.PureComponent {
     render() {
         return (
             <div className='popularThreads--container'>
-                <div className='pokerRoom--header'>
+                <div className='popularThreads--header'>
                     <header>Popular Threads</header>
                     <p>Find here all the information about shows, artists but also our activities.</p>
                 </div>

@@ -3,7 +3,7 @@
   background-color: #fafaff;
 }
 
-.pokerRoom--header {
+.popularThreads--header {
   padding: 20px 30px;
   background: #fff;
   display: inline-block;
@@ -11,27 +11,19 @@
   margin: 80px;
 }
 
-.pokerRoom--header > header {
+.popularThreads--header > header {
   font-size: 24px;
   font-weight: 500;
   letter-spacing: 1px;
 }
 
-.pokerRoom--header > p {
+.popularThreads--header > p {
   line-height: 1.54;
   letter-spacing: -0.11px;
   font-size: 13px;
   font-weight: 300;
   margin-bottom: 0;
   color: #596377;
-}
-
-.pokerRoom--cardContainer {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-row-gap: 30px;
-  margin: 80px;
-  transform: translateY(-30%);
 }
 
 .popularThreadsCard--container {
