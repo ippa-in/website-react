@@ -26,7 +26,8 @@ export default class App extends React.PureComponent {
     return (
       <div className="App">
         <Header />
-        <div className='appBody'>
+        <div className='appBody' > 
+         {/* style={{ width: window.screen.width }}> */}
           <Carousel />
           <PopularVideos />
           <OnlinePokerRooms />
@@ -34,9 +35,8 @@ export default class App extends React.PureComponent {
           <PopularArticles />
           <Referral />
           <Footer />
-          {/* <div className='cursor'></div> */}
-          {/* <div class="cursor cursor--inner"></div> */}
-          {/* <div class="cursor cursor--outer"></div> */}
+          {/* <div className="cursor cursor--inner"></div> */}
+          {/* <div className="cursor cursor--outer"></div> */}
         </div>
       </div>
     );

@@ -3,6 +3,8 @@ import './carousel.scss';
 
 import PropTypes from 'prop-types';
 
+import CustomButton from '../customComponents/CustomButton';
+
 const changeSlides = (slideIndex, n) => {
     showSlides(slideIndex += n);
 }
@@ -29,21 +31,50 @@ const showSlides = (slideIndex, n) => {
 
 const Carousel = () => {
     var slideIndex = 1;
+    const slidesConfig = [
+        {
+            header: 'Become a Successful Poker Player soon',
+            content: 'Pick up profitable tricks and useful tips in the poker video strategy lessons from ippa.com, the leading poker school worldwide.',
+            imgUrl: '/images/poker-carousel-img.jpg'
+        },
+        // {
+        //     header: 'Become a Successful Poker Player Today',
+        //     content: 'Pick up profitable tricks and useful tips in the poker video strategy lessons from ippa.com, the leading poker school worldwide.',
+        //     imgUrl: '/images/poker-carousel-img.jpg'
+        // },
+        // {
+        //     header: 'Become a Successful Poker Player Today again',
+        //     content: 'Pick up profitable tricks and useful tips in the poker video strategy lessons from ippa.com, the leading poker school worldwide.',
+        //     imgUrl: '/images/poker-carousel-img.jpg'
+        // }
+    ];
     return (
         <>
             <div className="slideshow-container">
-                <div className="mySlides fade">
-                    <div className="text">Caption Text</div>
-                    <div className='img--container'>
-                        <img src="/images/poker-carousel-img.jpg" style={{ width: '100%', zIndex: 1 }} alt='' />
-                        <div style={{ textAlign: 'center', marginTop: 20 }}>
-                            <span className='dots active' onClick={currentSlide(slideIndex, 1)}></span>
+                {slidesConfig.map((data, index) =>
+                    <div className="mySlides active fade" key={`${index}-${data.imgUrl}`}>
+                        <div className="text">
+                            <div className='carousel-text--container'>
+                                <header className='carousel--header'>{data.header}</header>
+                                <p>{data.content}</p>
+                                <CustomButton
+                                    style={{ marginTop: 40 }}
+                                    label={'Get Started'}
+                                    isPrimary={true}
+                                />
+                            </div>
                         </div>
-                        <div className='carousel-arrows--container'>
-                            <div className="prev" onClick={changeSlides(slideIndex, -1)}><img src='images/carousel-arrow.svg' alt='' /></div>
-                            <div className="next" onClick={changeSlides(slideIndex, 1)}><img src='images/carousel-arrow.svg' alt='' /></div>
+                        <div className='img--container'>
+                            <img src={data.imgUrl} style={{ width: '100%', borderRadius: 6 }} alt='' />
+                            <div style={{ textAlign: 'center', marginTop: 20 }}>
+                                <span className='dots active' onClick={currentSlide(slideIndex, 1)}></span>
+                            </div>
                         </div>
                     </div>
+                )}
+                <div className='carousel-arrows--container'>
+                    <img src='images/carousel-arrow.svg' alt='prev-arrow' className="prev" onClick={changeSlides(slideIndex, -1)} />
+                    <img src='images/carousel-arrow.svg' alt='next-arrow' className="next" onClick={changeSlides(slideIndex, 1)} />
                 </div>
             </div>
         </>

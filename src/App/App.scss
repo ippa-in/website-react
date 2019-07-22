@@ -4,6 +4,8 @@ $primary-color: #f32c4c;
   min-height: calc(100vh - 75px);
   display: flex;
   flex-flow: column;
+  margin: 0 auto;
+  // width: 1440px;
 }
 
 .cursor {
@@ -40,6 +42,6 @@ $primary-color: #f32c4c;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 99998;
-  mix-blend-mode: overlay;
+  // mix-blend-mode: overlay;
   background-color: red;
 }
