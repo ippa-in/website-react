@@ -4,10 +4,22 @@ import Header from '../Header';
 import InputField from '../customComponents/InputField';
 import CustomButton from '../customComponents/CustomButton';
 
+import { get } from '../utils/api';
+
 export default class SignUp extends React.PureComponent {
     // constructor(props) {
     //     super(props);
     // }
+
+    componentDidMount() {
+        let url = 'access/v1/createuser/';
+        let data = {
+            email_id: 'farzi@gmail.com'
+        }
+
+        let headers = { 'PLAYER-ID': 'IPPA2019612212698437954726IPPA' };
+        get(url, { headers }).then(res => console.log(res));
+    }
 
     renderLeftContent = () => {
         const step = this.props.match.params.step || 1;
