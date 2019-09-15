@@ -1,20 +1,32 @@
 import axios from 'axios';
 
-const BASEURL = `http://192.168.0.105:9005/`;
+const BASEURL = `http://35.154.161.226:80/`;
 
 const makeAPIUrl = (url) => `${BASEURL}${url}`;
 
 const helpers = {};
 const methods = ['get', 'post', 'put', 'destroy', 'patch'];
 
-//Send param named external is current BASEURL is not needed or some external API needs to be called.
+//Send param named external, if current BASEURL is not needed or some external API needs to be called.
 
 methods.forEach((method) => {
   const fn = (url, options = {}) => {
     const { external, ...rest } = options;
+
+    const playerID = localStorage.getItem('playerID');
+    const headers = {
+      'PLAYER-ID': playerID 
+    }
+
+    const formData = new FormData();
+    for (const key in rest) {
+      formData.append(key, rest[key]);
+    }
     const verb = method === 'destroy' ? 'delete' : method;
-    const request = axios[verb](options.external ? url : makeAPIUrl(url), rest);
-    return request;
+
+    return axios[verb](makeAPIUrl(url), formData, !!playerID && { headers })
+      .then(response => response);
+      // .catch(error => error);
   };
 
   helpers[method] = fn;

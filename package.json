@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git@github.com:ippa-in/website-react.git"
   },
+  "homepage": "http://ippa.in/",
   "engines": {
     "npm": ">=8.11",
     "node": ">=5.6"
@@ -13,7 +14,7 @@
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "GENERATE_SOURCEMAP=false node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "dependencies": {
@@ -57,6 +58,7 @@
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
+    "react-router": "^5.0.1",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
     "resolve": "1.10.0",

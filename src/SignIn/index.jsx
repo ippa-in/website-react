@@ -4,12 +4,45 @@ import Header from '../Header';
 import InputField from '../customComponents/InputField';
 import CustomButton from '../customComponents/CustomButton';
 
-export default class SignIn extends React.PureComponent {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import {
+    signIn
+} from './actionCreators';
+
+class SignIn extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            showCheckMail: false
+            showCheckMail: false,
+            email_id: '',
+            password: ''
         }
+    }
+
+    handleOnInputChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleSignIn = () => {
+        const { email_id, password } = this.state;
+
+        if (!email_id) {
+            //show email id error.
+            console.log('Enter correct email ID.');
+            return;
+        }
+
+        if (!password) {
+            //show password error.
+            console.log('Enter password.');
+            return;
+        }
+
+        let data = { email_id, password };
+
+        this.props.signIn(data);
     }
 
     renderLeftContent = () => {
@@ -61,28 +94,34 @@ export default class SignIn extends React.PureComponent {
                     <div className='socialLogin'>
                         <img src='/images/facebook-signin.svg' alt='facebook-logo' />
                         Sign in with Facebook
-            </div>
+                    </div>
                     <div className='socialLogin'>
                         <img src='/images/gmail-logo.svg' alt='gmail-logo' />
                         Sign in with Gmail
-            </div>
+                    </div>
                 </div>
                 <div className='signIn-divider'>
                     <span>Or</span>
                 </div>
                 <InputField
+                    name='email_id'
                     label='Your email'
                     hintText='you@email.com'
+                    onChange={this.handleOnInputChange}
                 />
                 <InputField
+                    name='password'
                     label='Password'
+                    type='password'
                     hintText='something secure.'
                     showForgotPassword={true}
+                    onChange={this.handleOnInputChange}
                 />
                 <CustomButton
                     style={{ marginTop: 15 }}
                     label={'Sign In'}
                     isPrimary={true}
+                    onClick={this.handleSignIn}
                 />
             </>
         );
@@ -180,3 +219,15 @@ export default class SignIn extends React.PureComponent {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        signIn
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

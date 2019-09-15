@@ -8,13 +8,9 @@ import { connectRouter } from 'connected-react-router';
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
  */
-export default function createRootReducer(history, injectedReducers = {}) {
+export default function createRootReducer(history) {
   const rootReducer = combineReducers({
       router: connectRouter(history),
-    // app: appReducer,
-    // navigation: navigationBarReducer,
-    // form: formReducer,
-    ...injectedReducers,
   });
 
   return rootReducer;
