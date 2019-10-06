@@ -1,0 +1,263 @@
+@mixin d-flex($aValue: null, $jValue: null) {
+  display: flex;
+  align-items: $aValue;
+  justify-content: $jValue;
+}
+
+.profile--heading {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 80px;
+  background-color: #ffffff;
+}
+
+.profile--heading > header {
+  color: #242247;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.profile--heading > p {
+  font-size: 13px;
+  color: #596377;
+  line-height: 1.69;
+  letter-spacing: -0.11px;
+  font-weight: 300;
+  margin: 10px 0 15px 0;
+}
+
+.headerList {
+  position: relative;
+  background: #332b56;
+  height: 55px;
+}
+
+.tab-list {
+  display: flex;
+  align-items: center;
+  padding: 0px;
+  padding-left: 80px;
+  margin: 0px;
+  height: 100%;
+}
+
+.tab-list--item {
+  list-style: none;
+  margin: 0px 30px;
+  padding: 20px 0px;
+  cursor: pointer;
+  font-size: 16px;
+  letter-spacing: 0.67px;
+  font-weight: normal;
+  color: #c9c3e0;
+}
+
+.tab-list--item.active {
+  color: #fff;
+}
+
+.tab-list--item:first-child {
+  margin-left: 0px;
+}
+
+.tab-list--item:last-child {
+  margin-right: 0px;
+}
+
+.active-marker {
+  position: absolute;
+  background: #f32c4c;
+  height: 5px;
+  -webkit-transition: all 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: all 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.profile-body-container {
+  padding: 40px 80px 80px;
+  background: #fafaff;
+}
+
+.basicInfo--container {
+  @include d-flex(center, space-between);
+  width: 100%;
+}
+
+.basicInfo--container > div:last-child {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.basicInfo-details--container {
+  @include d-flex(flex-start);
+  flex-flow: column;
+  margin-left: 40px;
+  color: #242247;
+  flex: 1;
+}
+
+.profile-photo {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  background: #fafaff;
+}
+
+.profile-card-heading {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #242247;
+  text-transform: uppercase;
+}
+
+.profile-card {
+  margin-top: 20px;
+  padding: 40px;
+  min-height: 212px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px 0 rgba(215, 216, 226, 0.28);
+  border: solid 1px #f0f0f6;
+  background-color: #ffffff;
+  @include d-flex(center);
+}
+
+.profile-body-container > div {
+  margin-top: 40px;
+}
+
+.profile-body-container > div:first-child {
+  margin: 0px;
+}
+
+.profile-flName {
+  letter-spacing: -0.17px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.profile-details {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  width: 100%;
+  margin-top: 25px;
+  grid-gap: 20px;
+}
+
+.profile-details > ul {
+  list-style: none;
+  letter-spacing: -0.1px;
+  font-size: 14px;
+  padding: 0px 40px;
+  margin: 0px;
+}
+
+.profile-details > ul:not(:last-child) {
+  border-right: 1px solid #f0f0f6;
+}
+
+.profile-details > ul > li:first-child {
+  color: #7c7a91;
+  margin-bottom: 10px;
+}
+
+.add-new-section {
+  width: 259px;
+  min-height: 150px;
+  border-radius: 8px;
+  border: dashed 1px #d0dbe6;
+  background-color: #ffffff;
+  @include d-flex(center, center);
+  flex-flow: column;
+  color: #f32c4c;
+}
+
+.add-new-section > div {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #d0dbe6;
+  border-radius: 50%;
+  @include d-flex(center, center);
+}
+
+.add-new-section > span {
+  margin-top: 10px;
+}
+
+.loyaltyPoints--container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px 30px;
+}
+
+.loyalty-totalPoints-card {
+  grid-column: 1 / span 3;
+  height: 88px;
+  border-radius: 8px;
+  background: #4b4467;
+  color: #fff;
+  padding: 0 30px;
+  font-size: 22px;
+  @include d-flex(center, space-between);
+}
+
+.loyaltyPoints--card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  min-height: 123px;
+  border-radius: 8px;
+  background-image: linear-gradient(241deg, #56479b, #ff2a4c);
+}
+
+.loyaltyPoints--card > div {
+  display: flex;
+  flex-flow: column;
+  color: #fff;
+  margin-left: 20px;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.27px;
+}
+
+.loyaltyPoints--card > div > span:last-child {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.loyaltyPoints--card > img:last-child {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+}
+
+// bank details begins here
+
+.bank-account-container {
+  @include d-flex(center, center);
+  flex-flow: column;
+  color: #242247;
+  width: 100%;
+}
+
+.bank-account-container > span {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.13px;
+  margin-top: 20px;
+}
+
+.bank-account-container > p {
+  font-size: 14px;
+  letter-spacing: -0.12px;
+  color: #7c7a91;
+  margin: 0px;
+  margin-top: 12px;
+}
+
+.MuiDialogContent-root > .inputField-container:last-child {
+  margin-bottom: 0px;
+}

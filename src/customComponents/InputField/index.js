@@ -5,7 +5,7 @@ import './inputField.scss';
 
 export default class InputField extends React.PureComponent {
     render() {
-        let { label, name, disabled, errorText, value, onChange, hintText, required, type, showForgotPassword, style } = this.props;
+        let { label, name, disabled, errorText, value, onChange, hintText, required, type, showForgotPassword, style, inputStyle } = this.props;
         return (
             <div className='inputField-container' style={style}>
                 {!!label && <div className='inputField-label--container'>
@@ -16,6 +16,7 @@ export default class InputField extends React.PureComponent {
                     {showForgotPassword && <Link className='frgt-pass' to='/frgt-pass'>Forgot password?</Link>}
                 </div>}
                 <input
+                    style={inputStyle}
                     name={name}
                     className={'inputField'}
                     // value={value}
@@ -43,8 +44,8 @@ InputField.propTypes = {
     errorText: PropTypes.string,
     type: PropTypes.string,
     defaultValue: PropTypes.string,
-    customInputStyle: PropTypes.object,
-    customInputParentStyle: PropTypes.object,
+    style: PropTypes.object,
+    inputStyle: PropTypes.object,
     customInputLabelStyle: PropTypes.object,
     onChange: PropTypes.func
 }
@@ -60,8 +61,8 @@ InputField.defaultProps = {
     errorText: '',
     type: 'text',
     defaultValue: '',
-    customInputStyle: {},
-    customInputParentStyle: {},
+    style: {},
+    inputStyle: {},
     customInputLabelStyle: {},
     onChange: () => { },
 }

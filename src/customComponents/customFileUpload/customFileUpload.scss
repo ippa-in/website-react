@@ -1,0 +1,117 @@
+.fileUpload--wrapper {
+    height: 100%;
+    min-height: inherit;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    border: 1px dashed #16325c66;
+    transition: all 0.3s ease-in-out;
+}
+
+.fileUpload--wrapper.showError {
+    border: 1px dashed red;
+    background: #ff000005;
+}
+
+.fileUpload--wrapper.uploaded {
+    border: 1px solid #ebebeb;
+    flex-direction: column;
+}
+
+.dropFile {
+    border: 3px dashed #3d404466;
+    min-height: inherit;
+}
+
+.uploadFile {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.uploadFile > div {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.12px;
+    color: #f32c4c;
+}
+
+.uploadFile--input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.drop-here {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: #3d404466;
+}
+
+.uploadedFile {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    max-height: 300px;
+}
+
+.uploadedFile > canvas {
+    height: auto !important;
+    width: unset !important;
+    max-height: 300px;
+}
+
+.uploadedFile--info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #16325c;
+    margin-top: 6px;
+    width: 100%;
+}
+
+.uploadedFile--container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fileName {
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.deleteIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    transform: translate(50%, -50%);
+    right: 0px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.file-parent {
+    position: relative;
+    border: 1px solid #ebebeb;
+    box-shadow: 0 1px 4px 0 rgba(14, 23, 52, 0.15);
+}

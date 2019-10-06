@@ -44,7 +44,6 @@ export default function configureStore(initialState = {}) {
         composeEnhancers(...enhancers),
     );
 
-
     /* run saga watchers */
     sagaMiddleware.run(rootSaga);
 

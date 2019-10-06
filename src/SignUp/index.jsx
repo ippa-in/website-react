@@ -4,6 +4,10 @@ import Header from '../Header';
 import InputField from '../customComponents/InputField';
 import CustomButton from '../customComponents/CustomButton';
 
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+
 import {
     requestSignUpStep1Data,
     requestSignUpStep2Data
@@ -11,6 +15,16 @@ import {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
+const RedCheckbox = withStyles({
+    root: {
+    //   color: '',
+      '&$checked': {
+        color: '#f32c4c'
+      },
+    },
+    checked: {},
+  })(props => <Checkbox color="default" {...props} />);
 
 class SignUp extends React.PureComponent {
     constructor(props) {
@@ -144,6 +158,13 @@ class SignUp extends React.PureComponent {
                     label='Referral code'
                     hintText='Enter referral code'
                     onChange={this.handleOnInputChange}
+                />
+                <FormControlLabel
+                    value="Something random"
+                    control={<RedCheckbox />}
+                    label={<div className='signup-ckbox-label'>I certify that I am 18 years of age or older,
+                     and I agree to the <br/> <a href=''>Terms & Conditions</a> and <a href=''>Privacy Policy</a></div>}
+                    labelPlacement="end"
                 />
                 <CustomButton
                     style={{ marginTop: 15 }}

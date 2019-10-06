@@ -6,6 +6,7 @@ import NotFoundPage from './NotFoundPage';
 import Videos from './Videos';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import Profile from './Profile';
 
 const Routes = () => {
     return (
@@ -23,6 +24,7 @@ const Routes = () => {
             <Route path={['/sign-in', '/frgt-pass', '/reset-pass']} component={SignIn} />
             <Route path="/sign-up/:step" component={SignUp} />
             <Redirect from="/sign-up" to="/sign-up/1" />
+            <Route path="/profile" component={Profile} />
             <Route path="*" component={NotFoundPage} />
         </Switch>
     );

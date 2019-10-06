@@ -22,11 +22,16 @@ methods.forEach((method) => {
     for (const key in rest) {
       formData.append(key, rest[key]);
     }
+  
     const verb = method === 'destroy' ? 'delete' : method;
 
-    return axios[verb](makeAPIUrl(url), formData, !!playerID && { headers })
+    if(!!Object.keys(rest).length) {
+      return axios[verb](makeAPIUrl(url), formData, !!playerID && { headers })
       .then(response => response);
-      // .catch(error => error);
+    }
+
+    return axios[verb](makeAPIUrl(url), !!playerID && { headers })
+      .then(response => response);
   };
 
   helpers[method] = fn;

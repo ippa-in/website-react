@@ -3,6 +3,10 @@ import './header.scss';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { push } from 'connected-react-router';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 export default class Header extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -12,12 +16,12 @@ export default class Header extends React.PureComponent {
     renderRightTabs = () => {
         const pageType = window.location.pathname;
         const loginToken = localStorage.getItem('playerID');
-        if(!!loginToken) {
-            return(
-                <>
-                <img className='loggedInUser' src='/images/user_icon.png' alt='user_icon'/>
-                <div className={'tabs'} to='/'>Clinton Dsouza v</div>
-                </>
+        if (!!loginToken) {
+            return (
+                <Link className='profile-icon' to='./profile'>
+                    <img className='loggedInUser' src='/images/user_icon.png' alt='user_icon' />
+                    <div className={'tabs d-flex align-center'} to='/'>Clinton Dsouza <ExpandMoreIcon /></div>
+                </Link>
             );
         }
         if (['/sign-in', '/frgt-pass'].includes(pageType)) {
@@ -36,7 +40,7 @@ export default class Header extends React.PureComponent {
                 </>
             );
         }
-        if(pageType === '/reset-pass') {
+        if (pageType === '/reset-pass') {
             return <></>;
         }
         return (<>

@@ -1,0 +1,37 @@
+@mixin d-flex($aValue: null, $jValue: null) {
+    display: flex;
+    align-items: $aValue;
+    justify-content: $jValue;
+  }
+
+.custom-dialog-header--wrapper {
+    @include d-flex(center, space-between);
+    padding: 20px;
+    border-bottom: solid 1px #ececf3;
+}
+.custom-dialog--header {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.11px;
+    color: #242247;
+}
+
+.custom-dialog-header--wrapper .MuiSvgIcon-root {
+    cursor: pointer;
+}
+
+.MuiDialog-paper {
+    margin: 0px !important;
+}
+
+.MuiPaper-rounded {
+    border-radius: 8px !important;
+}
+
+.MuiDialogContent-root {
+    padding: 10px 30px 0px 30px !important;
+}
+
+.MuiDialogActions-root {
+    padding: 30px !important;
+}

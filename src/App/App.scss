@@ -1,5 +1,13 @@
 $primary-color: #f32c4c;
 
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
 .appBody {
   min-height: calc(100vh - 75px);
   display: flex;
