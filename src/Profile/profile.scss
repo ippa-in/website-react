@@ -261,3 +261,10 @@
 .MuiDialogContent-root > .inputField-container:last-child {
   margin-bottom: 0px;
 }
+
+.KYC--container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 40px;
+  width: 100%;
+}

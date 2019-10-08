@@ -71,9 +71,14 @@ function BankDetails() {
 
     const KYC = () => {
         return (
-            <>
-                <CustomFileUpload />
-            </>
+            <div className='KYC--container'>
+                <div className=''>
+                    <CustomFileUpload />
+                </div>
+                <div>
+                    <CustomFileUpload />
+                </div>
+            </div>
         );
     }
 

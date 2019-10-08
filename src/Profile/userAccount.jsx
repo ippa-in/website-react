@@ -2,6 +2,8 @@ import React from 'react';
 
 import CustomButton from '../customComponents/CustomButton';
 
+import _ from 'lodash';
+
 class UserAccount extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -86,11 +88,13 @@ class UserAccount extends React.PureComponent {
     }
 
     achievement() {
-        return (
-            <>
-                {this.addNewSection('achievement')}
-            </>
-        );
+        if(_.get(this.props.userInfo, 'achievement.length', 0) === 0) {
+            return (
+                <>
+                    {this.addNewSection('achievement')}
+                </>
+            );
+        }
     }
 
     favoriteHand() {

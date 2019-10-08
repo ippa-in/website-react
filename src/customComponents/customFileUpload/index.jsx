@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 
 // Import css files
 import "./customFileUpload.scss";
+import CloseIcon from '@material-ui/icons/Close';
 
 // import 3rd party libraries
-import { setOptions, Document, Page } from "react-pdf";
+// import { setOptions, Document, Page } from "react-pdf";
 
 // const pdfjsVersion = "2.0.305";
 // setOptions({
@@ -67,18 +68,9 @@ import { setOptions, Document, Page } from "react-pdf";
 //     this.props.getFiles(files);
 // };
 
-// deleteAttachement = index => {
-//     const { ef, efRM, setExtraFieldRunningMap } = this.props;
+const deleteAttachement = (state, setState, index) => {
 
-//     const updatedList = [...efRM[ef.ct_id][ef.field_id]].filter(
-//         (url, key) => key !== index,
-//     );
-//     setExtraFieldRunningMap(
-//         updatedList.length > 0 ? updatedList : "",
-//         ef.field_id,
-//         ef.ct_id,
-//     );
-// };
+};
 
 const attachmentUIHelperFunction = (
     component,
@@ -94,11 +86,14 @@ const attachmentUIHelperFunction = (
             <div className="file-parent">
                 {component}
                 <div className="deleteIcon">
-                    {/* eslint-disable-next-line */}
-                    <img
+                    {/* <img
                         style={{ cursor: "pointer", width: 12 }}
                         src="./assets/images/close-cross.svg"
                         onClick={() => this.deleteAttachement(index)}
+                    /> */}
+                    <CloseIcon
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => deleteAttachement(index)}
                     />
                 </div>
             </div>
@@ -110,28 +105,28 @@ const attachmentUIHelperFunction = (
     );
 
 const renderImage = (file, index) =>
-    this.attachmentUIHelperFunction(
+    attachmentUIHelperFunction(
         <img src={file} className="uploadedFile" alt="Uploaded File" />,
         file,
         index,
     );
 
-const onDocumentLoadSuccess = ({ numPages }) => {
-    this.setState({ totalPages: numPages });
-};
+// const onDocumentLoadSuccess = ({ numPages }) => {
+//     this.setState({ totalPages: numPages });
+// };
 
-const renderPdf = (file, index) => {
-    return (
-        <Document
-            key={`${index}-${file}`}
-            file={file}
-            onLoadSuccess={this.onDocumentLoadSuccess}
-            loading="loading!"
-        >
-            <Page className="uploadedFile" pageNumber={1} />
-        </Document>
-    );
-}
+// const renderPdf = (file, index) => {
+//     return (
+//         <Document
+//             key={`${index}-${file}`}
+//             file={file}
+//             onLoadSuccess={this.onDocumentLoadSuccess}
+//             loading="loading!"
+//         >
+//             <Page className="uploadedFile" pageNumber={1} />
+//         </Document>
+//     );
+// }
 
 const renderUploadedAttachements = (files) => {
     const allFilesUI = [];
@@ -139,97 +134,101 @@ const renderUploadedAttachements = (files) => {
     console.log("files", files);
 
     files.forEach((url, index) => {
-        if (url.includes("pdf")) {
-            allFilesUI.push(
-                this.attachmentUIHelperFunction(
-                    this.renderPdf(url, index),
-                    url,
-                    index,
-                    this.state.totalPages,
-                ),
-            );
-        } else allFilesUI.push(this.renderImage(url, index));
+        // if (url.includes("pdf")) {
+        //     allFilesUI.push(
+        //         this.attachmentUIHelperFunction(
+        //             this.renderPdf(url, index),
+        //             url,
+        //             index,
+        //             this.state.totalPages,
+        //         ),
+        //     );
+        // } else allFilesUI.push(renderImage(url, index));
+        allFilesUI.push(renderImage(url, index));
     });
     return allFilesUI;
 }
 
-const returnFileSize = (number) => {
-    if (number < 1024) {
-        return `${number}bytes`;
-    }
-    if (number >= 1024 && number < 1048576) {
-        return `${(number / 1024).toFixed(2)} KB`;
-    }
-    if (number >= 1048576) {
-        return `${(number / 1048576).toFixed(2)} MB`;
-    }
-    return "--";
-}
+// const returnFileSize = (number) => {
+//     if (number < 1024) {
+//         return `${number}bytes`;
+//     }
+//     if (number >= 1024 && number < 1048576) {
+//         return `${(number / 1024).toFixed(2)} KB`;
+//     }
+//     if (number >= 1048576) {
+//         return `${(number / 1048576).toFixed(2)} MB`;
+//     }
+//     return "--";
+// }
 
-const validFileType = (fileList) => {
-    const { fileTypes } = this.props;
-    const validFileList = [];
-    fileList.forEach(file => {
-        if (file.size / (1024 * 1024) > 15) {
-            console.log("Maximum allowed size for file upload is 15MB");
-        } else {
-            let flag = true;
-            for (let i = 0; i < fileTypes.length; i++) {
-                if (file.type.includes(fileTypes[i])) {
-                    validFileList.push(file);
-                    flag = false;
-                }
-            }
+// const validFileType = (fileList) => {
+//     const { fileTypes } = this.props;
+//     const validFileList = [];
+//     fileList.forEach(file => {
+//         if (file.size / (1024 * 1024) > 15) {
+//             console.log("Maximum allowed size for file upload is 15MB");
+//         } else {
+//             let flag = true;
+//             for (let i = 0; i < fileTypes.length; i++) {
+//                 if (file.type.includes(fileTypes[i])) {
+//                     validFileList.push(file);
+//                     flag = false;
+//                 }
+//             }
 
-            if (flag) {
-                console.log("Not valid file type!");
-            }
-        }
-    });
-    return validFileList;
-}
+//             if (flag) {
+//                 console.log("Not valid file type!");
+//             }
+//         }
+//     });
+//     return validFileList;
+// }
 
-const handleFileUpload = (event, files, setState) => {
+const handleFileUpload = (event, state, setState) => {
     // let newFiles = document.getElementById('drop_zone').files;
     const newFiles = event.target.files || {};
     if (Object.values(newFiles).length) {
-        let tempFiles = [...files];
+        let tempFiles = [...state.files];
         // if (!this.props.multiple) {
-            // tempFiles = [...Object.values(newFiles)];
+        // tempFiles = [...Object.values(newFiles)];
         // } else {
-            tempFiles.push(...Object.values(newFiles));
+        tempFiles.push(...Object.values(newFiles));
         // }
         // tempFiles = validFileType(tempFiles);
-        setState(
-            {
-                files: tempFiles,
-            },
+        setState({
+            ...state,
+            files: tempFiles,
+        },
             // () => fileChangeCallback(this.state.files, "upload"),
         );
     }
 }
 
-const handleDrop = (event, setState) => {
+const handleDrop = (event, state, setState) => {
     event.stopPropagation();
     setState({
+        ...state,
         dragOverLay: false,
     });
 };
 
-const handleDragEnter = (event, dragOverLay, setState) => {
+const handleDragEnter = (event, state, setState) => {
     // Prevent default behavior (Prevent file from being opened)
     event.preventDefault();
-    !dragOverLay &&
+    !state.dragOverLay &&
         setState({
+            ...state,
             dragOverLay: true,
         });
 };
 
-const handleDragLeave = (event, dragOverLay, setState) => {
+const handleDragLeave = (event, state, setState) => {
     // Prevent default behavior (Prevent file from being opened)
     event.preventDefault();
-    dragOverLay &&
+    state.dragOverLay &&
         setState({
+            ...state,
             dragOverLay: false,
         });
 };
@@ -254,8 +253,9 @@ const CustomFileUpload = (props) => {
     });
 
     const { files, dragOverLay } = state;
+    console.log(files, state);
 
-    return files.length ? (
+    return (files.length ? (
         <div className="fileUpload--wrapper uploaded">
             {renderUploadedAttachements(files)}
         </div>
@@ -280,13 +280,14 @@ const CustomFileUpload = (props) => {
                     id="drop_zone"
                     accept="image/*,.pdf"
                     multiple={false}
-                    onChange={(event) => handleFileUpload(event, files, setState)}
-                    onDrop={(event) => handleDrop(event, setState)}
-                    onDragOver={(event) => handleDragEnter(event, dragOverLay, setState)}
-                    onDragLeave={(event) => handleDragLeave(event, dragOverLay, setState)}
+                    onChange={(event) => handleFileUpload(event, state, setState)}
+                    onDrop={(event) => handleDrop(event, state, setState)}
+                    onDragOver={(event) => handleDragEnter(event, state, setState)}
+                    onDragLeave={(event) => handleDragLeave(event, state, setState)}
                 />
             </div>
-        );
+        )
+    )
 }
 
 CustomFileUpload.propTypes = {

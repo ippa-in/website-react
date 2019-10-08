@@ -18,7 +18,7 @@ class Profile extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 0,
+            selectedTab: 1,
             tabWidth: 0,
             tabLeft: 0
         }
@@ -30,6 +30,10 @@ class Profile extends React.PureComponent {
         this.props.getUserInfo();
     }
 
+    componentDidUpdate() {
+        this.activeTab();
+    }
+
     activeTab = () => {
         let { tabLeft, tabWidth } = this.state;
         let target = document.querySelector('.tab-list--item.active');
@@ -39,7 +43,7 @@ class Profile extends React.PureComponent {
     }
 
     handleTabChange = (index, event) => {
-        this.setState({ selectedTab: index }, this.activeTab);
+        this.setState({ selectedTab: index });
     }
 
     showHeaderList = () => {
