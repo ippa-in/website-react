@@ -7,6 +7,8 @@ import CustomFileUpload from '../customComponents/customFileUpload';
 import InputField from '../customComponents/InputField';
 import CustomDropDown from '../customComponents/customDropDown';
 
+import _ from 'lodash';
+
 function BankDetails(props) {
 
     const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -30,7 +32,7 @@ function BankDetails(props) {
 
     useEffect(() => {
         props.getBankDetails();
-    }, [props.bankDetails.acc_name])
+    }, [])
 
     const accountDetails = () => {
         if (Object.keys(props.bankDetails).length) {
@@ -44,10 +46,10 @@ function BankDetails(props) {
             ];
             return (<div className='bankDetails--container'>
                 <div className='bank-details'>
-                        {bankDetails.map((userInfo) =>
-                            <ul key={`${userInfo.value}`}>
-                                <li>{userInfo.title}</li>
-                                <li>{props.bankDetails[userInfo.value] || '--'}</li>
+                        {bankDetails.map((details) =>
+                            <ul key={`${details.value}`}>
+                                <li>{details.title}</li>
+                                <li>{_.get(props.bankDetails, details.value, '--')}</li>
                             </ul>
                         )}
                     </div>
