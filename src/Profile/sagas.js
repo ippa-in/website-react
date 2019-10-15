@@ -6,7 +6,9 @@ import {
     GET_BANK_LIST,
     ADD_BANK_ACCOUNT,
     GET_BANK_DETAILS,
-    REDEEM_POINTS
+    REDEEM_POINTS,
+    TAG_NETWORK,
+    GET_TAGGED_NETWORK
 } from './actionTypes';
 
 import * as ProfileActions from './actionCreators';
@@ -26,6 +28,23 @@ function* getNetworks() {
     try {
         const response = yield call(Api.getNetwork);
         yield put(ProfileActions.setNetwork(response.data.res_data));
+    } catch (reason) {
+        console.error(reason);
+    }
+}
+
+function* tagNetwork(action) {
+    try {
+        const response = yield call(Api.tagNetwork, action.payload);
+    } catch (reason) {
+        console.error(reason);
+    }
+}
+
+function* getTaggedNetwork() {
+    try {
+        const response = yield call(Api.getTaggedNetwork);
+        yield put(ProfileActions.setTaggedNetworkList(response.data.res_data));
     } catch (reason) {
         console.error(reason);
     }
@@ -85,4 +104,6 @@ export default function* userProfileWatcher() {
     yield takeLatest(GET_BANK_LIST, getBankList);
     yield takeLatest(ADD_BANK_ACCOUNT, addBankAccount);
     yield takeLatest(GET_BANK_DETAILS, getBankDetails);
+    yield takeLatest(TAG_NETWORK, tagNetwork);
+    yield takeLatest(GET_TAGGED_NETWORK, getTaggedNetwork);
 }

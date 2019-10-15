@@ -16,8 +16,10 @@ methods.forEach((method) => {
     // const { external, ...rest } = options;
 
     const playerID = localStorage.getItem('playerID');
+    const playerToken = localStorage.getItem('playerToken');
     const headers = {
       'PLAYER-ID': playerID,
+      // 'PLAYER-TOKEN': playerToken,
     }
 
     const verb = method === 'destroy' ? 'delete' : method;

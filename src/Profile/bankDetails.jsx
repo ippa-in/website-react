@@ -36,7 +36,6 @@ function BankDetails(props) {
 
     const accountDetails = () => {
         if (Object.keys(props.bankDetails).length) {
-            console.log('props.bankDetails', props.bankDetails);
             const bankDetails = [
                 { 'title': 'Account Name', 'value': 'acc_name' },
                 { 'title': 'Account Number', 'value': 'acc_number' },

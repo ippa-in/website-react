@@ -3,6 +3,9 @@ import {
     SET_USER_INFO,
     GET_NETWORK_LIST,
     SET_NETWORK_LIST,
+    GET_TAGGED_NETWORK,
+    SET_TAGGED_NETWORK,
+    TAG_NETWORK,
     GET_FILES_URL,
     SET_FILES_URL,
     GET_BANK_LIST,
@@ -20,6 +23,12 @@ export const setUserInfo = (payload) => ({ type: SET_USER_INFO, payload });
 export const getNetwork = (payload) => ({ type: GET_NETWORK_LIST, payload });
 
 export const setNetwork = (payload) => ({ type: SET_NETWORK_LIST, payload });
+
+export const getTaggedNetworkList = () => ({ type: GET_TAGGED_NETWORK });
+
+export const setTaggedNetworkList = (payload) => ({ type: SET_TAGGED_NETWORK, payload });
+
+export const tagNetwork = (payload) => ({ type: TAG_NETWORK, payload });
 
 export const redeemPoints = () => ({ type: REDEEM_POINTS });
 

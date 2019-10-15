@@ -3,13 +3,17 @@ import {
     SET_FILES_URL,
     SET_BANK_LIST,
     SET_BANK_DETAILS,
+    SET_NETWORK_LIST,
+    SET_TAGGED_NETWORK
 } from './actionTypes';
 
 const initialState = {
     userInfo: {},
     fileUrl: {},
     bankList: [],
-    bankDetails: {}
+    bankDetails: {},
+    networkList: [],
+    taggedNetworks: [],
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -36,6 +40,18 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 bankDetails: action.payload
+            }
+        }
+        case SET_NETWORK_LIST: {
+            return {
+                ...state,
+                networkList: action.payload
+            }
+        }
+        case SET_TAGGED_NETWORK: {
+            return {
+                ...state,
+                taggedNetworks: action.payload
             }
         }
         default: return state;

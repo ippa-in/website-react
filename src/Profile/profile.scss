@@ -155,7 +155,8 @@
   grid-gap: 20px;
 }
 
-.profile-details > ul, .bank-details > ul {
+.profile-details > ul,
+.bank-details > ul {
   list-style: none;
   letter-spacing: -0.1px;
   font-size: 14px;
@@ -168,11 +169,13 @@
   padding: 0px;
 }
 
-.profile-details > ul:not(:last-child), .bank-details > ul:not(:last-child) {
+.profile-details > ul:not(:last-child),
+.bank-details > ul:not(:last-child) {
   border-right: 1px solid #f0f0f6;
 }
 
-.profile-details > ul > li:first-child, .bank-details > ul > li:first-child {
+.profile-details > ul > li:first-child,
+.bank-details > ul > li:first-child {
   color: #7c7a91;
   margin-bottom: 10px;
 }
@@ -343,4 +346,41 @@
 
 .fav--cards.selected {
   border-color: #29ba49;
+}
+
+.taggedNetwork--wrapper {
+  margin-right: 30px;
+  border-radius: 8px;
+  border: solid 1px #d0dbe6;
+  background-color: #ffffff;
+  width: 259px;
+  overflow: hidden;
+  display: inherit;
+  flex-flow: column;
+}
+
+.taggedNetwork--wrapper > div:first-child {
+  padding: 20px 25px;
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.taggedNetwork--wrapper > div:first-child > img:last-child {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.taggedNetwork--wrapper > div:last-child {
+  height: 40px;
+  background-color: #fafaff;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.11px;
+  color: #242247;
 }

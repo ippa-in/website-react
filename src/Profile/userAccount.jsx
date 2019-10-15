@@ -5,6 +5,8 @@ import CustomDropDown from '../customComponents/customDropDown';
 import CustomDialog from '../customComponents/CustomDialog';
 import CustomFileUpload from '../customComponents/customFileUpload';
 
+import PersonIcon from '@material-ui/icons/Person';
+
 import InputField from '../customComponents/InputField';
 
 import _ from 'lodash';
@@ -28,12 +30,18 @@ class UserAccount extends React.PureComponent {
         this.state = {
             dialogOpen: false,
             favoriteHandDialogOpen: false,
-            latestAchievementDialogOpen: false
+            latestAchievementDialogOpen: false,
+            network_id: '',
+            tag_user_name: ''
         }
     }
 
+    componentDidMount() {
+        this.props.getTaggedNetworkList();
+    }
+
     basicInfo() {
-        console.log('ac', this.props);
+        // console.log('ac', this.props);
         return (
             // Object.keys(this.props.userInfo).length > 0 ?
             <div className='basicInfo--container'>
@@ -93,30 +101,43 @@ class UserAccount extends React.PureComponent {
         });
     }
 
+    getNetworkList = () => {
+        let networkList = this.props.networkList.map(network => ({
+            key: network.network_id, value: network.name
+        }));
+        networkList.unshift({ key: "0", value: 'Select a network from following' });
+        return networkList;
+    }
+
+    getDropDownValue = (value) => {
+        this.setState({ network_id: value });
+    }
+
+    handleOnInputChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
     dialogBody = () => {
         return (
             <>
                 <CustomDropDown
                     label='Network'
-                    menuList={[
-                        { key: 0, value: 'Select a network from following' },
-                        { key: 1, value: 'something' },
-                        { key: 2, value: 'something' }
-                    ]}
+                    menuList={this.getNetworkList()}
+                    getDropDownValue={this.getDropDownValue}
                 />
                 <InputField
-                    name='user_name'
+                    name='tag_user_name'
                     label='Username'
                     hintText='Enter Username'
                     inputStyle={{ padding: 12 }}
-                // onChange={this.handleOnInputChange}
+                    onChange={this.handleOnInputChange}
                 />
             </>
         );
     }
 
     achievementDialogBody = () => {
-        return(
+        return (
             <>
                 <InputField
                     name='title'
@@ -145,10 +166,10 @@ class UserAccount extends React.PureComponent {
                 <div>
                     {cards.map(card =>
                         <img
-                        key={`${card}`}
-                        src={`/images/cards/${card}.svg`}
-                        alt={`${card}`}
-                        className='fav--cards'
+                            key={`${card}`}
+                            src={`/images/cards/${card}.svg`}
+                            alt={`${card}`}
+                            className='fav--cards'
                         />
                     )}
                 </div>
@@ -160,10 +181,10 @@ class UserAccount extends React.PureComponent {
         );
     }
 
-    addNewSection(sectionName, onClick) {
+    addNewSection(sectionName, dialogType) {
         return (
             <>
-                <div className='add-new-section' onClick={() => eval(onClick)}>
+                <div className='add-new-section' onClick={() => this.setDialogOpen(dialogType, true)}>
                     <div>+</div>
                     <span>{`Add new ${sectionName}`}</span>
                 </div>
@@ -172,28 +193,45 @@ class UserAccount extends React.PureComponent {
     }
 
     achievement() {
-        if (_.get(this.props.userInfo, 'achievement.length', 0) === 0) {
-            return (
-                <>
-                    {this.addNewSection('achievement', "this.setDialogOpen('latestAchievementDialogOpen', true)")}
-                </>
-            );
-        }
+        return (
+            <>
+                {this.addNewSection('achievement', 'latestAchievementDialogOpen')}
+            </>
+        );
     }
 
     favoriteHand() {
         return (
             <>
-                {this.addNewSection('favorite hand', 'this.setDialogOpen("favoriteHandDialogOpen", true)')}
+                {this.addNewSection('favorite hand', 'favoriteHandDialogOpen')}
             </>
         );
     }
 
+    onAddNetworkClick = () => {
+        this.props.getNetwork();
+        this.setDialogOpen('dialogOpen', true);
+    }
+
     networkTagging() {
         return (
-            <>
-                {this.addNewSection('Network', 'this.setDialogOpen("dialogOpen", true)')}
-            </>
+            <div style={{ display: 'flex' }}>
+                {this.props.taggedNetworks.map(network =>
+                    <div className='taggedNetwork--wrapper' key={network.tag_id}>
+                        <div>
+                            <img src={network.network.image_url} alt='pokerstar' width='100%' />
+                            <img src={`/images/status/${network.status}.svg`} alt={network.status} />
+                        </div>
+                        <div>
+                            <PersonIcon style={{ marginRight: 10 }} />
+                            <span>{network.user_name}</span>
+                        </div>
+                    </div>
+                )}
+                <div onClick={this.onAddNetworkClick}>
+                    {this.addNewSection('Network')}
+                </div>
+            </div>
         );
     }
 
@@ -204,6 +242,12 @@ class UserAccount extends React.PureComponent {
                 <div className='profile-card'>{component}</div>
             </div>
         );
+    }
+
+    submitNetwork = () => {
+        const { network_id, tag_user_name } = this.state;
+        this.props.tagNetwork({ network_id, tag_user_name });
+        this.setDialogOpen('dialogOpen', false)
     }
 
     networkDialogActions() {
@@ -218,7 +262,7 @@ class UserAccount extends React.PureComponent {
                     style={{ padding: '12px 18px', marginLeft: 20 }}
                     label={'Add Network'}
                     isPrimary={true}
-                // onClick={handleBankFormSubmit}
+                    onClick={this.submitNetwork}
                 />
             </>
         );
@@ -285,7 +329,7 @@ class UserAccount extends React.PureComponent {
                     dialogStyle={{ minWidth: 1000 }}
                     actions={this.favoriteHandDialogActions()}
                 />
-                 <CustomDialog
+                <CustomDialog
                     open={latestAchievementDialogOpen}
                     handleClose={() => this.setDialogOpen('latestAchievementDialogOpen', false)}
                     title='Latest Achievement'

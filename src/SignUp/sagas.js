@@ -12,9 +12,11 @@ function* signUpStep1(action) {
     try {
         const response = yield call(Api.signUpStep1, action.payload);
         const playerID = response.data.res_data && response.data.res_data.player_id;
+        // const playerToken = response.data.res_data && response.data.res_data.player_token;
         // Write a utility function to set cookie everytime.
         // Set the playerID in cookie and also in localStorage.
         localStorage.setItem('playerID', playerID);
+        // localStorage.setItem('playerToken', playerToken);
         yield put(push('/sign-up/2'));
     } catch (reason) {
         console.log('response catch');
