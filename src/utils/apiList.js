@@ -14,4 +14,12 @@ export const addNetwork = (data) => post('network/v1/network/', data);
 
 export const addAchievement = (data) => post('access/v1/upload_achievements/', data);
 
-export const redeemPoints = (data) => get('access/v1/upload_achievements/', data);
+export const redeemPoints = (data) => get('transaction/v1/redeem_points/', data);
+
+export const uploadKYC = (data) => post('access/v1/upload_kyc/', data);
+
+export const getBankList = (data) => get('transaction/v1/bank/', data);
+
+export const addBankAccount = (data) => post('transaction/v1/bank_account/', data);
+
+export const getBankDetails = () => get('transaction/v1/bank_account/');

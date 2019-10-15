@@ -18,7 +18,7 @@ class Profile extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 1,
+            selectedTab: 0,
             tabWidth: 0,
             tabLeft: 0
         }
@@ -26,8 +26,8 @@ class Profile extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.activeTab();
         this.props.getUserInfo();
+        this.activeTab();
     }
 
     componentDidUpdate() {
@@ -62,10 +62,23 @@ class Profile extends React.PureComponent {
 
     renderTabsUI() {
         const { selectedTab } = this.state;
-        const { userInfo } = this.props;
+        const { fileUrl, userInfo, getFilesUrl, bankList, getBankList, addBankAccount,
+            getBankDetails, bankDetails, redeemPoints } = this.props;
         switch (selectedTab) {
-            case 0: return <UserAccount userInfo={userInfo} />;
-            case 1: return <BankDetails />;
+            case 0: return <UserAccount
+            userInfo={userInfo}
+            redeemPoints={redeemPoints}
+            uploadFiles={getFilesUrl}
+            />;
+            case 1: return <BankDetails
+                uploadFiles={getFilesUrl}
+                fileUrl={fileUrl}
+                bankList={bankList}
+                getBankList={getBankList}
+                addBankAccount={addBankAccount}
+                getBankDetails={getBankDetails}
+                bankDetails={bankDetails}
+            />;
             case 2: return <TransactionHistory />;
             default: return <UserAccount userInfo={userInfo} />;
         }
@@ -105,9 +118,12 @@ Profile.defaultProps = {
 
 
 function mapStateToProps(state) {
-    const { userInfo } = state.profileReducer;
+    const { userInfo, fileUrl, bankList, bankDetails } = state.profileReducer;
     return {
-        userInfo
+        userInfo,
+        fileUrl,
+        bankList,
+        bankDetails
     };
 }
 

@@ -64,12 +64,12 @@
 
 /* Caption text */
 .text {
-  color: black;
+  color: #fff;
   font-size: 15px;
   padding: 8px 12px;
   // transform: translate(18%, 12%)
   height: 500px;
-  background: #fafaff;
+  background: #15142a;
   // background: green;
   width: 100%;
   // text-align: center;
@@ -90,7 +90,7 @@
     font-family: 'SF UI Text Light';
     line-height: 1.78;
     letter-spacing: -0.1px;
-    color: #242247;
+    color: #fff;
     margin: 0;
     margin-top: 20px;
 }
@@ -99,7 +99,7 @@
   font-size: 40px;
   font-weight: 600;
   line-height: 1.45;
-  color: #242247;
+  color: #fff;
 }
 
 /* The dots/bullets/indicators */

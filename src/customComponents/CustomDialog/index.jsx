@@ -19,7 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function CustomDialog(props) {
 
-    const { title, open, handleClose, dialogBody, dialogStyle, ...rest } = props;
+    const { title, open, handleClose, dialogBody, dialogStyle, actions, ...rest } = props;
     return (
         <div>
             <Dialog
@@ -38,19 +38,7 @@ export default function CustomDialog(props) {
                     />
                 </div>
                 <DialogContent style={dialogStyle}>{dialogBody}</DialogContent>
-                <DialogActions>
-                    <CustomButton
-                        style={{ padding: '12px 18px' }}
-                        label={'cancel'}
-                        onClick={handleClose}
-                    />
-                    <CustomButton
-                        style={{ padding: '12px 18px', marginLeft: 20 }}
-                        label={'Add Network'}
-                        isPrimary={true}
-                    // onClick={handleBankAccountForm}
-                    />
-                </DialogActions>
+                <DialogActions>{actions}</DialogActions>
             </Dialog>
         </div>
     );

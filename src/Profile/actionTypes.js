@@ -1,2 +1,17 @@
 export const GET_USER_INFO = 'GET_USER_INFO';
 export const SET_USER_INFO = 'SET_USER_INFO';
+
+export const GET_NETWORK_LIST = 'GET_NETWORK_LIST';
+export const SET_NETWORK_LIST = 'SET_NETWORK_LIST';
+
+export const REDEEM_POINTS = 'REDEEM_POINTS';
+
+export const GET_FILES_URL = 'GET_FILES_URL';
+export const SET_FILES_URL = 'SET_FILES_URL';
+
+export const GET_BANK_LIST = 'GET_BANK_LIST';
+export const SET_BANK_LIST = 'SET_BANK_LIST';
+
+export const ADD_BANK_ACCOUNT = 'ADD_BANK_ACCOUNT';
+export const GET_BANK_DETAILS = 'GET_BANK_DETAILS';
+export const SET_BANK_DETAILS = 'SET_BANK_DETAILS';

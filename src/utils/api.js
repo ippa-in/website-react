@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const BASEURL = `http://35.154.161.226:80/`;
 
+// const BASEURL = 'http://f560652b.ngrok.io/'
+
 const makeAPIUrl = (url) => `${BASEURL}${url}`;
 
 const helpers = {};
@@ -11,27 +13,36 @@ const methods = ['get', 'post', 'put', 'destroy', 'patch'];
 
 methods.forEach((method) => {
   const fn = (url, options = {}) => {
-    const { external, ...rest } = options;
+    // const { external, ...rest } = options;
 
     const playerID = localStorage.getItem('playerID');
     const headers = {
-      'PLAYER-ID': playerID 
+      'PLAYER-ID': playerID,
     }
 
-    const formData = new FormData();
-    for (const key in rest) {
-      formData.append(key, rest[key]);
-    }
-  
     const verb = method === 'destroy' ? 'delete' : method;
 
-    if(!!Object.keys(rest).length) {
+    if (verb === 'get') {
+      let formData = {
+        params: options,
+        headers,
+      };
+      return axios[verb](makeAPIUrl(url), formData)
+        .then(response => response);
+    } else {
+      const { fileData, ...rest } = options;
+      let formData;
+      if (fileData) {
+        formData = rest.data;
+      } else {
+        formData = new FormData();
+        for (const key in options) {
+          formData.append(key, options[key]);
+        }
+      }
       return axios[verb](makeAPIUrl(url), formData, !!playerID && { headers })
-      .then(response => response);
+        .then(response => response);
     }
-
-    return axios[verb](makeAPIUrl(url), !!playerID && { headers })
-      .then(response => response);
   };
 
   helpers[method] = fn;

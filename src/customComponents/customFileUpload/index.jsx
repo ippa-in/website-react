@@ -5,14 +5,6 @@ import PropTypes from "prop-types";
 import "./customFileUpload.scss";
 import CloseIcon from '@material-ui/icons/Close';
 
-// import 3rd party libraries
-// import { setOptions, Document, Page } from "react-pdf";
-
-// const pdfjsVersion = "2.0.305";
-// setOptions({
-//     workerSrc: `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsVersion}/pdf.worker.js`,
-// });
-
 // componentDidMount() {
 //     const dropzoneId = "drop_zone";
 //     ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
@@ -47,217 +39,88 @@ import CloseIcon from '@material-ui/icons/Close';
 //     });
 // }
 
-// fileChangeCallback = (files, type) => {
-//     document.getElementById("drop_zone").value = "";
-//     if (type === "upload") {
-//         const fileDataList = [];
-//         for (let i = 0; i < files.length; i++) {
-//             const data = new FormData();
-//             data.append("file_list", files[i]);
-//             data.append("unique_id", files[i].name);
-//             fileDataList.push({
-//                 fileData: data,
-//             });
-//         }
-//         this.props.uploadFiles({
-//             fileDataList,
-//             ef: this.props.ef,
-//             isOcr: false,
-//         });
-//     }
-//     this.props.getFiles(files);
-// };
+const CustomFileUpload = (props) => {
 
-const deleteAttachement = (state, setState, index) => {
-
-};
-
-const attachmentUIHelperFunction = (
-    component,
-    file,
-    index,
-    // fileType,
-    // totalPages = 1,
-) => (
-        <div
-            className="uploadedFile--container"
-            key={`${index}-${file.name ? file.name : file}`}
-        >
-            <div className="file-parent">
-                {component}
-                <div className="deleteIcon">
-                    {/* <img
-                        style={{ cursor: "pointer", width: 12 }}
-                        src="./assets/images/close-cross.svg"
-                        onClick={() => this.deleteAttachement(index)}
-                    /> */}
-                    <CloseIcon
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => deleteAttachement(index)}
-                    />
-                </div>
-            </div>
-            {/* <div className='uploadedFile--info'>
-                <span className='fileName'>{file.name}</span>
-                <span>{totalPages} page{totalPages > 1 ? 's' : ''} | {this.returnFileSize(file.size)}</span>
-            </div> */}
-        </div>
-    );
-
-const renderImage = (file, index) =>
-    attachmentUIHelperFunction(
-        <img src={file} className="uploadedFile" alt="Uploaded File" />,
-        file,
-        index,
-    );
-
-// const onDocumentLoadSuccess = ({ numPages }) => {
-//     this.setState({ totalPages: numPages });
-// };
-
-// const renderPdf = (file, index) => {
-//     return (
-//         <Document
-//             key={`${index}-${file}`}
-//             file={file}
-//             onLoadSuccess={this.onDocumentLoadSuccess}
-//             loading="loading!"
-//         >
-//             <Page className="uploadedFile" pageNumber={1} />
-//         </Document>
-//     );
-// }
-
-const renderUploadedAttachements = (files) => {
-    const allFilesUI = [];
-
-    console.log("files", files);
-
-    files.forEach((url, index) => {
-        // if (url.includes("pdf")) {
-        //     allFilesUI.push(
-        //         this.attachmentUIHelperFunction(
-        //             this.renderPdf(url, index),
-        //             url,
-        //             index,
-        //             this.state.totalPages,
-        //         ),
-        //     );
-        // } else allFilesUI.push(renderImage(url, index));
-        allFilesUI.push(renderImage(url, index));
-    });
-    return allFilesUI;
-}
-
-// const returnFileSize = (number) => {
-//     if (number < 1024) {
-//         return `${number}bytes`;
-//     }
-//     if (number >= 1024 && number < 1048576) {
-//         return `${(number / 1024).toFixed(2)} KB`;
-//     }
-//     if (number >= 1048576) {
-//         return `${(number / 1048576).toFixed(2)} MB`;
-//     }
-//     return "--";
-// }
-
-// const validFileType = (fileList) => {
-//     const { fileTypes } = this.props;
-//     const validFileList = [];
-//     fileList.forEach(file => {
-//         if (file.size / (1024 * 1024) > 15) {
-//             console.log("Maximum allowed size for file upload is 15MB");
-//         } else {
-//             let flag = true;
-//             for (let i = 0; i < fileTypes.length; i++) {
-//                 if (file.type.includes(fileTypes[i])) {
-//                     validFileList.push(file);
-//                     flag = false;
-//                 }
-//             }
-
-//             if (flag) {
-//                 console.log("Not valid file type!");
-//             }
-//         }
-//     });
-//     return validFileList;
-// }
-
-const handleFileUpload = (event, state, setState) => {
-    // let newFiles = document.getElementById('drop_zone').files;
-    const newFiles = event.target.files || {};
-    if (Object.values(newFiles).length) {
-        let tempFiles = [...state.files];
-        // if (!this.props.multiple) {
-        // tempFiles = [...Object.values(newFiles)];
-        // } else {
-        tempFiles.push(...Object.values(newFiles));
-        // }
-        // tempFiles = validFileType(tempFiles);
-        setState({
-            ...state,
-            files: tempFiles,
-        },
-            // () => fileChangeCallback(this.state.files, "upload"),
-        );
-    }
-}
-
-const handleDrop = (event, state, setState) => {
-    event.stopPropagation();
-    setState({
-        ...state,
+    const [state, setState] = React.useState({
+        file: props.fileUrl,
         dragOverLay: false,
     });
-};
 
-const handleDragEnter = (event, state, setState) => {
-    // Prevent default behavior (Prevent file from being opened)
-    event.preventDefault();
-    !state.dragOverLay &&
-        setState({
-            ...state,
-            dragOverLay: true,
-        });
-};
+    const handleFileUpload = (event, props) => {
+        // let newFiles = document.getElementById('drop_zone').files;
+        const newFiles = event.target.files || {};
+        if (Object.values(newFiles).length) {
+            const data = new FormData();
+            data.append(props.id, newFiles[0]);
+            props.uploadFiles({ fileData: true, data });
+            // this.props.getFiles(files);
+        }
+    }
 
-const handleDragLeave = (event, state, setState) => {
-    // Prevent default behavior (Prevent file from being opened)
-    event.preventDefault();
-    state.dragOverLay &&
+    const handleDrop = (event, state, setState) => {
+        event.stopPropagation();
         setState({
             ...state,
             dragOverLay: false,
         });
-};
+    };
 
-const getFileUploadClassName = (dragOverLay, highlightFileUploadError) => {
-    let className = "";
-    if (dragOverLay) {
-        className = "fileUpload--wrapper dropFile";
-    } else {
-        className = "fileUpload--wrapper";
-    }
-    if (highlightFileUploadError && !className.includes("dropFile")) {
-        className = className.concat(" showError");
-    }
-    return className;
-};
+    const handleDragEnter = (event, state, setState) => {
+        // Prevent default behavior (Prevent file from being opened)
+        event.preventDefault();
+        !state.dragOverLay &&
+            setState({
+                ...state,
+                dragOverLay: true,
+            });
+    };
 
-const CustomFileUpload = (props) => {
-    const [state, setState] = React.useState({
-        files: [],
-        dragOverLay: false,
-    });
+    const handleDragLeave = (event, state, setState) => {
+        // Prevent default behavior (Prevent file from being opened)
+        event.preventDefault();
+        state.dragOverLay &&
+            setState({
+                ...state,
+                dragOverLay: false,
+            });
+    };
 
-    const { files, dragOverLay } = state;
-    console.log(files, state);
+    const getFileUploadClassName = (dragOverLay, highlightFileUploadError) => {
+        let className = "";
+        if (dragOverLay) {
+            className = "fileUpload--wrapper dropFile";
+        } else {
+            className = "fileUpload--wrapper";
+        }
+        if (highlightFileUploadError && !className.includes("dropFile")) {
+            className = className.concat(" showError");
+        }
+        return className;
+    };
 
-    return (files.length ? (
+    const deleteAttachement = () => {
+        setState({ file: '' });
+    };
+
+    const attachmentUIHelperFunction = (component, file) => (
+        <div className="file-parent">
+            {component}
+            <div className="deleteIcon">
+                <CloseIcon
+                    style={{ cursor: 'pointer' }}
+                    onClick={deleteAttachement}
+                />
+            </div>
+        </div>
+    );
+
+    const { file, dragOverLay } = state;
+
+    return (file.length ? (
         <div className="fileUpload--wrapper uploaded">
-            {renderUploadedAttachements(files)}
+            {attachmentUIHelperFunction(<img src={file} className="uploadedFile" alt="Uploaded File" />,
+                file
+            )}
         </div>
     ) : (
             <div
@@ -278,9 +141,9 @@ const CustomFileUpload = (props) => {
                     className="uploadFile--input"
                     type="file"
                     id="drop_zone"
-                    accept="image/*,.pdf"
+                    accept="image/*"
                     multiple={false}
-                    onChange={(event) => handleFileUpload(event, state, setState)}
+                    onChange={(event) => handleFileUpload(event, props)}
                     onDrop={(event) => handleDrop(event, state, setState)}
                     onDragOver={(event) => handleDragEnter(event, state, setState)}
                     onDragLeave={(event) => handleDragLeave(event, state, setState)}
@@ -291,21 +154,15 @@ const CustomFileUpload = (props) => {
 }
 
 CustomFileUpload.propTypes = {
-    ctName: PropTypes.string,
-    files: PropTypes.array,
-    multiple: PropTypes.bool,
+    fileUrl: PropTypes.string,
     required: PropTypes.bool,
-    fileTypes: PropTypes.array,
     getFiles: PropTypes.func,
     uploadFiles: PropTypes.func,
 };
 
 CustomFileUpload.defaultProps = {
-    ctName: "",
-    files: [],
-    multiple: false,
+    fileUrl: "",
     required: false,
-    fileTypes: ["image", "pdf"],
     getFiles: () => { },
     uploadFiles: () => { },
 };

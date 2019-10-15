@@ -1,136 +1,154 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+// import PropTypes from 'prop-types';
 
 import CustomButton from '../customComponents/CustomButton';
 import CustomDialog from '../customComponents/CustomDialog';
 import CustomFileUpload from '../customComponents/customFileUpload';
 import InputField from '../customComponents/InputField';
+import CustomDropDown from '../customComponents/customDropDown';
 
-import { makeStyles } from '@material-ui/core/styles';
-// import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-}));
-
-function BankDetails() {
-
-    const classes = useStyles();
-    const [values, setValues] = React.useState({
-        age: 'none',
-        name: 'hai',
-    });
-
-    const inputLabel = React.useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
-    // React.useEffect(() => {
-    //   setLabelWidth(inputLabel.current.offsetWidth);
-    // }, []);
-
-    const handleChange = event => {
-        setValues(oldValues => ({
-            ...oldValues,
-            [event.target.name]: event.target.value,
-        }));
-    };
+function BankDetails(props) {
 
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
     const handleBankAccountForm = () => {
+        props.getBankList();
         setDialogOpen(true);
     }
 
+    const [state, setInputFields] = React.useState({
+        ifsc: '',
+        acc_name: '',
+        acc_num: '',
+        confirm_acc_num: '',
+        bank_id: '',
+    });
+
+    const handleOnInputChange = (event) => {
+        setInputFields({ ...state, [event.target.name]: event.target.value });
+    }
+
+    useEffect(() => {
+        props.getBankDetails();
+    }, [props.bankDetails.acc_name])
+
     const accountDetails = () => {
+        if (Object.keys(props.bankDetails).length) {
+            console.log('props.bankDetails', props.bankDetails);
+            const bankDetails = [
+                { 'title': 'Account Name', 'value': 'acc_name' },
+                { 'title': 'Account Number', 'value': 'acc_number' },
+                { 'title': 'Bank Name', 'value': 'bank.name' },
+                { 'title': 'IFSC Code', 'value': 'ifsc_code' },
+                { 'title': 'Status', 'value': 'status' }
+            ];
+            return (<div className='bankDetails--container'>
+                <div className='bank-details'>
+                        {bankDetails.map((userInfo) =>
+                            <ul key={`${userInfo.value}`}>
+                                <li>{userInfo.title}</li>
+                                <li>{props.bankDetails[userInfo.value] || '--'}</li>
+                            </ul>
+                        )}
+                    </div>
+                    <CustomButton
+                        style={{ padding: '12px 20px' }}
+                        label={'Edit Bank Info'}
+                    // onClick={this.handleSignIn}
+                    />
+            </div>)
+        } else {
+            return (
+                <div className='bank-account-container'>
+                    <img src='/images/bank-icon.svg' alt='bank-icon' />
+                    <span>No Bank Account Information!</span>
+                    <p>Bank Account that you add to the system will be visible here.</p>
+                    <CustomButton
+                        style={{ padding: '12px 24px', marginTop: 30 }}
+                        label={'Add Bank Account'}
+                        isPrimary={true}
+                        onClick={handleBankAccountForm}
+                    />
+                </div>);
+        }
+    }
+
+    const KYCWrapper = (component, heading) => {
         return (
-            <div className='bank-account-container'>
-                <img src='/images/bank-icon.svg' alt='bank-icon' />
-                <span>No Bank Account Information!</span>
-                <p>Bank Account that you add to the system will be visible here.</p>
-                <CustomButton
-                    style={{ padding: '12px 24px', marginTop: 30 }}
-                    label={'Add Bank Account'}
-                    isPrimary={true}
-                    onClick={handleBankAccountForm}
-                />
+            <div className='KYC--wrapper'>
+                <header>{heading}</header>
+                {component}
             </div>
         );
     }
 
     const KYC = () => {
+        const { uploadFiles, fileUrl } = props;
+        // Object.keys(filesUrl).length
         return (
             <div className='KYC--container'>
-                <div className=''>
-                    <CustomFileUpload />
-                </div>
-                <div>
-                    <CustomFileUpload />
-                </div>
+                {KYCWrapper(<CustomFileUpload
+                    uploadFiles={uploadFiles}
+                    id='poa'
+                    fileUrl="https://s3.ap-south-1.amazonaws.com//ippacontent/KYC/FILE201910121747276752618904IPPA"
+                />, 'Your PAN Card')}
+                {KYCWrapper(<CustomFileUpload
+                    uploadFiles={uploadFiles}
+                    id='poi'
+                    fileUrl="https://s3.ap-south-1.amazonaws.com//ippacontent/KYC/FILE201910121747276752618904IPPA"
+                />, 'Your Address Proof')}
             </div>
         );
     }
 
+    const getBankList = () => {
+        let bankList = props.bankList.map(bank => ({
+            key: bank.bank_id, value: bank.name
+        }));
+        bankList.unshift({ key: "0", value: 'Select a bank from following' });
+        return bankList;
+    }
+
+    const getDropDownValue = (value) => {
+        setInputFields({ ...state, bank_id: value });
+    }
+
     const dialogBody = () => {
+        console.log('state', state);
         return (
             <>
-                <FormControl variant="outlined" className={classes.formControl}>
-                    {/* <InputLabel ref={inputLabel} htmlFor="outlined-age-simple"> */}
-                    {/* Age */}
-                    {/* </InputLabel> */}
-                    <Select
-                        value={values.age}
-                        onChange={handleChange}
-                        labelWidth={labelWidth}
-                        inputProps={{
-                            name: 'age',
-                            id: 'outlined-age-simple',
-                        }}
-                    >
-                        <MenuItem value={0}>Select a bank from following</MenuItem>
-                        <MenuItem value={1}>Ten</MenuItem>
-                        <MenuItem value={2}>Twenty</MenuItem>
-                        <MenuItem value={3}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
+                <CustomDropDown
+                    label='New Bank Account'
+                    menuList={getBankList()}
+                    getDropDownValue={getDropDownValue}
+                />
                 <InputField
-                    name='ifsc_code'
+                    name='ifsc'
                     label='IFSC code'
                     hintText='Enter IFSC code'
                     inputStyle={{ padding: 12 }}
-                // onChange={this.handleOnInputChange}
+                    onChange={handleOnInputChange}
                 />
                 <InputField
-                    name='ifsc_code'
+                    name='acc_name'
                     label='Account name'
                     hintText='Enter account name'
                     inputStyle={{ padding: 12 }}
-                // onChange={this.handleOnInputChange}
+                    onChange={handleOnInputChange}
                 />
                 <InputField
-                    name='ifsc_code'
+                    name='acc_num'
                     label='Account number'
                     hintText='Enter account number'
                     inputStyle={{ padding: 12 }}
-                // onChange={this.handleOnInputChange}
+                    onChange={handleOnInputChange}
                 />
                 <InputField
-                    name='ifsc_code'
+                    name='confirm_acc_num'
                     label='Confirm account number'
                     hintText='Confirm account number'
                     inputStyle={{ padding: 12 }}
-                // onChange={this.handleOnInputChange}
+                    onChange={handleOnInputChange}
                 />
             </>
         );
@@ -145,6 +163,27 @@ function BankDetails() {
         );
     }
 
+    const handleBankFormSubmit = (event) => {
+        console.log(state);
+        props.addBankAccount(state);
+    }
+
+    const Actions = () => (
+        <>
+            <CustomButton
+                style={{ padding: '12px 18px' }}
+                label={'cancel'}
+                onClick={() => setDialogOpen(false)}
+            />
+            <CustomButton
+                style={{ padding: '12px 18px', marginLeft: 20 }}
+                label={'Submit'}
+                isPrimary={true}
+                onClick={handleBankFormSubmit}
+            />
+        </>
+    );
+
     return (
         <>
             {cardWrapper('Bank Details', accountDetails())}
@@ -155,9 +194,15 @@ function BankDetails() {
                 title='New Bank Account'
                 dialogBody={dialogBody()}
                 dialogStyle={{ minWidth: 460 }}
+                actions={Actions()}
             />
         </>
     );
+}
+
+BankDetails.defaultProps = {
+    bankList: [],
+    bankDetails: {}
 }
 
 export default BankDetails;
