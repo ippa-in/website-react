@@ -5,18 +5,23 @@ import {
 
 import { push } from 'connected-react-router';
 
+import { getUserInfo } from '../Profile/actionCreators';
+
 import * as Api from '../utils/apiList';
 
 function* signIn(action) {
     try {
         const response = yield call(Api.signIn, action.payload);
-        const playerID = response.data.res_data && response.data.res_data.player_id;
-        // const playerToken = response.data.res_data && response.data.res_data.player_token;
+        const playerID = response.headers['player-id'];
+        const playerToken = response.headers['player-token'];
         // Write a utility function to set cookie everytime.
         // Set the playerID in cookie and also in localStorage.
         localStorage.setItem('playerID', playerID);
-        // localStorage.setItem('playerToken', playerToken);
-        yield put(push('/'));
+        localStorage.setItem('playerToken', playerToken);
+        yield put(getUserInfo());
+        if(!action.fromPage === 'signUp') {
+            yield put(push('/'));
+        }
     } catch (reason) {
         console.error(reason);
     }

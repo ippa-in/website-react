@@ -62,30 +62,36 @@ class Profile extends React.PureComponent {
 
     renderTabsUI() {
         const { selectedTab } = this.state;
-        const { fileUrl, userInfo, getFilesUrl, bankList, getBankList, addBankAccount,
-            getBankDetails, bankDetails, redeemPoints, getNetwork, tagNetwork, networkList,
-            getTaggedNetworkList, taggedNetworks } = this.props;
+        const { kycDetails, userInfo, uploadKYC, getKYCDetails, bankList, getBankList,
+            addBankAccount, getBankDetails, bankDetails, redeemPoints, getNetwork, tagNetwork, networkList,
+            getTaggedNetworkList, taggedNetworks, updateUserInfo, addAchievement, getAllTransaction,
+            allTransactions } = this.props;
         switch (selectedTab) {
             case 0: return <UserAccount
                 userInfo={userInfo}
                 redeemPoints={redeemPoints}
-                uploadFiles={getFilesUrl}
                 getNetwork={getNetwork}
                 tagNetwork={tagNetwork}
                 networkList={networkList}
                 getTaggedNetworkList={getTaggedNetworkList}
                 taggedNetworks={taggedNetworks}
+                updateUserInfo={updateUserInfo}
+                addAchievement={addAchievement}
             />;
             case 1: return <BankDetails
-                uploadFiles={getFilesUrl}
-                fileUrl={fileUrl}
-                bankList={bankList}
+                uploadKYC={uploadKYC}
+                getKYCDetails={getKYCDetails}
                 getBankList={getBankList}
-                addBankAccount={addBankAccount}
                 getBankDetails={getBankDetails}
+                addBankAccount={addBankAccount}
+                kycDetails={kycDetails}
+                bankList={bankList}
                 bankDetails={bankDetails}
             />;
-            case 2: return <TransactionHistory />;
+            case 2: return <TransactionHistory
+                getAllTransaction={getAllTransaction}
+                allTransactions={allTransactions}
+            />;
             default: return <UserAccount userInfo={userInfo} />;
         }
     }
@@ -124,14 +130,16 @@ Profile.defaultProps = {
 
 
 function mapStateToProps(state) {
-    const { userInfo, fileUrl, bankList, bankDetails, networkList, taggedNetworks } = state.profileReducer;
+    const { userInfo, kycDetails, bankList, bankDetails, networkList, taggedNetworks,
+        allTransactions } = state.profileReducer;
     return {
         userInfo,
-        fileUrl,
+        kycDetails,
         bankList,
         bankDetails,
         networkList,
-        taggedNetworks
+        taggedNetworks,
+        allTransactions
     };
 }
 

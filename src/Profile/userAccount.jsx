@@ -9,6 +9,11 @@ import PersonIcon from '@material-ui/icons/Person';
 
 import InputField from '../customComponents/InputField';
 
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
+
+import { getFormattedDate } from '../utils/common';
+
 import _ from 'lodash';
 
 class UserAccount extends React.PureComponent {
@@ -32,7 +37,10 @@ class UserAccount extends React.PureComponent {
             favoriteHandDialogOpen: false,
             latestAchievementDialogOpen: false,
             network_id: '',
-            tag_user_name: ''
+            tag_user_name: '',
+            selectedCards: [],
+            files: [],
+            title: ''
         }
     }
 
@@ -52,17 +60,20 @@ class UserAccount extends React.PureComponent {
                         {this.userBasicInfoList.map((userInfo) =>
                             <ul key={`${userInfo.value}`}>
                                 <li>{userInfo.title}</li>
-                                <li>{this.props.userInfo[userInfo.value] || '--'}</li>
+                                {userInfo.title === 'Date of Birth' ?
+                                    <li>{getFormattedDate(this.props.userInfo[userInfo.value]) || '--'}</li>
+                                    : <li>{this.props.userInfo[userInfo.value] || '--'}</li>
+                                }
                             </ul>
                         )}
                     </div>
                 </div>
                 <div>
-                    <CustomButton
+                    {/* <CustomButton
                         style={{ padding: '12px 20px' }}
                         label={'Edit Profile'}
                     // onClick={this.handleSignIn}
-                    />
+                    /> */}
                 </div>
             </div>
         );
@@ -136,6 +147,10 @@ class UserAccount extends React.PureComponent {
         );
     }
 
+    getFiles = (files) => {
+        this.setState({ files });
+    }
+
     achievementDialogBody = () => {
         return (
             <>
@@ -144,21 +159,36 @@ class UserAccount extends React.PureComponent {
                     label='Title'
                     hintText='Enter the title'
                     inputStyle={{ padding: 12 }}
-                // onChange={this.handleOnInputChange}
+                    onChange={this.handleOnInputChange}
                 />
                 <CustomFileUpload
-                    uploadFiles={this.props.uploadFiles}
-                    id='poa'
-                    fileUrl="https://s3.ap-south-1.amazonaws.com//ippacontent/KYC/FILE201910121747276752618904IPPA"
+                    id='achievement'
+                    getFiles={this.getFiles}
                 />
             </>
         );
     }
 
-    favoriteHandDialogBody = () => {
+    selectCard = (card) => {
+        const { selectedCards } = this.state;
+        if (selectedCards.length < 2) {
+            let selectedCardList = [...selectedCards];
+            selectedCardList.push(card);
+            this.setState({ selectedCards: selectedCardList });
+        }
+    }
 
+    deleteCard = (card) => {
+        const { selectedCards } = this.state;
+        let selectedCardList = selectedCards.filter(scards => scards !== card);
+        this.setState({ selectedCards: selectedCardList });
+    }
+
+    favoriteHandDialogBody = () => {
+        const { selectedCards } = this.state;
         let cardNumbers = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
         let cardFaces = ['D', 'C', 'H', 'S'];
+        let count = selectedCards.length;
         let cards = cardFaces.map(faces => cardNumbers.map(num => `${num}${faces}`));
         cards = cards.flat();
         return (
@@ -169,14 +199,46 @@ class UserAccount extends React.PureComponent {
                             key={`${card}`}
                             src={`/images/cards/${card}.svg`}
                             alt={`${card}`}
-                            className='fav--cards'
+                            className={selectedCards.includes(card) ? 'fav--cards selected' : 'fav--cards'}
+                            onClick={() => this.selectCard(card)}
                         />
                     )}
-                </div>
-                <div>
-                    <img src='/images/pick-cards-icon.svg' alt='pick cards' style={{ marginBottom: '10px' }} />
-                    Pick Cards
-                </div>
+                </div>{
+                    count === 0 ?
+                        <div>
+                            <img src='/images/pick-cards-icon.svg' alt='pick cards' style={{ marginBottom: '10px' }} />
+                            Pick Cards
+                        </div>
+                        : count === 1 ?
+                            <div id='count1'>
+                                <div key={`${selectedCards[0]}`} style={{ position: 'relative' }}>
+                                    <img src={`/images/cards/${selectedCards[0]}.svg`} alt={selectedCards[0]} />
+                                    <div className="deleteIcon">
+                                        <CloseIcon
+                                            style={{ cursor: 'pointer', color: '#000' }}
+                                            onClick={() => this.deleteCard(selectedCards[0])}
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <AddIcon />
+                                </div>
+                            </div>
+                            : <div id='count2'>{
+                                selectedCards.map(card =>
+                                    <div key={`${card}`} style={{ position: 'relative' }}>
+                                        <img
+                                            src={`/images/cards/${card}.svg`} alt={`${card}`} />
+                                        <div className="deleteIcon">
+                                            <CloseIcon
+                                                style={{ cursor: 'pointer', color: '#000' }}
+                                                onClick={() => this.deleteCard(card)}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                }
             </div>
         );
     }
@@ -193,17 +255,36 @@ class UserAccount extends React.PureComponent {
     }
 
     achievement() {
+        const { userInfo: { achievements } } = this.props;
+        let sortedAchievements = (achievements && achievements.sort((a, b) => a.order - b.order)) || [];
         return (
             <>
-                {this.addNewSection('achievement', 'latestAchievementDialogOpen')}
+                <div style={{ display: 'flex' }}>
+                    {sortedAchievements.map(achievement =>
+                        <div className='achievement--wrapper' key={`${achievement.order}-${achievement.s3_url}`}>
+                            <img src={achievement.s3_url} alt='achievement' />
+                            <label>{achievement.unique_id}</label>
+                        </div>
+                    )}
+                    {this.addNewSection('achievement', 'latestAchievementDialogOpen')}
+                </div>
             </>
         );
     }
 
     favoriteHand() {
+        const { userInfo: { favourite_hands } } = this.props;
         return (
             <>
-                {this.addNewSection('favorite hand', 'favoriteHandDialogOpen')}
+                <div style={{ display: 'flex' }}>
+                    {favourite_hands && favourite_hands.map((card, index) =>
+                        <div className='favroiteHand--wrapper' key={`${index}`}>
+                            <img src={`/images/cards/${card.split(',')[0]}.svg`} alt={`${card.split(',')[0]}`} />
+                            <img src={`/images/cards/${card.split(',')[1]}.svg`} alt={`${card.split(',')[1]}`} />
+                        </div>
+                    )}
+                    {this.addNewSection('favorite hand', 'favoriteHandDialogOpen')}
+                </div>
             </>
         );
     }
@@ -219,7 +300,7 @@ class UserAccount extends React.PureComponent {
                 {this.props.taggedNetworks.map(network =>
                     <div className='taggedNetwork--wrapper' key={network.tag_id}>
                         <div>
-                            <img src={network.network.image_url} alt='pokerstar' width='100%' />
+                            <img src={network.network.image_url} alt='pokerstar' width='100%' style={{ maxHeight: 40, objectFit: 'contain' }} />
                             <img src={`/images/status/${network.status}.svg`} alt={network.status} />
                         </div>
                         <div>
@@ -268,6 +349,15 @@ class UserAccount extends React.PureComponent {
         );
     }
 
+    handleFavHandSubmit = () => {
+        const { selectedCards } = this.state;
+        const data = {
+            favourite_hands: selectedCards
+        };
+        this.props.updateUserInfo(data);
+        this.setDialogOpen('favoriteHandDialogOpen', false);
+    }
+
     favoriteHandDialogActions() {
         return (
             <>
@@ -280,10 +370,16 @@ class UserAccount extends React.PureComponent {
                     style={{ padding: '12px 18px', marginLeft: 20 }}
                     label={'Submit'}
                     isPrimary={true}
-                // onClick={handleBankFormSubmit}
+                    onClick={this.handleFavHandSubmit}
                 />
             </>
         );
+    }
+
+    handleAchievementSubmit = () => {
+        const { title, files } = this.state;
+        this.props.addAchievement({ title, achievement: files });
+        this.setDialogOpen('latestAchievementDialogOpen', false);
     }
 
     achievementDialogActions() {
@@ -298,7 +394,7 @@ class UserAccount extends React.PureComponent {
                     style={{ padding: '12px 18px', marginLeft: 20 }}
                     label={'Submit'}
                     isPrimary={true}
-                // onClick={handleBankFormSubmit}
+                    onClick={this.handleAchievementSubmit}
                 />
             </>
         );
@@ -341,5 +437,18 @@ class UserAccount extends React.PureComponent {
         );
     }
 }
+
+UserAccount.defaultProps = {
+    userInfo: {},
+    redeemPoints: () => {},
+    getNetwork: () => {},
+    tagNetwork: () => {},
+    networkList: [],
+    getTaggedNetworkList: () => {},
+    taggedNetworks: [],
+    updateUserInfo: () => {},
+    addAchievement: () => {}
+};
+
 
 export default UserAccount;

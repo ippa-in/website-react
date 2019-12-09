@@ -46,18 +46,20 @@ const CustomFileUpload = (props) => {
         dragOverLay: false,
     });
 
-    const handleFileUpload = (event, props) => {
+    const handleFileUpload = (event) => {
         // let newFiles = document.getElementById('drop_zone').files;
         const newFiles = event.target.files || {};
         if (Object.values(newFiles).length) {
-            const data = new FormData();
-            data.append(props.id, newFiles[0]);
-            props.uploadFiles({ fileData: true, data });
-            // this.props.getFiles(files);
+            const url = window.URL.createObjectURL(newFiles[0]);
+            setState({ ...state, file: url });
+            // const data = new FormData();
+            // data.append(props.id, newFiles[0]);
+            // props.uploadFiles({ fileData: true, data });
+            props.getFiles(newFiles[0], props.id);
         }
     }
 
-    const handleDrop = (event, state, setState) => {
+    const handleDrop = (event) => {
         event.stopPropagation();
         setState({
             ...state,
@@ -65,7 +67,7 @@ const CustomFileUpload = (props) => {
         });
     };
 
-    const handleDragEnter = (event, state, setState) => {
+    const handleDragEnter = (event) => {
         // Prevent default behavior (Prevent file from being opened)
         event.preventDefault();
         !state.dragOverLay &&
@@ -75,7 +77,7 @@ const CustomFileUpload = (props) => {
             });
     };
 
-    const handleDragLeave = (event, state, setState) => {
+    const handleDragLeave = (event) => {
         // Prevent default behavior (Prevent file from being opened)
         event.preventDefault();
         state.dragOverLay &&
@@ -100,6 +102,7 @@ const CustomFileUpload = (props) => {
 
     const deleteAttachement = () => {
         setState({ file: '' });
+        props.getFiles('', props.id);
     };
 
     const attachmentUIHelperFunction = (component, file) => (
@@ -117,7 +120,7 @@ const CustomFileUpload = (props) => {
     const { file, dragOverLay } = state;
 
     return (file.length ? (
-        <div className="fileUpload--wrapper uploaded">
+        <div className="fileUpload--wrapper uploaded" style={props.parentStyle}>
             {attachmentUIHelperFunction(<img src={file} className="uploadedFile" alt="Uploaded File" />,
                 file
             )}
@@ -125,6 +128,7 @@ const CustomFileUpload = (props) => {
     ) : (
             <div
                 className={getFileUploadClassName(dragOverLay)}
+                style={props.parentStyle}
             >
                 {dragOverLay ? (
                     <div className="drop-here">Drop here</div>
@@ -156,15 +160,15 @@ const CustomFileUpload = (props) => {
 CustomFileUpload.propTypes = {
     fileUrl: PropTypes.string,
     required: PropTypes.bool,
+    parentStyle: PropTypes.object,
     getFiles: PropTypes.func,
-    uploadFiles: PropTypes.func,
 };
 
 CustomFileUpload.defaultProps = {
     fileUrl: "",
     required: false,
+    parentStyle: {},
     getFiles: () => { },
-    uploadFiles: () => { },
 };
 
 export default CustomFileUpload;

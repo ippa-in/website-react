@@ -30,10 +30,10 @@ export default class App extends React.PureComponent {
          {/* style={{ width: window.screen.width }}> */}
           <Carousel />
           <PopularVideos />
-          <OnlinePokerRooms />
-          <PopularThreads />
-          <PopularArticles />
-          <Referral />
+          {/* <OnlinePokerRooms /> */}
+          {/* <PopularThreads /> */}
+          {/* <PopularArticles /> */}
+          {/* <Referral /> */}
           <Footer />
           {/* <div className="cursor cursor--inner"></div> */}
           {/* <div className="cursor cursor--outer"></div> */}

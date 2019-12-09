@@ -7,6 +7,8 @@ import CustomFileUpload from '../customComponents/customFileUpload';
 import InputField from '../customComponents/InputField';
 import CustomDropDown from '../customComponents/customDropDown';
 
+import AddIcon from '@material-ui/icons/Add';
+
 import _ from 'lodash';
 
 function BankDetails(props) {
@@ -30,9 +32,28 @@ function BankDetails(props) {
         setInputFields({ ...state, [event.target.name]: event.target.value });
     }
 
+    const [files, setFiles] = React.useState({
+        poi_f: '',
+        poi_b: '',
+        poa_f: '',
+        poa_b: '',
+        poaBack: false,
+        poiBack: false,
+    });
+
+    const getFiles = (file, id) => {
+        setFiles({ ...files, [id]: file });
+    }
+
     useEffect(() => {
         props.getBankDetails();
-    }, [])
+        props.getKYCDetails();
+    }, []);
+
+    const fileStyle = {
+        border: "none",
+        borderRadius: 0,
+    };
 
     const accountDetails = () => {
         if (Object.keys(props.bankDetails).length) {
@@ -45,18 +66,23 @@ function BankDetails(props) {
             ];
             return (<div className='bankDetails--container'>
                 <div className='bank-details'>
-                        {bankDetails.map((details) =>
-                            <ul key={`${details.value}`}>
-                                <li>{details.title}</li>
-                                <li>{_.get(props.bankDetails, details.value, '--')}</li>
-                            </ul>
-                        )}
-                    </div>
-                    <CustomButton
-                        style={{ padding: '12px 20px' }}
-                        label={'Edit Bank Info'}
-                    // onClick={this.handleSignIn}
-                    />
+                    {bankDetails.map((details) =>
+                        <ul key={`${details.value}`}>
+                            <li>{details.title}</li>
+                            <li className={details.title === "Status" ? `${_.get(props.bankDetails, details.value, '')}` : ''}>
+                                {details.title === "Status" &&
+                                    <img src={`/images/${_.get(props.bankDetails, details.value, '').toLowerCase()}-icon.svg`}
+                                        alt='status' />}
+                                {_.get(props.bankDetails, details.value, '--')}
+                            </li>
+                        </ul>
+                    )}
+                </div>
+                <CustomButton
+                    style={{ padding: '12px 20px' }}
+                    label={'Edit Bank Info'}
+                // onClick={this.handleSignIn}
+                />
             </div>)
         } else {
             return (
@@ -74,30 +100,108 @@ function BankDetails(props) {
         }
     }
 
-    const KYCWrapper = (component, heading) => {
+    const submitKYC = (type) => {
+        let data = {};
+        if(type.includes('poa')) {
+            data['poa_f'] = files['poa_f'];
+            data['poa_b'] = files['poa_b'];
+        } else {
+            data['poi_f'] = files['poi_f'];
+            data['poi_b'] = files['poi_b'];
+        }
+        props.uploadKYC(data);
+    }
+
+    const handleKYCpages = (type, value) => {
+        const KYCType = type.includes('poa') ? 'poaBack' : 'poiBack';
+        setFiles({ ...files, [KYCType]: value });
+    }
+
+    const KYCWrapper = (component, heading, type) => {
+        const { kycDetails } = props;
         return (
             <div className='KYC--wrapper'>
                 <header>{heading}</header>
-                {component}
+                <div className='KYC-upload--wrapper'>
+                    {component}
+                    {<div className="KYC-options">
+                        <div>
+                            <div className='options--wrapper' onClick={() => handleKYCpages(type, false)}>
+                                <img src='/images/attachment-icon.svg' alt='attachment' />
+                            </div>
+                            <div className='options--wrapper'>
+                                {<AddIcon
+                                onClick={() => handleKYCpages(type, true)}
+                                />}
+                            </div>
+                        </div>
+                        {<CustomButton
+                            style={{ padding: '12px 24px' }}
+                            label={'Submit Document'}
+                            isPrimary={true}
+                            onClick={() => submitKYC(type)}
+                        />}
+                    </div>}
+                </div>
             </div>
         );
     }
 
     const KYC = () => {
-        const { uploadFiles, fileUrl } = props;
-        // Object.keys(filesUrl).length
+        const { kycDetails } = props;
+        const { poiBack, poaBack, poi_f, poi_b, poa_f, poa_b } = files;
+        let poafileUrl = '';
+        let poifileUrl = '';
+        if(poiBack) {
+            if(typeof poi_b === 'object') {
+                poifileUrl = window.URL.createObjectURL(poi_b);
+            }
+        } else if(!poiBack) {
+            if(typeof poi_f === 'object') {
+                poifileUrl = window.URL.createObjectURL(poi_f);
+            }
+        } else if(poaBack) {
+            if(typeof poa_b === 'object') {
+                poafileUrl = window.URL.createObjectURL(poa_b);
+            }
+        } else if(!poiBack) {
+            if(typeof poa_f === 'object') {
+                poafileUrl = window.URL.createObjectURL(poa_f);
+            }
+        }
         return (
             <div className='KYC--container'>
-                {KYCWrapper(<CustomFileUpload
-                    uploadFiles={uploadFiles}
-                    id='poa'
-                    fileUrl="https://s3.ap-south-1.amazonaws.com//ippacontent/KYC/FILE201910121747276752618904IPPA"
-                />, 'Your PAN Card')}
-                {KYCWrapper(<CustomFileUpload
-                    uploadFiles={uploadFiles}
-                    id='poi'
-                    fileUrl="https://s3.ap-south-1.amazonaws.com//ippacontent/KYC/FILE201910121747276752618904IPPA"
-                />, 'Your Address Proof')}
+                {!poiBack ? KYCWrapper(<CustomFileUpload
+                    key={'poi_f'}
+                    parentStyle={fileStyle}
+                    id='poi_f'
+                    // fileUrl="https://s3.ap-south-1.amazonaws.com//ippacontent/KYC/FILE201910121747276752618904IPPA"
+                    fileUrl={poifileUrl}
+                    getFiles={getFiles}
+                />, 'Your PAN Card', 'poi_f')
+                : KYCWrapper(<CustomFileUpload
+                    key={'poi_b'}
+                    parentStyle={fileStyle}
+                    id='poi_b'
+                    fileUrl={poifileUrl}
+                    getFiles={getFiles}
+                />, 'Your PAN Card', 'poi_b')
+                }
+                {!poaBack ? KYCWrapper(<CustomFileUpload
+                    key={'poa_f'}
+                    parentStyle={fileStyle}
+                    id='poa_f'
+                    fileUrl={poafileUrl}
+                    getFiles={getFiles}
+                />, 'Your Address Proof', 'poa_f')
+                : KYCWrapper(<CustomFileUpload
+                    key={'poa_b'}
+                    parentStyle={fileStyle}
+                    id='poa_b'
+                    fileUrl={poafileUrl}
+                    getFiles={getFiles}
+                />, 'Your Address Proof', 'poa_b')
+            }
             </div>
         );
     }
@@ -115,7 +219,6 @@ function BankDetails(props) {
     }
 
     const dialogBody = () => {
-        console.log('state', state);
         return (
             <>
                 <CustomDropDown
@@ -167,6 +270,7 @@ function BankDetails(props) {
     const handleBankFormSubmit = (event) => {
         console.log(state);
         props.addBankAccount(state);
+        setDialogOpen(false);
     }
 
     const Actions = () => (
@@ -184,7 +288,7 @@ function BankDetails(props) {
             />
         </>
     );
-
+    console.log(files);
     return (
         <>
             {cardWrapper('Bank Details', accountDetails())}
@@ -203,7 +307,8 @@ function BankDetails(props) {
 
 BankDetails.defaultProps = {
     bankList: [],
-    bankDetails: {}
+    bankDetails: {},
+    kycDetails: {}
 }
 
 export default BankDetails;

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const BASEURL = `http://35.154.161.226:80/`;
+// const BASEURL = `http://35.154.161.226:80/`;
 
-// const BASEURL = 'http://f560652b.ngrok.io/'
+const BASEURL = 'http://192.168.0.102:9005/';
 
 const makeAPIUrl = (url) => `${BASEURL}${url}`;
 
@@ -17,10 +17,10 @@ methods.forEach((method) => {
 
     const playerID = localStorage.getItem('playerID');
     const playerToken = localStorage.getItem('playerToken');
-    const headers = {
-      'PLAYER-ID': playerID,
-      // 'PLAYER-TOKEN': playerToken,
-    }
+    const headers = {};
+
+    if (playerID) headers['PLAYER-ID'] = playerID;
+    if (playerToken) headers['PLAYER-TOKEN'] = playerToken;
 
     const verb = method === 'destroy' ? 'delete' : method;
 
@@ -29,7 +29,14 @@ methods.forEach((method) => {
         params: options,
         headers,
       };
+      if (Object.keys(headers).length) {
+        formData = { ...formData, headers };
+      }
       return axios[verb](makeAPIUrl(url), formData)
+        .then(response => response);
+    } if (verb === 'put') {
+      headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      return axios[verb](makeAPIUrl(url), options, !!playerID && { headers })
         .then(response => response);
     } else {
       const { fileData, ...rest } = options;
@@ -54,7 +61,7 @@ const {
   get,
   post,
   put,
-  destroy, //delete is giving some error right now. have to fix this.
+  destroy, //delete is a reserved word in JS. Hence, using destroy.
   patch,
 } = helpers;
 

@@ -2,13 +2,17 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import {
     GET_USER_INFO,
     GET_NETWORK_LIST,
-    GET_FILES_URL,
+    UPLOAD_KYC,
+    GET_KYC_DETAILS,
     GET_BANK_LIST,
     ADD_BANK_ACCOUNT,
     GET_BANK_DETAILS,
     REDEEM_POINTS,
     TAG_NETWORK,
-    GET_TAGGED_NETWORK
+    GET_TAGGED_NETWORK,
+    UPDATE_USER_INFO,
+    ADD_ACHIEVEMENT,
+    GET_ALL_TRANSACTION
 } from './actionTypes';
 
 import * as ProfileActions from './actionCreators';
@@ -19,6 +23,14 @@ function* getUserInfo() {
     try {
         const response = yield call(Api.getUserInfo);
         yield put(ProfileActions.setUserInfo(response.data.res_data));
+    } catch (reason) {
+        console.error(reason);
+    }
+}
+
+function* updateUserDetails(action) {
+    try {
+        const reponse = yield call(Api.updateUserDetails, action.payload);
     } catch (reason) {
         console.error(reason);
     }
@@ -59,10 +71,20 @@ function* redeemPoints() {
     }
 }
 
-function* getFilesUrl(action) {
+function* uploadKYC(action) {
     try {
         const response = yield call(Api.uploadKYC, action.payload);
-        yield put(ProfileActions.setFilesUrl(response.data.res_data));
+        // yield put(ProfileActions.setKYCDetails(response.data.res_data));
+        yield call(getKYCDetails);
+    } catch (reason) {
+        console.error(reason);
+    }
+}
+
+function* getKYCDetails() {
+    try {
+        const response = yield call(Api.getKYCDetails);
+        yield put(ProfileActions.setKYCDetails(response.data.res_data));
     } catch (reason) {
         console.error(reason);
     }
@@ -96,14 +118,36 @@ function* getBankDetails() {
     }
 }
 
+function* addAchievement(action) {
+    try {
+        const response = yield call(Api.addAchievement, action.payload);
+        yield call(getUserInfo);
+    } catch(reason) {
+        console.error(reason);
+    }
+}
+
+function* getAllTransactions(action) {
+    try {
+        const response = yield call(Api.getAllTransactions, action.payload);
+        yield put(ProfileActions.setAllTransaction(response.data.res_data));
+    } catch (reason) {
+        console.error(reason);
+    }
+}
+
 export default function* userProfileWatcher() {
     yield takeLatest(GET_USER_INFO, getUserInfo);
     yield takeLatest(GET_NETWORK_LIST, getNetworks);
     yield takeLatest(REDEEM_POINTS, redeemPoints);
-    yield takeLatest(GET_FILES_URL, getFilesUrl);
+    yield takeLatest(UPLOAD_KYC, uploadKYC);
+    yield takeLatest(GET_KYC_DETAILS, getKYCDetails);
     yield takeLatest(GET_BANK_LIST, getBankList);
     yield takeLatest(ADD_BANK_ACCOUNT, addBankAccount);
     yield takeLatest(GET_BANK_DETAILS, getBankDetails);
     yield takeLatest(TAG_NETWORK, tagNetwork);
     yield takeLatest(GET_TAGGED_NETWORK, getTaggedNetwork);
+    yield takeLatest(UPDATE_USER_INFO, updateUserDetails);
+    yield takeLatest(ADD_ACHIEVEMENT, addAchievement);
+    yield takeLatest(GET_ALL_TRANSACTION, getAllTransactions);
 }

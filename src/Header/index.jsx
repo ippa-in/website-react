@@ -16,7 +16,7 @@ export default class Header extends React.PureComponent {
     renderRightTabs = () => {
         const pageType = window.location.pathname;
         const loginToken = localStorage.getItem('playerID');
-        if (!!loginToken) {
+        if (!!loginToken && !['/sign-in', '/sign-up/1', '/sign-up/2', '/frgt-pass', '/reset-pass'].includes(pageType)) {
             return (
                 <Link className='profile-icon' to='./profile'>
                     <img className='loggedInUser' src='/images/user_icon.png' alt='user_icon' />

@@ -18,13 +18,13 @@ import { bindActionCreators } from 'redux';
 
 const RedCheckbox = withStyles({
     root: {
-    //   color: '',
-      '&$checked': {
-        color: '#f32c4c'
-      },
+        //   color: '',
+        '&$checked': {
+            color: '#f32c4c'
+        },
     },
     checked: {},
-  })(props => <Checkbox color="default" {...props} />);
+})(props => <Checkbox color="default" {...props} />);
 
 class SignUp extends React.PureComponent {
     constructor(props) {
@@ -38,18 +38,17 @@ class SignUp extends React.PureComponent {
             name: '',
             mobile_number: '',
             city: '',
-            isDisabledSignUpStep2: true,
+            isDisabledSignUpStep1: true,
         };
     }
 
     registerAccount = () => {
-        const { name, mobile_number, city } = this.state;
-        //Do a regex test here.
-        if (!name) {
-            //show email id error.
-            console.log('Enter name.');
-            return;
-        }
+        const { mobile_number, city } = this.state;
+        // if (!name) {
+        //     //show email id error.
+        //     console.log('Enter name.');
+        //     return;
+        // }
 
         // if (mobile_number) {
         //     // Do a regex test of mobile number if user enter's it.
@@ -63,13 +62,20 @@ class SignUp extends React.PureComponent {
         //     return;
         // }
 
-        let data = { name, mobile_number, city };
+        let data = { mobile_number, city };
 
         this.props.requestSignUpStep2Data(data);
     }
 
     handleSignUp = () => {
-        const { email_id, password, confirm_password, referral_code } = this.state;
+        const { name, email_id, password, confirm_password, referral_code } = this.state;
+
+        if (!name) {
+            //show email id error.
+            console.log('Enter name.');
+            return;
+        }
+
         //Do a regex test here.
         if (!email_id) {
             //show email id error.
@@ -83,38 +89,25 @@ class SignUp extends React.PureComponent {
             return;
         }
 
-        if (!confirm_password) {
-            //show confirm password error.
-            console.log('Enter confirm password.');
-            return;
-        }
+        // if (!confirm_password) {
+        //     //show confirm password error.
+        //     console.log('Enter confirm password.');
+        //     return;
+        // }
 
-        if (password !== confirm_password) {
-            // show password validations error.
-            console.log('passwords doesn\'t match!');
-            return;
-        }
+        // if (password !== confirm_password) {
+        //     // show password validations error.
+        //     console.log('passwords doesn\'t match!');
+        //     return;
+        // }
 
-        let data = { email_id, password, referral_code };
+        let data = { name, email_id, password, referral_code };
 
         this.props.requestSignUpStep1Data(data);
     }
 
     handleOnInputChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
-    }
-
-    handleFullNameInput = (event) => {
-        const { isDisabledSignUpStep2 } = this.state;
-        if (!event.target.value) {
-            //Disable signup button and show error text on right.
-            console.log('Enter name.');
-            !isDisabledSignUpStep2 && this.setState({ isDisabledSignUpStep2: true });
-            return;
-        } else {
-            this.setState({ isDisabledSignUpStep2: false });
-        }
-        this.handleOnInputChange(event);
     }
 
     renderSignUp = () => {
@@ -134,9 +127,17 @@ class SignUp extends React.PureComponent {
                     <span>Or</span>
                 </div>
                 <InputField
+                    name='name'
+                    label='Full name'
+                    hintText='First and last name'
+                    required={true}
+                    onChange={this.handleOnInputChange}
+                />
+                <InputField
                     name='email_id'
                     label='Your email'
                     hintText='you@email.com'
+                    required={true}
                     onChange={this.handleOnInputChange}
                 />
                 <InputField
@@ -144,27 +145,29 @@ class SignUp extends React.PureComponent {
                     label='Password'
                     hintText='something secure'
                     type='password'
+                    required={true}
                     onChange={this.handleOnInputChange}
                 />
-                <InputField
+                {/* <InputField
                     name='confirm_password'
                     label='Confirm password'
                     hintText='something secure'
                     type='password'
                     onChange={this.handleOnInputChange}
-                />
-                <InputField
+                /> */}
+                {/* <InputField
                     name='referral_code'
                     label='Referral code'
                     hintText='Enter referral code'
                     onChange={this.handleOnInputChange}
-                />
+                /> */}
                 <FormControlLabel
                     value="Something random"
                     control={<RedCheckbox />}
                     label={<div className='signup-ckbox-label'>I certify that I am 18 years of age or older,
-                     and I agree to the <br/> <a href=''>Terms & Conditions</a> and <a href=''>Privacy Policy</a></div>}
+                     and I agree to the <br /> <a href=''>Terms & Conditions</a> and <a href=''>Privacy Policy</a></div>}
                     labelPlacement="end"
+                // onClick={}
                 />
                 <CustomButton
                     style={{ marginTop: 15 }}
@@ -180,13 +183,6 @@ class SignUp extends React.PureComponent {
         const { isDisabledSignUpStep2 } = this.state;
         return (
             <>
-                <InputField
-                    name='name'
-                    label='Full name'
-                    hintText='First and last name'
-                    required={true}
-                    onChange={this.handleFullNameInput}
-                />
                 <InputField
                     name='mobile_number'
                     label='Phone number'
@@ -205,6 +201,12 @@ class SignUp extends React.PureComponent {
                     disabled={isDisabledSignUpStep2}
                     onClick={this.registerAccount}
                     isPrimary={true}
+                />
+                <CustomButton
+                    style={{ marginTop: 15 }}
+                    label={'Back'}
+                    disabled={isDisabledSignUpStep2}
+                    onClick={this.registerAccount}
                 />
             </>
         );

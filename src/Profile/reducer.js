@@ -1,19 +1,21 @@
 import {
     SET_USER_INFO,
-    SET_FILES_URL,
+    SET_KYC_DETAILS,
     SET_BANK_LIST,
     SET_BANK_DETAILS,
     SET_NETWORK_LIST,
-    SET_TAGGED_NETWORK
+    SET_TAGGED_NETWORK,
+    SET_ALL_TRANSACTION
 } from './actionTypes';
 
 const initialState = {
     userInfo: {},
-    fileUrl: {},
+    kycDetails: {},
     bankList: [],
     bankDetails: {},
     networkList: [],
     taggedNetworks: [],
+    allTransactions: [],
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -24,10 +26,10 @@ const profileReducer = (state = initialState, action) => {
                 userInfo: action.payload
             }
         }
-        case SET_FILES_URL: {
+        case SET_KYC_DETAILS: {
             return {
                 ...state,
-                fileUrl: action.payload
+                kycDetails: action.payload
             }
         }
         case SET_BANK_LIST: {
@@ -52,6 +54,12 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 taggedNetworks: action.payload
+            }
+        }
+        case SET_ALL_TRANSACTION: {
+            return {
+                ...state,
+                allTransactions: action.payload
             }
         }
         default: return state;
