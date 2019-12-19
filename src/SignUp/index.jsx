@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import './signUp.scss';
 import Header from '../Header';
 import InputField from '../customComponents/InputField';
 import CustomButton from '../customComponents/CustomButton';
+import CustomDropDown from '../customComponents/customDropDown';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -13,12 +18,8 @@ import {
     requestSignUpStep2Data
 } from './actionCreators';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
 const RedCheckbox = withStyles({
     root: {
-        //   color: '',
         '&$checked': {
             color: '#f32c4c'
         },
@@ -38,7 +39,10 @@ class SignUp extends React.PureComponent {
             name: '',
             mobile_number: '',
             city: '',
-            isDisabledSignUpStep1: true,
+            day: '',
+            month: '',
+            year: '',
+            isDisabledSignUpStep1: false,
         };
     }
 
@@ -110,6 +114,10 @@ class SignUp extends React.PureComponent {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    toggleCheckBox = event => {
+        this.setState({ [event.target.value]: event.target.checked });
+    }
+
     renderSignUp = () => {
         return (
             <>
@@ -163,20 +171,61 @@ class SignUp extends React.PureComponent {
                 /> */}
                 <FormControlLabel
                     value="Something random"
-                    control={<RedCheckbox />}
+                    control={<RedCheckbox
+                        checked={this.state.isDisabledSignUpStep1}
+                        onChange={this.toggleCheckBox}
+                        value="isDisabledSignUpStep1"
+                    />}
                     label={<div className='signup-ckbox-label'>I certify that I am 18 years of age or older,
                      and I agree to the <br /> <a href=''>Terms & Conditions</a> and <a href=''>Privacy Policy</a></div>}
                     labelPlacement="end"
-                // onClick={}
                 />
                 <CustomButton
                     style={{ marginTop: 15 }}
                     label={'sign Up'}
                     isPrimary={true}
+                    disabled={!this.state.isDisabledSignUpStep1}
                     onClick={this.handleSignUp}
                 />
             </>
         );
+    }
+
+    getDays = () => {
+        let days = [];
+        for (let i = 1; i <= 31; i++) {
+            days.push({ key: i, value: i });
+        }
+        days.unshift({ key: "0", value: 'Day' });
+        return days;
+    }
+
+    getDayValue = (value) => {
+        this.setState({ day: value });
+    }
+
+    getMonths = () => {
+        let monthsList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        let months = monthsList.map((month, index) => ({ key: index + 1, value: month }));
+        months.unshift({ key: "0", value: 'Month' });
+        return months;
+    }
+
+    getMonthValue = (value) => {
+        this.setState({ month: value });
+    }
+
+    getYears = () => {
+        let years = [];
+        for (let i = 1980; i <= 2100; i++) {
+            years.push({ key: i, value: i });
+        }
+        years.unshift({ key: 0, value: 'Year' });
+        return years;
+    }
+
+    getYearValue = (value) => {
+        this.setState({ year: value });
     }
 
     renderRightStep2 = () => {
@@ -189,25 +238,36 @@ class SignUp extends React.PureComponent {
                     hintText='Something secure'
                     onChange={this.handleOnInputChange}
                 />
+                <label className='inputField--label'>Date of birth</label>
+                <div className="dob--container">
+                    <CustomDropDown
+                        menuList={this.getDays()}
+                        getDropDownValue={this.getDayValue}
+                    />
+                    <CustomDropDown
+                        menuList={this.getMonths()}
+                        getDropDownValue={this.getMonthValue}
+                    />
+                    <CustomDropDown
+                        menuList={this.getYears()}
+                        getDropDownValue={this.getYearValue}
+                    />
+                </div>
                 <InputField
                     name='city'
                     label='City'
                     hintText='Type city name'
                     onChange={this.handleOnInputChange}
                 />
-                <CustomButton
-                    style={{ marginTop: 15 }}
-                    label={'Sign Up'}
-                    disabled={isDisabledSignUpStep2}
-                    onClick={this.registerAccount}
-                    isPrimary={true}
-                />
-                <CustomButton
-                    style={{ marginTop: 15 }}
-                    label={'Back'}
-                    disabled={isDisabledSignUpStep2}
-                    onClick={this.registerAccount}
-                />
+                <div className="registerButtons">
+                    <CustomButton
+                        label={'Sign Up'}
+                        disabled={isDisabledSignUpStep2}
+                        onClick={this.registerAccount}
+                        isPrimary={true}
+                    />
+                    <Link className={'primeButton'} to='/sign-up/1'>Go Back</Link>
+                </div>
             </>
         );
     }

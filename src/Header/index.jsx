@@ -3,11 +3,11 @@ import './header.scss';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-export default class Header extends React.PureComponent {
+class Header extends React.PureComponent {
     constructor(props) {
         super(props);
         this.centerTabs = ['Home', 'Videos', 'Forums', 'News', 'Articles', 'Promotions', 'Game Finder', 'Learning Curve'];
@@ -15,12 +15,13 @@ export default class Header extends React.PureComponent {
 
     renderRightTabs = () => {
         const pageType = window.location.pathname;
+        const { userInfo } = this.props;
         const loginToken = localStorage.getItem('playerID');
         if (!!loginToken && !['/sign-in', '/sign-up/1', '/sign-up/2', '/frgt-pass', '/reset-pass'].includes(pageType)) {
             return (
                 <Link className='profile-icon' to='./profile'>
                     <img className='loggedInUser' src='/images/user_icon.png' alt='user_icon' />
-                    <div className={'tabs d-flex align-center'} to='/'>Clinton Dsouza <ExpandMoreIcon /></div>
+                    <div className={'tabs d-flex align-center'} to='/'>{userInfo.hasOwnProperty("name") && userInfo.name || ''} <ExpandMoreIcon /></div>
                 </Link>
             );
         }
@@ -71,11 +72,28 @@ export default class Header extends React.PureComponent {
 Header.propTypes = {
     showCenterTabs: PropTypes.bool,
     style: PropTypes.object,
-    pageType: PropTypes.string
+    pageType: PropTypes.string,
+    userInfo: PropTypes.object
 }
 
 Header.defaultProps = {
     showCenterTabs: true,
     style: {},
-    pageType: ''
+    pageType: '',
+    userInfo: {},
 }
+
+function mapStateToProps(state) {
+    const { userInfo } = state.profileReducer;
+    return {
+        userInfo,
+    };
+}
+
+// function mapDispatchToProps(dispatch) {
+//     return bindActionCreators({
+//         ...profileActions
+//     }, dispatch)
+// }
+
+export default connect(mapStateToProps, null)(Header);

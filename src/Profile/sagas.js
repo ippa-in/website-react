@@ -31,6 +31,7 @@ function* getUserInfo() {
 function* updateUserDetails(action) {
     try {
         const reponse = yield call(Api.updateUserDetails, action.payload);
+        yield call(getUserInfo);
     } catch (reason) {
         console.error(reason);
     }

@@ -8,6 +8,7 @@ import InputField from '../customComponents/InputField';
 import CustomDropDown from '../customComponents/customDropDown';
 
 import AddIcon from '@material-ui/icons/Add';
+import InfoIcon from '@material-ui/icons/Info';
 
 import _ from 'lodash';
 
@@ -49,6 +50,14 @@ function BankDetails(props) {
         props.getBankDetails();
         props.getKYCDetails();
     }, []);
+
+    // useEffect(() => {
+    //     props.kycDetails.hasOwnProperty("poi_status") {
+    //         return {
+
+    //         }
+    //     }
+    // }, [props.kycDetails]);
 
     const fileStyle = {
         border: "none",
@@ -102,7 +111,7 @@ function BankDetails(props) {
 
     const submitKYC = (type) => {
         let data = {};
-        if(type.includes('poa')) {
+        if (type.includes('poa')) {
             data['poa_f'] = files['poa_f'];
             data['poa_b'] = files['poa_b'];
         } else {
@@ -117,13 +126,74 @@ function BankDetails(props) {
         setFiles({ ...files, [KYCType]: value });
     }
 
-    const KYCWrapper = (component, heading, type) => {
+    const showKYCSubmitButtons = (type) => {
         const { kycDetails } = props;
+        if (type.includes('poa')) {
+            return !kycDetails.hasOwnProperty("poa_status");
+        } else {
+            return !kycDetails.hasOwnProperty("poi_status");
+        }
+    }
+
+    const showKYCOptions = (type) => {
+        const { kycDetails } = props;
+        const { poi_f, poi_b, poa_f, poa_b } = files;
+        if (type === "poi_f") {
+            if (typeof poi_f === 'object') {
+                return true;
+            } else if (kycDetails.hasOwnProperty("poi_f_url") && !!kycDetails.poi_f_url) {
+                return true;
+            }
+         } else if (type === "poi_b") {
+                if (typeof poi_b === 'object') {
+                    return true;
+                } else if (kycDetails.hasOwnProperty("poi_b_url") && !!kycDetails.poi_b_url) {
+                    return true;
+                }
+        } else if (type === "poa_f") {
+            if (typeof poa_f === 'object') {
+                return true;
+            } else if (kycDetails.hasOwnProperty("poa_f_url") && !!kycDetails.poa_f_url) {
+                return true;
+            }
+        } else if (type === "poa_b") {
+            if (typeof poa_b === 'object') {
+                return true;
+            } else if (kycDetails.hasOwnProperty("poa_b_url") && !!kycDetails.poa_b_url) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    const KYCStatus = (status) => {
+        let color = "";
+        let message = "";
+        if(status.toLowerCase() === "pending") {
+            color = "#f8b630";
+            message = "Pending Verification";
+        } else if(status.toLowerCase() === "verified") {
+            color = "#3ab36d";
+            message = "Verified";
+        }
+        return (
+            <span style={{ color }}>
+                <InfoIcon style={{ marginRight: 6 }} />
+                {message}
+            </span>
+        );
+    }
+
+    const KYCWrapper = (component, heading, type, status) => {
         return (
             <div className='KYC--wrapper'>
-                <header>{heading}</header>
+                <header>
+                    <span>{heading}</span>
+                    {status && KYCStatus(status)}
+                </header>
                 <div className='KYC-upload--wrapper'>
                     {component}
+                    {/* {showKYCOptions(type) && <div className="KYC-options"> */}
                     {<div className="KYC-options">
                         <div>
                             <div className='options--wrapper' onClick={() => handleKYCpages(type, false)}>
@@ -131,10 +201,11 @@ function BankDetails(props) {
                             </div>
                             <div className='options--wrapper'>
                                 {<AddIcon
-                                onClick={() => handleKYCpages(type, true)}
+                                    onClick={() => handleKYCpages(type, true)}
                                 />}
                             </div>
                         </div>
+                        {/* {showKYCSubmitButtons(type) && <CustomButton */}
                         {<CustomButton
                             style={{ padding: '12px 24px' }}
                             label={'Submit Document'}
@@ -152,56 +223,72 @@ function BankDetails(props) {
         const { poiBack, poaBack, poi_f, poi_b, poa_f, poa_b } = files;
         let poafileUrl = '';
         let poifileUrl = '';
-        if(poiBack) {
-            if(typeof poi_b === 'object') {
+        let poiStatus = "";
+        let poaStatus = "";
+        if (poiBack) {
+            if (typeof poi_b === 'object') {
                 poifileUrl = window.URL.createObjectURL(poi_b);
+            } else if (kycDetails.hasOwnProperty("poi_b_url") && !!kycDetails.poi_b_url) {
+                poifileUrl = kycDetails.poi_b_url;
+                poiStatus = kycDetails.poi_status;
             }
-        } else if(!poiBack) {
-            if(typeof poi_f === 'object') {
+        } else if (!poiBack) {
+            if (typeof poi_f === 'object') {
                 poifileUrl = window.URL.createObjectURL(poi_f);
-            }
-        } else if(poaBack) {
-            if(typeof poa_b === 'object') {
-                poafileUrl = window.URL.createObjectURL(poa_b);
-            }
-        } else if(!poiBack) {
-            if(typeof poa_f === 'object') {
-                poafileUrl = window.URL.createObjectURL(poa_f);
+            } else if (kycDetails.hasOwnProperty("poi_f_url") && !!kycDetails.poi_f_url) {
+                poifileUrl = kycDetails.poi_f_url;
+                poiStatus = kycDetails.poi_status;
             }
         }
+        if (poaBack) {
+            if (typeof poa_b === 'object') {
+                poafileUrl = window.URL.createObjectURL(poa_b);
+            } else if (kycDetails.hasOwnProperty("poa_b_url") && !!kycDetails.poa_b_url) {
+                poafileUrl = kycDetails.poa_b_url;
+                poaStatus = kycDetails.poa_status;
+            }
+        } else if (!poaBack) {
+            if (typeof poa_f === 'object') {
+                poafileUrl = window.URL.createObjectURL(poa_f);
+            } else if (kycDetails.hasOwnProperty("poa_f_url") && !!kycDetails.poa_f_url) {
+                poafileUrl = kycDetails.poa_f_url;
+                poaStatus = kycDetails.poa_status;
+            }
+        }
+        console.log("poifileUrl", poifileUrl, poafileUrl);
         return (
             <div className='KYC--container'>
                 {!poiBack ? KYCWrapper(<CustomFileUpload
-                    key={'poi_f'}
+                    key={`poi_f_${poifileUrl}`}
                     parentStyle={fileStyle}
                     id='poi_f'
                     // fileUrl="https://s3.ap-south-1.amazonaws.com//ippacontent/KYC/FILE201910121747276752618904IPPA"
                     fileUrl={poifileUrl}
                     getFiles={getFiles}
-                />, 'Your PAN Card', 'poi_f')
-                : KYCWrapper(<CustomFileUpload
-                    key={'poi_b'}
-                    parentStyle={fileStyle}
-                    id='poi_b'
-                    fileUrl={poifileUrl}
-                    getFiles={getFiles}
-                />, 'Your PAN Card', 'poi_b')
+                />, 'Your PAN Card', 'poi_f', poiStatus)
+                    : KYCWrapper(<CustomFileUpload
+                        key={`poi_b_${poifileUrl}`}
+                        parentStyle={fileStyle}
+                        id='poi_b'
+                        fileUrl={poifileUrl}
+                        getFiles={getFiles}
+                    />, 'Your PAN Card', 'poi_b', poiStatus)
                 }
                 {!poaBack ? KYCWrapper(<CustomFileUpload
-                    key={'poa_f'}
+                    key={`poa_f_${poafileUrl}`}
                     parentStyle={fileStyle}
                     id='poa_f'
                     fileUrl={poafileUrl}
                     getFiles={getFiles}
-                />, 'Your Address Proof', 'poa_f')
-                : KYCWrapper(<CustomFileUpload
-                    key={'poa_b'}
-                    parentStyle={fileStyle}
-                    id='poa_b'
-                    fileUrl={poafileUrl}
-                    getFiles={getFiles}
-                />, 'Your Address Proof', 'poa_b')
-            }
+                />, 'Your Address Proof', 'poa_f', poaStatus)
+                    : KYCWrapper(<CustomFileUpload
+                        key={`poa_b_${poafileUrl}`}
+                        parentStyle={fileStyle}
+                        id='poa_b'
+                        fileUrl={poafileUrl}
+                        getFiles={getFiles}
+                    />, 'Your Address Proof', 'poa_b', poaStatus)
+                }
             </div>
         );
     }
@@ -288,7 +375,7 @@ function BankDetails(props) {
             />
         </>
     );
-    console.log(files);
+    // console.log(files);
     return (
         <>
             {cardWrapper('Bank Details', accountDetails())}

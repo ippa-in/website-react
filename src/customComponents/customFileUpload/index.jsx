@@ -52,9 +52,6 @@ const CustomFileUpload = (props) => {
         if (Object.values(newFiles).length) {
             const url = window.URL.createObjectURL(newFiles[0]);
             setState({ ...state, file: url });
-            // const data = new FormData();
-            // data.append(props.id, newFiles[0]);
-            // props.uploadFiles({ fileData: true, data });
             props.getFiles(newFiles[0], props.id);
         }
     }

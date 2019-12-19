@@ -19,7 +19,7 @@ function* signIn(action) {
         localStorage.setItem('playerID', playerID);
         localStorage.setItem('playerToken', playerToken);
         yield put(getUserInfo());
-        if(!action.fromPage === 'signUp') {
+        if(!(action.fromPage === 'signUp')) {
             yield put(push('/'));
         }
     } catch (reason) {

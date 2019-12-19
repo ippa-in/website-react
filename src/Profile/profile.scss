@@ -313,11 +313,16 @@
 }
 
 .KYC--wrapper > header {
+  @include d-flex(center, space-between);
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.12px;
   color: #242247;
   margin-bottom: 20px;
+}
+
+.KYC--wrapper > header > span:last-child {
+  @include d-flex(center);
 }
 
 .KYC-upload--wrapper {

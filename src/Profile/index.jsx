@@ -18,7 +18,7 @@ class Profile extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 0,
+            selectedTab: 1,
             tabWidth: 0,
             tabLeft: 0
         }

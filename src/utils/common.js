@@ -1,4 +1,5 @@
 export function getFormattedDate(date) {
+    if(!date) return;
     var tempDate = new Date(date);
     var month = (tempDate.getMonth() + 1) || '00';
     var day = tempDate.getDate() || '00';

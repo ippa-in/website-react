@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// const BASEURL = `http://35.154.161.226:80/`;
+const BASEURL = `http://35.154.161.226:80/`;
 
-const BASEURL = 'http://192.168.0.102:9005/';
+// const BASEURL = 'http://192.168.0.102:9005/';
 
 const makeAPIUrl = (url) => `${BASEURL}${url}`;
 
@@ -34,11 +34,13 @@ methods.forEach((method) => {
       }
       return axios[verb](makeAPIUrl(url), formData)
         .then(response => response);
-    } if (verb === 'put') {
+    }
+     if (verb === 'put') {
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
       return axios[verb](makeAPIUrl(url), options, !!playerID && { headers })
         .then(response => response);
-    } else {
+    } 
+    else {
       const { fileData, ...rest } = options;
       let formData;
       if (fileData) {

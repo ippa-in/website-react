@@ -125,3 +125,7 @@ export default function TransactionHistory(props) {
         </Paper>
     );
 }
+
+TransactionHistory.defaultProps = {
+    allTransactions: [],   
+}

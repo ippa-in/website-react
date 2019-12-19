@@ -38,7 +38,7 @@ function CustomDropDown(props) {
     const { label, menuList } = props;
     return (
         <>
-            <label className='inputField--label'>{label}</label>
+            {label.length > 0 && <label className='inputField--label'>{label}</label>}
             <FormControl variant="outlined" className={classes.formControl}>
                 <Select
                     value={values.value}

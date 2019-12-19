@@ -352,7 +352,7 @@ class UserAccount extends React.PureComponent {
     handleFavHandSubmit = () => {
         const { selectedCards } = this.state;
         const data = {
-            favourite_hands: selectedCards
+            favourite_hands: selectedCards.join()
         };
         this.props.updateUserInfo(data);
         this.setDialogOpen('favoriteHandDialogOpen', false);
@@ -440,12 +440,12 @@ class UserAccount extends React.PureComponent {
 
 UserAccount.defaultProps = {
     userInfo: {},
-    redeemPoints: () => {},
-    getNetwork: () => {},
-    tagNetwork: () => {},
     networkList: [],
-    getTaggedNetworkList: () => {},
     taggedNetworks: [],
+    getNetwork: () => {},
+    redeemPoints: () => {},
+    tagNetwork: () => {},
+    getTaggedNetworkList: () => {},
     updateUserInfo: () => {},
     addAchievement: () => {}
 };
