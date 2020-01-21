@@ -23,22 +23,26 @@ export default class App extends React.PureComponent {
   // }
 
   render() {
-    return (
-      <div className="App">
-        <Header />
-        <div className='appBody' > 
-         {/* style={{ width: window.screen.width }}> */}
-          <Carousel />
-          <PopularVideos />
-          {/* <OnlinePokerRooms /> */}
-          {/* <PopularThreads /> */}
-          {/* <PopularArticles /> */}
-          {/* <Referral /> */}
-          <Footer />
-          {/* <div className="cursor cursor--inner"></div> */}
-          {/* <div className="cursor cursor--outer"></div> */}
+    if (localStorage.getItem("key") === "clinton") {
+      return (
+        <div className="App">
+          <Header />
+          <div className='appBody' >
+            {/* style={{ width: window.screen.width }}> */}
+            <Carousel />
+            <PopularVideos />
+            {/* <OnlinePokerRooms /> */}
+            {/* <PopularThreads /> */}
+            {/* <PopularArticles /> */}
+            {/* <Referral /> */}
+            <Footer />
+            {/* <div className="cursor cursor--inner"></div> */}
+            {/* <div className="cursor cursor--outer"></div> */}
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return(<></>);
+    }
   }
 }

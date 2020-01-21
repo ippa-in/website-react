@@ -1,0 +1,128 @@
+// Admin Container styling begins
+
+.d-flex {
+  display: flex;
+}
+
+.right-page {
+  @extend .d-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.adm-parent {
+  @extend .d-flex;
+  overflow: hidden;
+}
+
+.content-page {
+  flex: 1;
+  background: #fafaff;
+}
+
+.cur-pointer {
+  cursor: pointer;
+}
+
+// Admin Container styling ends
+
+// Left navigation styling begins
+.ln--container {
+  min-width: 240px;
+  height: 100vh;
+  background-image: linear-gradient(to bottom, #353962, #272c49);
+  z-index: 1000;
+}
+
+.ln--container > img {
+  margin: 30px 0px 0px 20px;
+}
+
+.ln-options {
+  margin: 0;
+  padding: 0;
+  margin-top: 60px;
+  padding-bottom: 30px;
+  list-style: none;
+  overflow: auto;
+  max-height: calc(100vh - 110px);
+}
+
+.ln-options > a {
+  padding: 20px;
+  border-left: 4px solid transparent;
+  text-decoration: none;
+  color: inherit;
+  display: list-item;
+
+  &:hover {
+    background-color: #0000001a;
+  }
+  &.selected {
+    border-left: 4px solid #f32c4c;
+    background-color: #0000001a;
+  }
+  & > img {
+    margin-right: 15px;
+  }
+}
+
+.fa {
+  font-size: 14px;
+  letter-spacing: -0.1px;
+  color: #ffffff;
+}
+
+// Left navigation styling ends
+
+// Header styling starts
+
+.adHeader--container {
+  width: 100%;
+  min-height: 68px;
+  height: 68px;
+  box-shadow: 0 1px 3px 0 rgba(17, 14, 52, 0.1);
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  // overflow: hidden;
+}
+
+.mr-0-20 {
+  margin: 0 20px;
+}
+
+.flyout {
+  transition: all 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  width: 160px;
+  height: 52px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+  border: solid 1px #d0dbe6;
+  background-color: #ffffff;
+  z-index: 11;
+  top: calc(100% - 6px);
+  right: 20px;
+  transform: scale(0);
+  transform-origin: top right;
+  pointer-events: none;
+  position: absolute;
+  font-size: 14px;
+  letter-spacing: -0.1px;
+  color: #242247;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  @extend .cur-pointer;
+  &.open {
+    transform: scale(1);
+    pointer-events: auto;
+    &:hover {
+      background: #f7f6f6;
+    }
+  }
+}
+
+// Header styling ends

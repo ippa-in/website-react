@@ -17,7 +17,7 @@ class SignIn extends React.PureComponent {
         this.state = {
             showCheckMail: false,
             email_id: '',
-            password: ''
+            password: '',
         }
     }
 
@@ -25,7 +25,7 @@ class SignIn extends React.PureComponent {
         this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleSignIn = () => {
+    handleSignIn = (isAdmin = false) => {
         const { email_id, password } = this.state;
 
         if (!email_id) {
@@ -40,7 +40,7 @@ class SignIn extends React.PureComponent {
             return;
         }
 
-        let data = { email_id, password };
+        let data = { email_id, password, isAdmin };
 
         this.props.signIn(data);
     }
@@ -85,24 +85,37 @@ class SignIn extends React.PureComponent {
                 </>
             )
         }
+        if (query === '/ippa-admin') {
+            return (
+                <>
+                    <h2 className='signIn-header'>Sign in to admin dashboard</h2>
+                    <p className='signIn--content'>
+                        Hope you’ve been well, hopefully you’re signing in to learn something in the poker tutorials.
+                    </p>
+                </>
+            )
+        }
     }
 
-    renderSignIn = () => {
+    renderSignIn = (showSocialLogin = true) => {
         return (
             <>
-                <div className='socialLogin--container'>
-                    <div className='socialLogin'>
-                        <img src='/images/facebook-signin.svg' alt='facebook-logo' />
-                        Sign in with Facebook
+                {showSocialLogin &&
+                    <>
+                        <div className='socialLogin--container'>
+                            <div className='socialLogin'>
+                                <img src='/images/facebook-signin.svg' alt='facebook-logo' />
+                                Sign in with Facebook
                     </div>
-                    <div className='socialLogin'>
-                        <img src='/images/gmail-logo.svg' alt='gmail-logo' />
-                        Sign in with Gmail
+                            <div className='socialLogin'>
+                                <img src='/images/gmail-logo.svg' alt='gmail-logo' />
+                                Sign in with Gmail
                     </div>
-                </div>
-                <div className='signIn-divider'>
-                    <span>Or</span>
-                </div>
+                        </div>
+                        <div className='signIn-divider'>
+                            <span>Or</span>
+                        </div>
+                    </>}
                 <InputField
                     name='email_id'
                     label='Your email'
@@ -114,14 +127,14 @@ class SignIn extends React.PureComponent {
                     label='Password'
                     type='password'
                     hintText='something secure.'
-                    showForgotPassword={true}
+                    showForgotPassword={showSocialLogin}
                     onChange={this.handleOnInputChange}
                 />
                 <CustomButton
                     style={{ marginTop: 15 }}
                     label={'Sign In'}
                     isPrimary={true}
-                    onClick={this.handleSignIn}
+                    onClick={() => this.handleSignIn(!showSocialLogin)}
                 />
             </>
         );
@@ -201,6 +214,9 @@ class SignIn extends React.PureComponent {
         }
         if (query === '/frgt-pass') {
             return this.renderForgotPassword();
+        }
+        if (query === '/ippa-admin') {
+            return this.renderSignIn(false);
         }
     }
 
