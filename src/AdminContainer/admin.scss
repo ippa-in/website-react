@@ -8,20 +8,27 @@
   @extend .d-flex;
   flex-direction: column;
   width: 100%;
+  // margin-left: 240px;
 }
 
 .adm-parent {
   @extend .d-flex;
   overflow: hidden;
+  height: 100vh;
 }
 
 .content-page {
   flex: 1;
   background: #fafaff;
+  overflow: auto;
 }
 
 .cur-pointer {
   cursor: pointer;
+}
+
+.transition {
+  transition: all 200ms ease-in-out !important;
 }
 
 // Admin Container styling ends
@@ -32,6 +39,7 @@
   height: 100vh;
   background-image: linear-gradient(to bottom, #353962, #272c49);
   z-index: 1000;
+  // position: fixed;
 }
 
 .ln--container > img {
@@ -48,12 +56,44 @@
   max-height: calc(100vh - 110px);
 }
 
-.ln-options > a {
+.uploads--nav {
+  align-items: flex-start !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  border-left: 4px solid transparent;
+  background-color: #0000001a;
+  opacity: 0;
+  max-height: 0;
+  visibility: hidden;
+  &.show {
+    opacity: 1;
+    max-height: 100%;
+    visibility: visible;
+  }
+  & > li {
+    color: inherit;
+    text-decoration: none;
+    padding: 20px;
+    padding-left: 50px;
+    border-left: 4px solid transparent;
+    width: 100%;
+  }
+  & > li.selected {
+    border-left: 4px solid #f32c4c;
+    background-color: #0000001a;
+  }
+  & > li:hover {
+    background-color: #0000001a;
+  }
+}
+
+.ln-options > li {
   padding: 20px;
   border-left: 4px solid transparent;
   text-decoration: none;
   color: inherit;
-  display: list-item;
+  display: flex;
+  align-items: center;
 
   &:hover {
     background-color: #0000001a;
@@ -63,6 +103,30 @@
     background-color: #0000001a;
   }
   & > img {
+    margin-right: 15px;
+  }
+}
+
+.ln-options .nested {
+  padding: 20px;
+  border-left: 4px solid transparent;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 300ms ease-in-out;
+
+  &:hover {
+    background-color: #0000001a;
+  }
+  &.open {
+    background-color: #0000001a;
+  }
+  & > div {
+    display: flex;
+  }
+  & > div > img {
     margin-right: 15px;
   }
 }
@@ -126,3 +190,146 @@
 }
 
 // Header styling ends
+
+// upload dashboard styling starts
+
+.uplDashboard--container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.adm-add-new {
+  min-height: 200px;
+  height: 100%;
+  border-radius: 8px;
+  border: dashed 1px #d0dbe6;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  color: #f32c4c;
+  cursor: pointer;
+  & > div {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #d0dbe6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  & > span {
+    margin-top: 10px;
+  }
+}
+
+.uploadDashboard--body {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 48px 88px;
+  & > div:first-child {
+    width: 50%;
+    margin-right: 30px;
+  }
+}
+
+.view--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  border-radius: 6px;
+  border: solid 1px #eae8f2;
+  padding: 20px 18px;
+  color: #242247;
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    & #topBar {
+      display: flex;
+      align-items: center;
+    }
+    & #ellipsis {
+      width: 5px;
+      height: 5px;
+      background-color: #242247;
+      border-radius: 50%;
+    }
+  }
+  & #img {
+    width: 100%;
+    max-height: 220px;
+    border-radius: 6px;
+    overflow: hidden;
+    & > img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      max-height: 220px;
+    }
+  }
+  & > label {
+    margin: 0;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.09px;
+    color: #242247;
+  }
+  & > p {
+    margin: 0;
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.67;
+    letter-spacing: -0.09px;
+    color: #242247;
+  }
+}
+
+.showMore {
+  transition: all 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  width: 100px;
+  height: 80px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.08);
+  border: solid 1px #d0dbe6;
+  background-color: #ffffff;
+  z-index: 11;
+  top: 25px;
+  right: 0px;
+  transform: scale(0);
+  transform-origin: top right;
+  pointer-events: none;
+  position: absolute;
+  font-size: 14px;
+  letter-spacing: -0.1px;
+  color: #242247;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 8px 0;
+  margin: 0;
+  list-style: none;
+  @extend .cur-pointer;
+  &.open {
+    transform: scale(1);
+    pointer-events: auto;
+    & > li {
+      display: list-item;
+      width: 100%;
+      padding: 8px 16px;
+    }
+    & > li:hover {
+      background: #f7f6f6;
+    }
+  }
+}
+
+// upload dashboard styling ends

@@ -31,3 +31,17 @@ export const addBankAccount = (data) => post('transaction/v1/bank_account/', dat
 export const getBankDetails = () => get('transaction/v1/bank_account/');
 
 export const getAllTransactions = (data) => get('transaction/v1/redeem_points/', data);
+
+export const getNavigationBarData = () => get('content/v1/navigation_bar/');
+
+export const getFilterData = (data) => get('filter/v1/search_fields/', data);
+
+export const getContainerData = (data) => get('filter/v1/filter/', data);
+
+export const addCarouselData = (data) => post('content/v1/dashboard_image/', data);
+
+export const getCarouselData = () => get('content/v1/dashboard_image/');
+
+export const updateCarouselData = (data) => post('content/v1/update_dashboard_image/', data);
+
+export const deleteSwapCarouselData = (data) => put('content/v1/dashboard_image/', data);

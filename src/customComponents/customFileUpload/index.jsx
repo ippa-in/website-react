@@ -5,86 +5,87 @@ import PropTypes from "prop-types";
 import "./customFileUpload.scss";
 import CloseIcon from '@material-ui/icons/Close';
 
-// componentDidMount() {
-//     const dropzoneId = "drop_zone";
-//     ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-//         document.addEventListener(
-//             eventName,
-//             e => {
-//                 if (e.target.id !== dropzoneId) {
-//                     e.preventDefault();
-//                     e.dataTransfer.effectAllowed = "none";
-//                     e.dataTransfer.dropEffect = "none";
-//                 }
-//             },
-//             false,
-//         );
-//     });
-// }
+class CustomFileUpload extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            file: props.fileUrl,
+            dragOverLay: false,
+        };
+    }
 
-// componentWillUnmount() {
-//     const dropzoneId = "drop_zone";
-//     ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-//         document.removeEventListener(
-//             eventName,
-//             e => {
-//                 if (e.target.id !== dropzoneId) {
-//                     e.preventDefault();
-//                     e.dataTransfer.effectAllowed = "none";
-//                     e.dataTransfer.dropEffect = "none";
-//                 }
-//             },
-//             false,
-//         );
-//     });
-// }
+    componentDidMount() {
+        console.log("iahfsfk", this.props.fileUrl);
+        const dropzoneId = "drop_zone";
+        ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+            document.addEventListener(
+                eventName,
+                e => {
+                    if (e.target.id !== dropzoneId) {
+                        e.preventDefault();
+                        e.dataTransfer.effectAllowed = "none";
+                        e.dataTransfer.dropEffect = "none";
+                    }
+                },
+                false,
+            );
+        });
+    }
 
-const CustomFileUpload = (props) => {
+    componentWillUnmount() {
+        console.log("unmounted");
+        const dropzoneId = "drop_zone";
+        ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+            document.removeEventListener(
+                eventName,
+                e => {
+                    if (e.target.id !== dropzoneId) {
+                        e.preventDefault();
+                        e.dataTransfer.effectAllowed = "none";
+                        e.dataTransfer.dropEffect = "none";
+                    }
+                },
+                false,
+            );
+        });
+    }
 
-    const [state, setState] = React.useState({
-        file: props.fileUrl,
-        dragOverLay: false,
-    });
-
-    const handleFileUpload = (event) => {
+    handleFileUpload = (event) => {
         // let newFiles = document.getElementById('drop_zone').files;
         const newFiles = event.target.files || {};
         if (Object.values(newFiles).length) {
             const url = window.URL.createObjectURL(newFiles[0]);
-            setState({ ...state, file: url });
-            props.getFiles(newFiles[0], props.id);
+            this.setState({ ...this.state, file: url });
+            this.props.getFiles(newFiles[0], this.props.id);
         }
     }
 
-    const handleDrop = (event) => {
+    handleDrop = (event) => {
         event.stopPropagation();
-        setState({
-            ...state,
+        this.setState({
             dragOverLay: false,
         });
     };
 
-    const handleDragEnter = (event) => {
+    handleDragEnter = (event) => {
         // Prevent default behavior (Prevent file from being opened)
         event.preventDefault();
-        !state.dragOverLay &&
-            setState({
-                ...state,
+        !this.state.dragOverLay &&
+            this.setState({
                 dragOverLay: true,
             });
     };
 
-    const handleDragLeave = (event) => {
+    handleDragLeave = (event) => {
         // Prevent default behavior (Prevent file from being opened)
         event.preventDefault();
-        state.dragOverLay &&
-            setState({
-                ...state,
+        this.state.dragOverLay &&
+            this.setState({
                 dragOverLay: false,
             });
     };
 
-    const getFileUploadClassName = (dragOverLay, highlightFileUploadError) => {
+    getFileUploadClassName = (dragOverLay, highlightFileUploadError) => {
         let className = "";
         if (dragOverLay) {
             className = "fileUpload--wrapper dropFile";
@@ -97,65 +98,68 @@ const CustomFileUpload = (props) => {
         return className;
     };
 
-    const deleteAttachement = () => {
-        setState({ file: '' });
-        props.getFiles('', props.id);
+    deleteAttachement = () => {
+        this.setState({ file: '' });
+        this.props.getFiles('', this.props.id);
     };
 
-    const attachmentUIHelperFunction = (component, file) => (
+    attachmentUIHelperFunction = (component) => (
         <div className="file-parent">
             {component}
             <div className="deleteIcon">
                 <CloseIcon
                     style={{ cursor: 'pointer' }}
-                    onClick={deleteAttachement}
+                    onClick={this.deleteAttachement}
                 />
             </div>
         </div>
     );
 
-    const { file, dragOverLay } = state;
-
-    return (file.length ? (
-        <div className="fileUpload--wrapper uploaded" style={props.parentStyle}>
-            {attachmentUIHelperFunction(<img src={file} className="uploadedFile" alt="Uploaded File" />,
-                file
-            )}
-        </div>
-    ) : (
-            <div
-                className={getFileUploadClassName(dragOverLay)}
-                style={props.parentStyle}
-            >
-                {dragOverLay ? (
-                    <div className="drop-here">Drop here</div>
-                ) : (
-                        <div className="uploadFile">
-                            <img
-                                src="./images/attach-icon.svg"
-                                alt="attach icon"
-                            />
-                            <div>Click here to attach</div>
-                        </div>
-                    )}
-                <input
-                    className="uploadFile--input"
-                    type="file"
-                    id="drop_zone"
-                    accept="image/*"
-                    multiple={false}
-                    onChange={(event) => handleFileUpload(event, props)}
-                    onDrop={(event) => handleDrop(event, state, setState)}
-                    onDragOver={(event) => handleDragEnter(event, state, setState)}
-                    onDragLeave={(event) => handleDragLeave(event, state, setState)}
-                />
+    render() {
+        const { file, dragOverLay } = this.state;
+        const { parentStyle, image, text } = this.props;
+        console.log("file", file);
+        return (file.length ? (
+            <div className="fileUpload--wrapper uploaded" style={parentStyle}>
+                {this.attachmentUIHelperFunction(<img src={file} className="uploadedFile" alt="Uploaded File" />)}
             </div>
+        ) : (
+                <div
+                    className={this.getFileUploadClassName(dragOverLay)}
+                    style={parentStyle}
+                >
+                    {dragOverLay ? (
+                        <div className="drop-here">Drop here</div>
+                    ) : (
+                            <div className="uploadFile">
+                                <img
+                                    src={image}
+                                    alt="attach icon"
+                                />
+                                <div>{text}</div>
+                            </div>
+                        )}
+                    <input
+                        className="uploadFile--input"
+                        type="file"
+                        id="drop_zone"
+                        accept="image/*"
+                        multiple={false}
+                        onChange={this.handleFileUpload}
+                        onDrop={this.handleDrop}
+                        onDragOver={this.handleDragEnter}
+                        onDragLeave={this.handleDragLeave}
+                    />
+                </div>
+            )
         )
-    )
+    }
 }
 
 CustomFileUpload.propTypes = {
     fileUrl: PropTypes.string,
+    text: PropTypes.string,
+    image: PropTypes.string,
     required: PropTypes.bool,
     parentStyle: PropTypes.object,
     getFiles: PropTypes.func,
@@ -163,6 +167,8 @@ CustomFileUpload.propTypes = {
 
 CustomFileUpload.defaultProps = {
     fileUrl: "",
+    text: "Click here to attach",
+    image: "/images/attach-icon.svg",
     required: false,
     parentStyle: {},
     getFiles: () => { },

@@ -1,16 +1,9 @@
 import React from 'react';
 import './admin.scss';
-// import {
-//     BrowserRouter as Router,
-//     Switch,
-//     Route,
-//     Link,
-//     useParams,
-//     useRouteMatch
-// } from "react-router-dom";
 import LeftNavigation from './leftNavigation';
-import Header from './header';
+import Header from './header.jsx';
 import Dashboard from './Dashboard';
+import UploadDashboard from './uploadDashboard';
 
 import _ from "lodash";
 
@@ -22,13 +15,14 @@ class AdminContainer extends React.PureComponent {
 
     renderContent() {
         switch(this.page) {
-            case 'login': return 'If nigga is already logged in then redirect him to dashboard else show login page.';
+            case 'login': return 'If user is already logged in then redirect him to dashboard else show login page.';
             case 'dashboard': return <Dashboard />;
             case 'approvals': return 'approvals';
-            case 'uploads': return 'uploads';
+            case 'points': return 'points';
+            case 'dashboard_images': return <UploadDashboard />;
             case 'users': return 'users';
-            case 'transactions': return 'transactions history';
-            default: return "fuck you!"
+            case 'transaction_history': return 'transactions history';
+            default: return "Congrats!"
         }
     }
 

@@ -35,11 +35,13 @@ function Header(props) {
     return (
         <div className="adHeader--container">
             <div></div>
-            <div className="d-flex" ref={setWrapperRef} onClick={() => setflyOutOpen(!flyOutOpen)}>
+            <div className="d-flex" ref={setWrapperRef}>
                 <img className="mr-0-20 cur-pointer" src='/images/search-icon.svg' alt='search' />
                 <img className="mr-0-20 cur-pointer" src='/images/notification-icon.svg' alt='notification' />
                 <div style={{ position: 'relative' }}>
-                    <div className='tabs d-flex align-center cur-pointer' style={{ padding: "14px 20px" }}>
+                    <div className='tabs d-flex align-center cur-pointer'
+                        style={{ padding: "14px 20px" }}
+                        onClick={() => setflyOutOpen(!flyOutOpen)}>
                         <img className='loggedInUser' src='/images/user_icon.png' alt='user_icon' />
                         {(userInfo.hasOwnProperty("name") && userInfo.name) || 'batman'} <ExpandMoreIcon />
                     </div>

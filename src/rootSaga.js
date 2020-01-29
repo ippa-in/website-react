@@ -3,6 +3,7 @@ import { all, spawn, call } from "redux-saga/effects";
 import signUpWatcher from './SignUp/sagas';
 import signInWatcher from './SignIn/sagas';
 import userProfileWatcher from './Profile/sagas';
+import AdminWatcher from './AdminContainer/sagas';
 
 /* This strategy maps our child sagas to spawned generators (detaching them from the root parent)
 which start our sagas as subtasks in a try block. Our saga will run until termination, and then be
@@ -14,6 +15,7 @@ export default function* rootSaga() {
         signUpWatcher,
         signInWatcher,
         userProfileWatcher,
+        AdminWatcher
     ];
 
     yield all(

@@ -17,7 +17,7 @@ class Header extends React.PureComponent {
         const pageType = window.location.pathname;
         const { userInfo } = this.props;
         const loginToken = localStorage.getItem('playerID');
-        if (!!loginToken && !['/sign-in', '/sign-up/1', '/sign-up/2', '/frgt-pass', '/reset-pass', '/ippa-admin'].includes(pageType)) {
+        if (!!loginToken && !['/sign-in', '/sign-up/1', '/sign-up/2', '/frgt-pass', '/reset-pass', '/admin'].includes(pageType)) {
             return (
                 <Link className='profile-icon' to='./profile'>
                     <div className={'tabs d-flex align-center'} to='/'>
@@ -42,7 +42,7 @@ class Header extends React.PureComponent {
                 </>
             );
         }
-        if (pageType === '/reset-pass' || pageType === '/ippa-admin') {
+        if (pageType === '/reset-pass' || pageType === '/admin') {
             return <></>;
         }
         return (<>

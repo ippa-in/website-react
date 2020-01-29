@@ -20,7 +20,7 @@ function* signIn(action) {
         localStorage.setItem('playerID', playerID);
         localStorage.setItem('playerToken', playerToken);
         if(isAdmin) {
-            yield put(push('/ippa-admin/dashboard'));
+            yield put(push('/admin/dashboard'));
             return;
         }
         yield put(getUserInfo());

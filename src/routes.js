@@ -15,7 +15,7 @@ const Routes = () => {
             <Route exact path="/" component={App} />
             <Redirect from="/home" to="/" />
             <Route path="/videos" component={Videos} />
-            <Route exact path="/forums" component={Videos} />
+            <Route path="/forums" component={Videos} />
             <Route path="/news" component={Videos} />
             <Route path="/articles" component={Videos} />
             <Route path="/promotions" component={Videos} />
@@ -25,11 +25,9 @@ const Routes = () => {
             <Route path="/sign-up/:step" component={SignUp} />
             <Redirect from="/sign-up" to="/sign-up/1" />
             <Route path="/profile" component={Profile} />
-            <Route path="/ippa-admin/:page" component={AdminContainer} />
-            {/* <Redirect from="/ippa-admin/" to="/ippa-admin/login" /> */}
-            {/* <Route path="/ippa-admin/login" component={SignIn} /> */}
-            {/* <Route path="/ippa-admin/dashboard" component={AdminContainer} /> */}
-            {/* </Route> */}
+            <Route path="/admin/:page" component={AdminContainer} />
+            <Redirect from="/admin" to="/admin/login" />
+            {/* <Route path="/admin/upload" component={AdminContainer} /> */}
             <Route path="*" component={NotFoundPage} />
         </Switch>
     );

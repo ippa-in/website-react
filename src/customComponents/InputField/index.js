@@ -19,7 +19,7 @@ export default class InputField extends React.PureComponent {
                     style={inputStyle}
                     name={name}
                     className={'inputField'}
-                    // value={value}
+                    value={value}
                     // ref={inputRef}
                     // autoFocus={autoFocus ? true : false}
                     onChange={onChange}
@@ -56,7 +56,7 @@ InputField.defaultProps = {
     showForgotPassword: false,
     label: '',
     name: '',
-    value: '',
+    // value: '',
     hintText: '',
     errorText: '',
     type: 'text',
