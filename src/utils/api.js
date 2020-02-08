@@ -35,11 +35,31 @@ methods.forEach((method) => {
       return axios[verb](makeAPIUrl(url), formData)
         .then(response => response);
     }
-    //  if (verb === 'put') {
-    //   headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    //   return axios[verb](makeAPIUrl(url), options, !!playerID && { headers })
-    //     .then(response => response);
-    // } 
+    if (verb === 'put') {
+      var query = "";
+      for (const key in options) {
+        if (query !== "") {
+          query += "&";
+        }
+        query += key + "=" + encodeURIComponent(options[key]);
+      }
+      return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("PUT", makeAPIUrl(url));
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        if (playerID) xhr.setRequestHeader("PLAYER-ID", playerID);
+        if (playerToken) xhr.setRequestHeader("PLAYER-TOKEN", playerToken);
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            resolve(JSON.parse(xhr.response));
+          } else {
+            reject(xhr.statusText);
+          }
+        };
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send(query);
+      });
+    }
     else {
       const { fileData, ...rest } = options;
       let formData;

@@ -13,7 +13,7 @@ class LeftNavigation extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            selected: '',
+            selected: props.page || '',
             open: false,
         };
     }
@@ -31,13 +31,16 @@ class LeftNavigation extends React.PureComponent {
         };
         this.props.getFilterData({ display_name: segmentData.content_type });
         this.props.getContainerData(data);
-        this.setState({ selected: event.target.id }, () => this.props.push(`/admin/${this.state.selected}`));
+        const url = event.target.id;
+        const selected = url.split("/").length === 2 ? url.split("/")[1] : url.split("/")[0];
+        this.setState({ selected }, () => this.props.push(`/admin/${url}`));
     };
 
     render() {
-        const { navigationData, page } = this.props;
+        const { navigationData } = this.props;
         const { open, selected } = this.state;
-        console.log("navigationData", navigationData);
+        // console.log("navigationData", navigationData);
+        console.log("subSegment.name.replace", selected);
         return (
             <div className='ln--container'>
                 <img src="/images/ippa-logo-white.svg" alt='ippa-logo' />
@@ -59,11 +62,11 @@ class LeftNavigation extends React.PureComponent {
                                         />
                                     </div>
                                     <div className={open ? "uploads--nav show" : "uploads--nav"}>
-                                        {data.sub_segment.map(subSegment =>
+                                        {data.sub_segment.map(subSegment => 
                                             <li
                                                 key={subSegment.name}
                                                 className={subSegment.name.replace(" ", "_").toLowerCase() === selected ? "selected" : ''}
-                                                id={subSegment.name.replace(" ", "_").toLowerCase()}
+                                                id={`uploads/${subSegment.name.replace(" ", "_").toLowerCase()}`}
                                                 onClick={(event) => this.handleItemClick(event, subSegment)}
                                             >
                                                 {subSegment.name}

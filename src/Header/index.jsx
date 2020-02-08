@@ -17,12 +17,12 @@ class Header extends React.PureComponent {
         const pageType = window.location.pathname;
         const { userInfo } = this.props;
         const loginToken = localStorage.getItem('playerID');
-        if (!!loginToken && !['/sign-in', '/sign-up/1', '/sign-up/2', '/frgt-pass', '/reset-pass', '/admin'].includes(pageType)) {
+        if (loginToken && !['/sign-in', '/sign-up/1', '/sign-up/2', '/frgt-pass', '/reset-pass', '/admin'].includes(pageType)) {
             return (
                 <Link className='profile-icon' to='./profile'>
                     <div className={'tabs d-flex align-center'} to='/'>
                     <img className='loggedInUser' src='/images/user_icon.png' alt='user_icon' />
-                    {userInfo.hasOwnProperty("name") && userInfo.name || ''} <ExpandMoreIcon /></div>
+                    {(userInfo.hasOwnProperty("name") && userInfo.name) || ''} <ExpandMoreIcon /></div>
                 </Link>
             );
         }

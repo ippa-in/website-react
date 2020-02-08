@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import './admin.scss';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CustomButton from '../customComponents/CustomButton';
 
 function Header(props) {
     const { userInfo } = props;
@@ -34,7 +35,14 @@ function Header(props) {
 
     return (
         <div className="adHeader--container">
-            <div></div>
+            <div>
+                <CustomButton
+                    style={{ marginLeft: 20 }}
+                    label={'Points'}
+                    isPrimary={true}
+                // onClick={() => this.handleSignIn(!showSocialLogin)}
+                />
+            </div>
             <div className="d-flex" ref={setWrapperRef}>
                 <img className="mr-0-20 cur-pointer" src='/images/search-icon.svg' alt='search' />
                 <img className="mr-0-20 cur-pointer" src='/images/notification-icon.svg' alt='notification' />

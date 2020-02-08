@@ -25,7 +25,8 @@ const Routes = () => {
             <Route path="/sign-up/:step" component={SignUp} />
             <Redirect from="/sign-up" to="/sign-up/1" />
             <Route path="/profile" component={Profile} />
-            <Route path="/admin/:page" component={AdminContainer} />
+            <Route exact path="/admin/:page" component={AdminContainer} />
+            <Route path="/admin/:page/:section" component={AdminContainer} />
             <Redirect from="/admin" to="/admin/login" />
             {/* <Route path="/admin/upload" component={AdminContainer} /> */}
             <Route path="*" component={NotFoundPage} />
