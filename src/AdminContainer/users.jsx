@@ -6,7 +6,7 @@ import CustomTable from '../customComponents/customTable';
 import CustomDropDown from '../customComponents/customDropDown';
 import { getContainerData } from './actions';
 
-class Transactions extends React.PureComponent {
+class Users extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -92,4 +92,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Transactions);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

@@ -33,15 +33,20 @@ function Header(props) {
         sessionStorage.clear();
     }
 
+    // const handlePointsDialog = (event, value) => {
+    //     // props.handlePointsDialog(value);
+    // }
+
+// console.log('sddad',props);
     return (
         <div className="adHeader--container">
-            <div>
+            <div>{props.page === 'points' &&
                 <CustomButton
                     style={{ marginLeft: 20 }}
                     label={'Points'}
                     isPrimary={true}
-                // onClick={() => this.handleSignIn(!showSocialLogin)}
-                />
+                    onClick={() => props.togglePointsDialog()}
+                />}
             </div>
             <div className="d-flex" ref={setWrapperRef}>
                 <img className="mr-0-20 cur-pointer" src='/images/search-icon.svg' alt='search' />

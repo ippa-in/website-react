@@ -202,7 +202,6 @@ function UploadDashBoard(props) {
 
 function mapStateToProps(state) {
     const { containerData } = state.AdminReducer;
-    console.log("containerData", containerData);
     return { containerData };
 }
 

@@ -9,34 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
+import _ from 'lodash';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-];
+import { getFormattedDate } from '../utils/common';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -64,19 +39,15 @@ function stableSort(array, comparator) {
     return stabilizedThis.map(el => el[0]);
 }
 
-const headCells = [
-    { id: 'name', label: 'Dessert (100g serving)' },
-    { id: 'calories', label: 'Calories' },
-    { id: 'fat', label: 'Fat (g)' },
-    { id: 'carbs', label: 'Carbs (g)' },
-    { id: 'protein', label: 'Protein (g)' },
-];
-
 function EnhancedTableHead(props) {
     const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = property => event => {
         onRequestSort(event, property);
     };
+
+    const headCells = [
+        ...props.headers.map(data => ({ id: data.display_name, label: data.display_name }))
+    ];
 
     return (
         <TableHead className={classes.tableHead}>
@@ -117,11 +88,8 @@ const useStyles = makeStyles(theme => ({
         overflowX: 'auto',
     },
     tableContainer: {
-        maxHeight: 'calc(85vh)',
+        maxHeight: 'calc(100vh - 170px)',
         overflow: 'auto',
-    },
-    table: {
-        minWidth: 750,
     },
     tableHead: {
         backgroundColor: '#f5f3fd',
@@ -129,20 +97,27 @@ const useStyles = makeStyles(theme => ({
     tableCell: {
         borderRight: '1px solid #eae8f2',
         backgroundColor: '#f5f3fd',
+        fontFamily: 'SF UI Text Regular',
+        fontSize: 12,
+        fontWeight: 600,
     },
     tableCellRows: {
         maxWidth: theme.spacing(10),
         textAlign: "center",
         overflow: 'hidden',
         wordBreak: 'break-word',
+        fontFamily: 'SF UI Text Regular',
+        fontWeight: 'normal',
+        fontSize: 13,
     }
 }));
 
-export default function CustomTable() {
+export default function CustomTable(props) {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('');
     // const [selected, setSelected] = React.useState([]);
+    // const lookupKeys = props.headers.map(data => data.lookup_key);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -150,11 +125,24 @@ export default function CustomTable() {
         setOrderBy(property);
     };
 
+    const getRows = (header, row) => {
+        let data = _.get(row, header.lookup_key, '--');
+        if (data === null || data === '') {
+            data = '--';
+        } else if (typeof data === 'number' || typeof data === 'boolean') {
+            data = `${data}`;
+        }
+        if (header.key_type === 'date') {
+            return getFormattedDate(data);
+        }
+        return data;
+    };
+
+    // console.log(props.headers);
     return (
         <Paper className={classes.paper}>
             <TableContainer className={classes.tableContainer}>
                 <Table
-                    className={classes.table}
                     stickyHeader
                     aria-labelledby="customTable"
                     size='medium'
@@ -165,17 +153,18 @@ export default function CustomTable() {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
+                        headers={props.headers}
                     />
                     <TableBody>
-                        {stableSort(rows, getComparator(order, orderBy))
+                        {stableSort(props.tableData, getComparator(order, orderBy))
                             .map((row, index) => {
                                 //   const isItemSelected = isSelected(row.name);
-                                const labelId = `enhanced-table-checkbox-${index}`;
-
+                                // const labelId = `enhanced-table-checkbox-${index}`;
+                                // console.log("row", row)
                                 return (
                                     <TableRow
                                         hover
-                                        key={row.name}
+                                        key={`${index}`}
                                     //   onClick={event => handleClick(event, row.name)}
                                     //   role="checkbox"
                                     //   aria-checked={isItemSelected}
@@ -191,11 +180,11 @@ export default function CustomTable() {
                                             <TableCell component="th" id={labelId} scope="row" padding="none">
                                                 {row.name}
                                             </TableCell> */}
-                                        <TableCell className={classes.tableCellRows}>{row.name}</TableCell>
-                                        <TableCell className={classes.tableCellRows}>{row.calories}</TableCell>
-                                        <TableCell className={classes.tableCellRows}>{row.fat}</TableCell>
-                                        <TableCell className={classes.tableCellRows}>{row.carbs}</TableCell>
-                                        <TableCell className={classes.tableCellRows}>{row.protein}</TableCell>
+                                        {props.headers.map(header =>
+                                            <TableCell className={classes.tableCellRows} key={header.display_name}>
+                                                {getRows(header, row)}
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                 );
                             })}

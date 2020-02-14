@@ -39,7 +39,7 @@ function CustomDropDown(props) {
     return (
         <>
             {label.length > 0 && <label className='inputField--label'>{label}</label>}
-            <FormControl variant="outlined" className={classes.formControl}>
+            <FormControl variant="outlined" className={[classes.formControl, props.customClassName].join(" ")}>
                 <Select
                     value={values.value}
                     onChange={handleChange}
@@ -59,12 +59,14 @@ function CustomDropDown(props) {
 
 CustomDropDown.propTypes = {
     label: PropTypes.string,
+    customClassName: PropTypes.string,
     menuList: PropTypes.array,
     getDropDownValue: PropTypes.func
 }
 
 CustomDropDown.defaultProps = {
     label: '',
+    customClassName: '',
     menuList: [],
     getDropDownValue: () => { }
 }

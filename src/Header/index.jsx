@@ -62,7 +62,7 @@ class Header extends React.PureComponent {
                     )}
                     </div>}
                 </div>
-                <div className='d-flex'>
+                <div className='h-d-flex'>
                     {this.renderRightTabs()}
                 </div>
             </div>

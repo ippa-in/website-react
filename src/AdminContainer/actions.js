@@ -8,6 +8,11 @@ export const GET_CONTAINER_DATA = 'GET_CONTAINER_DATA';
 export const SET_CONTAINER_DATA = 'SET_CONTAINER_DATA';
 export const GET_FILTER_DATA = 'GET_FILTER_DATA';
 export const SET_FILTER_DATA = 'SET_FILTER_DATA';
+export const GET_POINTS = 'GET_POINTS';
+export const SET_POINTS = 'SET_POINTS';
+export const SUBMIT_POINTS = 'SUBMIT_POINTS';
+export const PREVIEW_POINTS = 'PREVIEW_POINTS';
+export const SET_PREVIEW_POINTS = 'SET_PREVIEW_POINTS';
 
 export const addCarouselData = (payload) => ({ type: ADD_CAROUSEL_DATA, payload });
 
@@ -28,3 +33,13 @@ export const setContainerData = (payload) => ({ type: SET_CONTAINER_DATA, payloa
 export const getFilterData = (payload) => ({ type: GET_FILTER_DATA, payload });
 
 export const setFilterData = (payload) => ({ type: SET_FILTER_DATA, payload });
+
+export const getPoints = (payload) => ({ type: GET_POINTS, payload });
+
+export const setPoints = (payload) => ({ type: SET_POINTS, payload });
+
+export const submitPoints = (payload) => ({ type: SUBMIT_POINTS, payload });
+
+export const previewPoints = (payload) => ({ type: PREVIEW_POINTS, payload });
+
+export const setPreviewPoints = (payload) => ({ type: SET_PREVIEW_POINTS, payload });

@@ -15,7 +15,6 @@ class CustomFileUpload extends React.PureComponent {
     }
 
     componentDidMount() {
-        console.log("iahfsfk", this.props.fileUrl);
         const dropzoneId = "drop_zone";
         ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
             document.addEventListener(
@@ -33,7 +32,6 @@ class CustomFileUpload extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        console.log("unmounted");
         const dropzoneId = "drop_zone";
         ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
             document.removeEventListener(
@@ -117,8 +115,8 @@ class CustomFileUpload extends React.PureComponent {
 
     render() {
         const { file, dragOverLay } = this.state;
-        const { parentStyle, image, text } = this.props;
-        console.log("file", file);
+        const { parentStyle, image, text, fileTypes } = this.props;
+        // console.log("file", file);
         return (file.length ? (
             <div className="fileUpload--wrapper uploaded" style={parentStyle}>
                 {this.attachmentUIHelperFunction(<img src={file} className="uploadedFile" alt="Uploaded File" />)}
@@ -143,7 +141,7 @@ class CustomFileUpload extends React.PureComponent {
                         className="uploadFile--input"
                         type="file"
                         id="drop_zone"
-                        accept="image/*"
+                        accept={fileTypes}
                         multiple={false}
                         onChange={this.handleFileUpload}
                         onDrop={this.handleDrop}
@@ -157,9 +155,10 @@ class CustomFileUpload extends React.PureComponent {
 }
 
 CustomFileUpload.propTypes = {
-    fileUrl: PropTypes.string,
-    text: PropTypes.string,
+    // fileUrl: PropTypes.string,
+    // text: PropTypes.string,
     image: PropTypes.string,
+    fileTypes: PropTypes.string,
     required: PropTypes.bool,
     parentStyle: PropTypes.object,
     getFiles: PropTypes.func,
@@ -169,6 +168,7 @@ CustomFileUpload.defaultProps = {
     fileUrl: "",
     text: "Click here to attach",
     image: "/images/attach-icon.svg",
+    fileTypes: "image/*",
     required: false,
     parentStyle: {},
     getFiles: () => { },

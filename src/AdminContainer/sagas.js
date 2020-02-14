@@ -65,6 +65,32 @@ function* getFilterData(action) {
     }
 }
 
+function* getPoints(action) {
+    try {
+        const response = yield call(Api.getPoints, action.payload);
+        yield put(AdminActions.setPoints(response.data.res_data));
+    } catch(reason) {
+        console.error(reason);
+    }
+}
+
+function* submitPoints(action) {
+    try {
+        yield call(Api.submitPoints, action.payload);
+    } catch(reason) {
+        console.error(reason);
+    }
+}
+
+function* previewPoints(action) {
+    try {
+        const response = yield call(Api.previewPoints, action.payload);
+        yield put(AdminActions.setPreviewPoints(response.data.res_data));
+    } catch(reason) {
+        console.error(reason);
+    }
+}
+
 export default function* Watcher() {
     yield takeLatest(AdminActions.ADD_CAROUSEL_DATA, addCarouselData);
     yield takeLatest(AdminActions.GET_CAROUSEL_DATA, getCarouselData);
@@ -73,4 +99,7 @@ export default function* Watcher() {
     yield takeLatest(AdminActions.GET_NAVIGATION_DATA, getNavigationData);
     yield takeLatest(AdminActions.GET_CONTAINER_DATA, getContainerData);
     yield takeLatest(AdminActions.GET_FILTER_DATA, getFilterData);
+    yield takeLatest(AdminActions.GET_POINTS, getPoints);
+    yield takeLatest(AdminActions.SUBMIT_POINTS, submitPoints);
+    yield takeLatest(AdminActions.PREVIEW_POINTS, previewPoints);
 }

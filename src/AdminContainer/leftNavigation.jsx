@@ -5,7 +5,7 @@ import './admin.scss';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'connected-react-router';
-import { getNavigationBarData, getContainerData, getFilterData } from './actions';
+import { getNavigationBarData, getContainerData, setContainerData, getFilterData } from './actions';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
@@ -23,12 +23,14 @@ class LeftNavigation extends React.PureComponent {
     }
 
     handleItemClick = (event, segmentData) => {
+        this.props.setContainerData([]);
         const data = {
             display_name: segmentData.content_type,
             sort_query: JSON.stringify(segmentData.sort_key),
             ...segmentData.filter_query,
 
         };
+        sessionStorage.setItem("searchContent", JSON.stringify(data));
         this.props.getFilterData({ display_name: segmentData.content_type });
         this.props.getContainerData(data);
         const url = event.target.id;
@@ -39,8 +41,6 @@ class LeftNavigation extends React.PureComponent {
     render() {
         const { navigationData } = this.props;
         const { open, selected } = this.state;
-        // console.log("navigationData", navigationData);
-        console.log("subSegment.name.replace", selected);
         return (
             <div className='ln--container'>
                 <img src="/images/ippa-logo-white.svg" alt='ippa-logo' />
@@ -113,6 +113,7 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getNavigationBarData,
         getContainerData,
+        setContainerData,
         getFilterData,
         push,
     }, dispatch)

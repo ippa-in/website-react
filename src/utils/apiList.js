@@ -45,3 +45,9 @@ export const getCarouselData = () => get('content/v1/dashboard_image/');
 export const updateCarouselData = (data) => post('content/v1/update_dashboard_image/', data);
 
 export const deleteSwapCarouselData = (data) => put('content/v1/dashboard_image/', data);
+
+export const getPoints = (data) => get('content/v1/points/', data);
+
+export const submitPoints = (data) => post('content/v1/points/', data);
+
+export const previewPoints = (data) => post('content/v1/preview_points/', data);
