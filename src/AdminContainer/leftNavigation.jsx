@@ -24,14 +24,19 @@ class LeftNavigation extends React.PureComponent {
 
     handleItemClick = (event, segmentData) => {
         this.props.setContainerData([]);
-        const data = {
-            display_name: segmentData.content_type,
-            sort_query: JSON.stringify(segmentData.sort_key),
-            ...segmentData.filter_query,
+        let segData = segmentData;
+        let data = {};
+        if(!segData.filter_query) {
+            segData = segmentData.tertiary_segment[0];
+        }
+        data = {
+            display_name: segData.content_type,
+            sort_query: JSON.stringify(segData.sort_key),
+            ...segData.filter_query,
 
         };
         sessionStorage.setItem("searchContent", JSON.stringify(data));
-        this.props.getFilterData({ display_name: segmentData.content_type });
+        this.props.getFilterData({ display_name: segData.content_type });
         this.props.getContainerData(data);
         const url = event.target.id;
         const selected = url.split("/").length === 2 ? url.split("/")[1] : url.split("/")[0];
@@ -47,7 +52,10 @@ class LeftNavigation extends React.PureComponent {
                 <ul className="ln-options fa">
                     {navigationData.map(data => {
                         const segmentName = data.segment.toLowerCase();
-                        const path = segmentName.replace(" ", "_").toLowerCase();
+                        let path = segmentName.replace(" ", "_").toLowerCase();
+                        if(segmentName === "approvals") {
+                            path = `approvals/${data.sub_segment[0].tertiary_segment[0].content_type.replace(" ", "_").toLowerCase()}`;
+                        }
                         if (segmentName === "uploads") {
                             return (
                                 <div key={segmentName}>

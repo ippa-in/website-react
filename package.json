@@ -81,6 +81,7 @@
     "workbox-webpack-plugin": "4.2.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "css-loader": "2.1.1",
     "eslint": "^5.16.0",
     "eslint-config-react-app": "^4.0.1",
@@ -158,6 +159,9 @@
   "babel": {
     "presets": [
       "react-app"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-optional-chaining"
     ]
   }
 }

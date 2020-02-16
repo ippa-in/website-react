@@ -9,12 +9,12 @@ import Dashboard from './Dashboard';
 import UploadDashboard from './uploadDashboard';
 import Points from './points';
 import Users from './users';
+import Transactions from './transactions';
+import Approvals from './approvals';
 
 import _ from "lodash";
 
 import { getNavigationBarData, getContainerData, getFilterData } from './actions';
-import Transactions from './transactions';
-import { thisExpression } from '@babel/types';
 
 class AdminContainer extends React.PureComponent {
     constructor(props) {
@@ -35,15 +35,19 @@ class AdminContainer extends React.PureComponent {
             ) || {};
             const subSegmentData = Object.keys(segmentData).length ? segmentData.sub_segment : [];
             let queryData = {};
+            if (!subSegmentData.length) return;
             if (subSegmentData.length === 1) {
                 queryData = { ...subSegmentData[0] }
             } else {
-                queryData = {
-                    ...subSegmentData.find(data =>
-                        data.name.replace(" ", "_").toLowerCase() === nextProps.match.params.section
-                    )
-                };
-
+                if(!subSegmentData[0].filter_query) {
+                    queryData = subSegmentData[0].tertiary_segment[0];
+                } else {
+                    queryData = {
+                        ...subSegmentData.find(data =>
+                            data.name.replace(" ", "_").toLowerCase() === nextProps.match.params.section
+                        )
+                    };
+                }
             }
             const data = {
                 display_name: queryData.content_type,
@@ -62,10 +66,17 @@ class AdminContainer extends React.PureComponent {
     };
 
     renderContent() {
-        switch (this.page) {
+        let pageName = this.page;
+        if(pageName.includes('kyc')) pageName = 'kyc';
+        if(pageName.includes('withdrawls')) pageName = 'withdrawals';
+        if(pageName.includes('bank_info')) pageName = 'bank_info';
+        switch (pageName) {
             case 'login': return 'If user is already logged in then redirect him to dashboard else show login page.';
             case 'dashboard': return <Dashboard />;
-            case 'approvals': return 'approvals';
+            // case 'approvals': return <Approvals />;
+            case 'kyc':
+            case 'withdrawals':
+            case 'bank_info': return <Approvals page={this.page} navigationData={this.props.navigationData}/>;
             case 'points': return <Points
                 openPointsDialog={this.state.openPointsDialog}
                 togglePointsDialog={this.togglePointsDialog}

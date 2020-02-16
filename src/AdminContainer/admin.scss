@@ -339,6 +339,39 @@
 
 // upload points styling starts
 
+.points--Wrapper {
+  @include d-flex(center, space-between);
+  background: #fff;
+  border-radius: 6px;
+  border: solid 1px #eae8f2;
+  font-size: 13px;
+  padding: 14px 20px;
+
+  & > div:first-child {
+    @include d-flex(null, null, column);
+    font-weight: 600;
+    letter-spacing: -0.1px;
+    color: #242247;
+
+    & > span:last-child {
+      letter-spacing: -0.11px;
+      font-weight: normal;
+      color: #9aa2b1;
+      margin-top: 8px;
+    }
+  }
+
+  & > div:last-child {
+    @include d-flex(center);
+    letter-spacing: -0.1px;
+    color: #242247;
+
+    & > span:first-child {
+      margin-right: 60px;
+    }
+  }
+}
+
 .points--container {
   margin-top: 10px;
 }
@@ -410,36 +443,59 @@
 
 // transaction history styling ends
 
+// Approvals styling starts
 
-.points--Wrapper {
-  @include d-flex(center, space-between);
-  background: #fff;
-  border-radius: 6px;
-  border: solid 1px #eae8f2;
-  font-size: 13px;
-  padding: 14px 20px;
-
-  & > div:first-child {
-    @include d-flex(null, null, column);
-    font-weight: 600;
+.approvals-tabs--wrapper {
+  & > div {
+    display: inline-flex;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: solid 1px #eae8f2;
+    border-top: solid 4px #eae8f2;
+    border-bottom: 0;
+    background-color: #fafaff;
+    margin-right: 8px;
+    line-height: 1.54;
     letter-spacing: -0.1px;
     color: #242247;
-
-    & > span:last-child {
-      letter-spacing: -0.11px;
-      font-weight: normal;
-      color: #9aa2b1;
-      margin-top: 8px;
-    }
+    font-size: 13px;
+    cursor: pointer;
   }
-
-  & > div:last-child {
-    @include d-flex(center);
-    letter-spacing: -0.1px;
-    color: #242247;
-
-    & > span:first-child {
-      margin-right: 60px;
-    }
+  & .selected {
+    background-color: #FFF;
+    border-top: 4px solid #f32c4c;
+    border-bottom: 1px solid #fff;
   }
 }
+
+.main-content {
+  width: 100%;
+  height: calc(100vh - 155px);
+  background-color: #fff;
+  border-radius: 6px;
+  border: solid 1px #eae8f2;
+  overflow: hidden;
+}
+
+.filters {
+  padding: 16px 0px;
+  & > span {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 28px;
+    border: solid 1px#eae8f2;
+    background-color: #ffffff;
+    margin-left: 16px;
+    letter-spacing: -0.09px;
+    color: #242247;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  & .selected {
+    border-color: #f32c4c;
+  }
+}
+
+// Approvals styling ends
