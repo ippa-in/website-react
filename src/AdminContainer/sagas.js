@@ -91,6 +91,14 @@ function* previewPoints(action) {
     }
 }
 
+function* tableAction(action) {
+    try {
+        yield call(Api.tableAction, action.payload);
+    } catch(reason) {
+        console.error(reason);
+    }
+}
+
 export default function* Watcher() {
     yield takeLatest(AdminActions.ADD_CAROUSEL_DATA, addCarouselData);
     yield takeLatest(AdminActions.GET_CAROUSEL_DATA, getCarouselData);
@@ -102,4 +110,5 @@ export default function* Watcher() {
     yield takeLatest(AdminActions.GET_POINTS, getPoints);
     yield takeLatest(AdminActions.SUBMIT_POINTS, submitPoints);
     yield takeLatest(AdminActions.PREVIEW_POINTS, previewPoints);
+    yield takeLatest(AdminActions.TABLE_ACTION, tableAction);
 }

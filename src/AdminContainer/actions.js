@@ -13,6 +13,7 @@ export const SET_POINTS = 'SET_POINTS';
 export const SUBMIT_POINTS = 'SUBMIT_POINTS';
 export const PREVIEW_POINTS = 'PREVIEW_POINTS';
 export const SET_PREVIEW_POINTS = 'SET_PREVIEW_POINTS';
+export const TABLE_ACTION = 'TABLE_ACTION';
 
 export const addCarouselData = (payload) => ({ type: ADD_CAROUSEL_DATA, payload });
 
@@ -43,3 +44,5 @@ export const submitPoints = (payload) => ({ type: SUBMIT_POINTS, payload });
 export const previewPoints = (payload) => ({ type: PREVIEW_POINTS, payload });
 
 export const setPreviewPoints = (payload) => ({ type: SET_PREVIEW_POINTS, payload });
+
+export const tableAction = (payload) => ({ type: TABLE_ACTION, payload });

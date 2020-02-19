@@ -39,8 +39,18 @@ class AdminContainer extends React.PureComponent {
             if (subSegmentData.length === 1) {
                 queryData = { ...subSegmentData[0] }
             } else {
-                if(!subSegmentData[0].filter_query) {
-                    queryData = subSegmentData[0].tertiary_segment[0];
+                if (!subSegmentData[0].filter_query) {
+                    let pageSection = nextProps.match.params.section;
+                    if (pageSection) {
+                        let pageName = '';
+                        if (pageSection.includes('kyc')) pageName = 'kyc';
+                        if (pageSection.includes('withdraw')) pageName = 'withdrawals';
+                        if (pageSection.includes('ba')) pageName = 'bank_info';
+                        const tertiarySegment = subSegmentData.find(data => data.name.toLowerCase().includes(pageName))?.tertiary_segment || [];
+                        queryData = tertiarySegment.find(data => data.content_type === pageSection) || {};
+                    } else {
+                        queryData = subSegmentData[0].tertiary_segment[0];
+                    }
                 } else {
                     queryData = {
                         ...subSegmentData.find(data =>
@@ -67,16 +77,15 @@ class AdminContainer extends React.PureComponent {
 
     renderContent() {
         let pageName = this.page;
-        if(pageName.includes('kyc')) pageName = 'kyc';
-        if(pageName.includes('withdrawls')) pageName = 'withdrawals';
-        if(pageName.includes('bank_info')) pageName = 'bank_info';
+        if (pageName.includes('kyc')) pageName = 'kyc';
+        if (pageName.includes('withdraw')) pageName = 'withdrawals';
+        if (pageName.includes('ba')) pageName = 'bank_info';
         switch (pageName) {
             case 'login': return 'If user is already logged in then redirect him to dashboard else show login page.';
             case 'dashboard': return <Dashboard />;
-            // case 'approvals': return <Approvals />;
             case 'kyc':
             case 'withdrawals':
-            case 'bank_info': return <Approvals page={this.page} navigationData={this.props.navigationData}/>;
+            case 'bank_info': return <Approvals page={this.page} navigationData={this.props.navigationData} />;
             case 'points': return <Points
                 openPointsDialog={this.state.openPointsDialog}
                 togglePointsDialog={this.togglePointsDialog}

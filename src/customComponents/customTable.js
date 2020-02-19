@@ -9,7 +9,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import _ from 'lodash';
+
+import CustomDialog from './CustomDialog';
+import InputField from './InputField';
+import CustomButton from './CustomButton';
 
 import { getFormattedDate } from '../utils/common';
 
@@ -52,8 +57,11 @@ function EnhancedTableHead(props) {
     return (
         <TableHead className={classes.tableHead}>
             <TableRow>
-                {headCells.map(headCell => (
-                    <TableCell
+                {headCells.map(headCell => {
+                    if (headCell.id === '') {
+                        return (<TableCell key={'table-action'} className={classes.tableCell} />);
+                    }
+                    return (<TableCell
                         className={classes.tableCell}
                         key={headCell.id}
                         align='center'
@@ -67,8 +75,8 @@ function EnhancedTableHead(props) {
                         >
                             {headCell.label}
                         </TableSortLabel>
-                    </TableCell>
-                ))}
+                    </TableCell>)
+                })}
             </TableRow>
         </TableHead>
     );
@@ -88,7 +96,7 @@ const useStyles = makeStyles(theme => ({
         overflowX: 'auto',
     },
     tableContainer: {
-        maxHeight: 'calc(100vh - 170px)',
+        height: 'calc(100vh - 170px)',
         overflow: 'auto',
     },
     tableHead: {
@@ -98,17 +106,24 @@ const useStyles = makeStyles(theme => ({
         borderRight: '1px solid #eae8f2',
         backgroundColor: '#f5f3fd',
         fontFamily: 'SF UI Text Regular',
+        zIndex: 12,
         fontSize: 12,
         fontWeight: 600,
     },
     tableCellRows: {
-        maxWidth: theme.spacing(10),
+        maxWidth: theme.spacing(20),
         textAlign: "center",
         overflow: 'hidden',
         wordBreak: 'break-word',
         fontFamily: 'SF UI Text Regular',
         fontWeight: 'normal',
         fontSize: 13,
+    },
+    tableActionCell: {
+        position: 'relative',
+        textAlign: 'center',
+        padding: '16px 8px',
+        cursor: 'pointer',
     }
 }));
 
@@ -116,8 +131,9 @@ export default function CustomTable(props) {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('');
-    // const [selected, setSelected] = React.useState([]);
-    // const lookupKeys = props.headers.map(data => data.lookup_key);
+    const [showMoreOptions, setShowMore] = React.useState({});
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [inputFields, setState] = React.useState({});
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -135,10 +151,86 @@ export default function CustomTable(props) {
         if (header.key_type === 'date') {
             return getFormattedDate(data);
         }
+        if (header.key_type === 'list') {
+            return <img src='/images/attachment-icon-unfilled.svg' style={{ cursor: 'pointer' }} alt='img' />
+        }
+        if (header.key_type === 'status') {
+            return (<div className='tableStatus--wrapper'>
+                <div className={`oval ${data.toLowerCase()}`} />
+                <span className={`${data.toLowerCase()}`}>{data}</span>
+            </div>);
+        }
         return data;
     };
 
-    // console.log(props.headers);
+    const showMoreOption = (event, id) => {
+        setShowMore({ ...showMoreOptions, [id]: !showMoreOptions[id] });
+    }
+
+    const declineAction = (type, contentID) => {
+        const params = { type, contentID };
+        sessionStorage.setItem('decParams', JSON.stringify(params));
+        setDialogOpen(true);
+    }
+
+    const handleInputChange = (event) => {
+        setState({ ...inputFields, [event.target.name]: event.target.value });
+    }
+
+    const dialogBody = () => {
+        return (
+            <div>
+                <InputField
+                    name='username'
+                    label='User name'
+                    hintText='Enter the title'
+                    value={inputFields.username || ""}
+                    onChange={handleInputChange}
+                />
+                <InputField
+                    name='comments'
+                    label='Reason to decline'
+                    hintText='Enter the message'
+                    value={inputFields.comments || ""}
+                    onChange={handleInputChange}
+                />
+            </div>
+        );
+    }
+
+    const dialogActions = () => {
+        return (
+            <>
+                <CustomButton
+                    style={{ padding: '12px 18px' }}
+                    label='Cancel'
+                    onClick={() => setDialogOpen(false)}
+                />
+                <CustomButton
+                    style={{ padding: '12px 18px', marginLeft: 20 }}
+                    label='Decline'
+                    isPrimary={true}
+                    onClick={() => {
+                        const params = JSON.parse(sessionStorage.getItem('decParams'));
+                        action(params.type, params.contentID);
+                    }}
+                />
+            </>
+        );
+    };
+
+    const action = (type, contentID) => {
+        const params = {
+            content_id: contentID,
+            content_type: props.contentType,
+            action: type,
+        };
+        if(inputFields.comments) {
+            params['comments'] = inputFields.comments;
+        }
+        props.action(params);
+    }
+
     return (
         <Paper className={classes.paper}>
             <TableContainer className={classes.tableContainer}>
@@ -157,40 +249,42 @@ export default function CustomTable(props) {
                     />
                     <TableBody>
                         {stableSort(props.tableData, getComparator(order, orderBy))
-                            .map((row, index) => {
-                                //   const isItemSelected = isSelected(row.name);
-                                // const labelId = `enhanced-table-checkbox-${index}`;
-                                // console.log("row", row)
-                                return (
-                                    <TableRow
-                                        hover
-                                        key={`${index}`}
-                                    //   onClick={event => handleClick(event, row.name)}
-                                    //   role="checkbox"
-                                    //   aria-checked={isItemSelected}
-                                    //   tabIndex={-1}
-                                    //   selected={isItemSelected}
-                                    >
-                                        {/* <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    checked={isItemSelected}
-                                                    inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            </TableCell>
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.name}
-                                            </TableCell> */}
-                                        {props.headers.map(header =>
-                                            <TableCell className={classes.tableCellRows} key={header.display_name}>
-                                                {getRows(header, row)}
-                                            </TableCell>
-                                        )}
-                                    </TableRow>
-                                );
-                            })}
+                            .map((row, index) =>
+                                <TableRow
+                                    hover
+                                    key={`${index}`}
+                                >
+                                    {props.headers.map(header => {
+                                        if (header.key_type === 'action') {
+                                            return (<TableCell
+                                                key={header.key_type}
+                                                className={classes.tableActionCell}
+                                                onClick={(event) => showMoreOption(event, index)}
+                                            >
+                                                <MoreHorizIcon />
+                                                <ul className={showMoreOptions[index] ? "tableShowMore open" : "tableShowMore"}>
+                                                    <li onClick={() => action('APPROVED', _.get(row, header.lookup_key, '--'))}>Approve</li>
+                                                    <li onClick={() => declineAction('DECLINED', _.get(row, header.lookup_key, '--'))}>Decline</li>
+                                                </ul>
+                                            </TableCell>)
+                                        }
+                                        return (<TableCell className={classes.tableCellRows} key={header.display_name}>
+                                            {getRows(header, row)}
+                                        </TableCell>)
+                                    })}
+                                </TableRow>
+                            )}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <CustomDialog
+                open={dialogOpen}
+                handleClose={() => setDialogOpen(false)}
+                title='Decline'
+                dialogBody={dialogBody()}
+                dialogStyle={{ minWidth: 460 }}
+                actions={dialogActions()}
+            />
         </Paper>
     );
 }

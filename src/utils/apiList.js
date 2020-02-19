@@ -51,3 +51,5 @@ export const getPoints = (data) => get('content/v1/points/', data);
 export const submitPoints = (data) => post('content/v1/points/', data);
 
 export const previewPoints = (data) => post('content/v1/preview_points/', data);
+
+export const tableAction = (data) => post('admin/v1/admin_action/', data);

@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push } from 'connected-react-router';
 
 import CustomTable from '../customComponents/customTable';
 
-import { getContainerData, getFilterData, } from './actions';
+import { getContainerData, getFilterData, tableAction } from './actions';
 
 class Approvals extends React.PureComponent {
     constructor(props) {
@@ -41,11 +42,11 @@ class Approvals extends React.PureComponent {
         };
         this.props.getFilterData({ display_name: reqTertiarySegment.content_type });
         this.props.getContainerData(data);
-        // this.props.push(`/admin/${url}`)
+        this.props.push(`/admin/approvals/${reqTertiarySegment.content_type}`)
     }
 
     render() {
-        const { columns, containerData } = this.props;
+        const { columns, containerData, tableAction } = this.props;
         const { selectedTab, selectedFilter } = this.state;
         return (<>
             <div className='approvals-tabs--wrapper'>
@@ -53,7 +54,6 @@ class Approvals extends React.PureComponent {
                     <div
                         key={tab.replace(" ", "_").toLowerCase()}
                         className={tab.replace(" ", "_").toLowerCase() === selectedTab ? 'selected' : ''}
-                        // onClick={() => this.setState({ selectedTab: tab.replace(" ", "_").toLowerCase() })}
                         onClick={() => this.handleClick('tab', tab)}
                     >
                         {tab}
@@ -61,7 +61,7 @@ class Approvals extends React.PureComponent {
                 )}
             </div>
             <div className='main-content'>
-                <div className='filters'>
+                <div className='apfilters'>
                     {this.filters.map(filter =>
                         <span
                             key={filter.toLowerCase()}
@@ -75,6 +75,8 @@ class Approvals extends React.PureComponent {
                 <CustomTable
                     headers={columns}
                     tableData={containerData}
+                    action={tableAction}
+                    contentType={this.props.page}
                 />
             </div>
         </>);
@@ -91,6 +93,8 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         getContainerData,
         getFilterData,
+        tableAction,
+        push,
     }, dispatch)
 }
 
