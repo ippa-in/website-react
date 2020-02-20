@@ -42,7 +42,7 @@ class Approvals extends React.PureComponent {
         };
         this.props.getFilterData({ display_name: reqTertiarySegment.content_type });
         this.props.getContainerData(data);
-        this.props.push(`/admin/approvals/${reqTertiarySegment.content_type}`)
+        this.props.push(`/admin/approvals/${reqTertiarySegment.content_type}`);
     }
 
     render() {

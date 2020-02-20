@@ -32,9 +32,7 @@ function UploadDashBoard(props) {
 
     const [showMoreOptions, setShowMore] = React.useState({});
 
-    // useEffect(() => {
-    //     props.getCarouselData();
-    // }, []);
+    const [shuffleOptions, setShuffleOptions] = React.useState({});
 
     const addNewSection = (sectionName) => {
         return (
@@ -54,7 +52,7 @@ function UploadDashBoard(props) {
             ...inputFields,
             file,
         }
-        if(sessionStorage.getItem("mode") === "edit") {
+        if (sessionStorage.getItem("mode") === "edit") {
             typeof data.file === "string" && delete data.file;
             data["img_id"] = sessionStorage.getItem("img_id");
             props.updateCarouselData(data);
@@ -128,7 +126,7 @@ function UploadDashBoard(props) {
         setShowMore({ ...showMoreOptions, [id]: !showMoreOptions[id] });
     }
 
-    const handleEdit = (event, data) => {
+    const handleEdit = (data) => {
         sessionStorage.setItem("mode", "edit");
         sessionStorage.setItem("img_id", data.id);
         setFile(data.img_s3_url);
@@ -149,6 +147,21 @@ function UploadDashBoard(props) {
         setShowMore({ ...showMoreOptions, [data.id]: !showMoreOptions[data.id] });
     }
 
+    const handleShuffle = (id) => {
+        setShuffleOptions({ ...shuffleOptions, [id]: !shuffleOptions[id] });
+    }
+
+    const shuffle = (id1, id2) => {
+        const query = {
+            action: 'swap',
+            img_id1: id1,
+            img_id2: id2
+        };
+        props.deleteSwapCarouselData(query);
+    }
+
+    const imagesIDs = props.containerData.map(data => data.id).sort((a, b) => a - b);
+
     return (
         <>
             <div className="uplDashboard--container">
@@ -156,18 +169,26 @@ function UploadDashBoard(props) {
                     <div className="view--wrapper" key={`${data.id}`}>
                         <div>
                             <div id="topBar">
-                                image {data.id}
-                                <KeyboardArrowDownIcon
-                                    className="transition"
-                                    style={false ? { transform: "rotate(90deg)" } : {}}
-                                />
+                                <div id='topBar' style={{ position: "relative" }} onClick={() => handleShuffle(data.id)} >
+                                    image {data.id}
+                                    <KeyboardArrowDownIcon
+                                        className="transition"
+                                        style={false ? { transform: "rotate(90deg)" } : {}}
+                                    />
+                                    <ul className={shuffleOptions[data.id] ? "showMore open" : "showMore"}>
+                                        {imagesIDs.map(id => {
+                                            if (id !== data.id)
+                                            return <li key={`${id}`} onClick={(event) => shuffle(data.id, id)}>Image {id}</li>
+                                        })}
+                                    </ul>
+                                </div>
                             </div>
                             <div style={{ position: "relative" }}>
                                 <MoreHorizIcon
                                     onClick={(event) => showMoreOption(event, data.id)}
                                 />
                                 <ul className={showMoreOptions[data.id] ? "showMore open" : "showMore"}>
-                                    <li onClick={(event) => handleEdit(event, data)}>Edit</li>
+                                    <li onClick={() => handleEdit(data)}>Edit</li>
                                     <li onClick={() => handleDelete(data)}>Delete</li>
                                 </ul>
                             </div>

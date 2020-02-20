@@ -21,13 +21,13 @@ const Routes = () => {
             <Route path="/promotions" component={Videos} />
             <Route path="/game-finder" component={Videos} />
             <Route path="/learning-curve" component={Videos} />
-            <Route exact path={['/sign-in', '/frgt-pass', '/reset-pass']} component={SignIn} />
+            <Route exact path={['/sign-in', '/frgt-pass', '/reset-pass', '/admin/login']} component={SignIn} />
             <Route path="/sign-up/:step" component={SignUp} />
             <Redirect from="/sign-up" to="/sign-up/1" />
             <Route path="/profile" component={Profile} />
             <Route exact path="/admin/:page" component={AdminContainer} />
             <Route path="/admin/:page/:section" component={AdminContainer} />
-            <Redirect from="/admin" to="/admin/login" />
+            <Redirect from="/admin" to="/admin/dashboard" />
             {/* <Route path="/admin/upload" component={AdminContainer} /> */}
             <Route path="*" component={NotFoundPage} />
         </Switch>

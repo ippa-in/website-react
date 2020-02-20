@@ -85,7 +85,7 @@ class SignIn extends React.PureComponent {
                 </>
             )
         }
-        if (query === '/admin') {
+        if (query === '/admin/login') {
             return (
                 <>
                     <h2 className='signIn-header'>Sign in to admin dashboard</h2>
@@ -215,7 +215,7 @@ class SignIn extends React.PureComponent {
         if (query === '/frgt-pass') {
             return this.renderForgotPassword();
         }
-        if (query === '/admin') {
+        if (query === '/admin/login') {
             return this.renderSignIn(false);
         }
     }

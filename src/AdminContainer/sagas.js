@@ -5,7 +5,8 @@ import * as Api from '../utils/apiList';
 
 function* addCarouselData(action) {
     try {
-        const repsonse = yield call(Api.addCarouselData, action.payload);
+        yield call(Api.addCarouselData, action.payload);
+        yield call(getCarouselData);
     } catch(reason) {
         console.error(reason);
     }

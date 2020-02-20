@@ -2,6 +2,7 @@ import React from 'react';
 import './admin.scss';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push } from 'connected-react-router';
 
 import LeftNavigation from './leftNavigation';
 import Header from './header';
@@ -12,9 +13,11 @@ import Users from './users';
 import Transactions from './transactions';
 import Approvals from './approvals';
 
+
 import _ from "lodash";
 
 import { getNavigationBarData, getContainerData, getFilterData } from './actions';
+import { getUserInfo } from '../Profile/actionCreators';
 
 class AdminContainer extends React.PureComponent {
     constructor(props) {
@@ -22,6 +25,16 @@ class AdminContainer extends React.PureComponent {
         this.page = _.get(props.match, 'params.page', '');
         this.state = {
             openPointsDialog: false,
+        }
+    }
+
+    componentDidMount() {
+        const playerID = localStorage.getItem('playerID');
+        const playerToken = localStorage.getItem('playerToken');
+        if(!(playerID && playerToken)) {
+            this.props.push('/admin/login');
+        } else {
+            this.props.getUserInfo();
         }
     }
 
@@ -81,7 +94,6 @@ class AdminContainer extends React.PureComponent {
         if (pageName.includes('withdraw')) pageName = 'withdrawals';
         if (pageName.includes('ba')) pageName = 'bank_info';
         switch (pageName) {
-            case 'login': return 'If user is already logged in then redirect him to dashboard else show login page.';
             case 'dashboard': return <Dashboard />;
             case 'kyc':
             case 'withdrawals':
@@ -110,6 +122,8 @@ class AdminContainer extends React.PureComponent {
                     <Header
                         page={this.page}
                         togglePointsDialog={this.togglePointsDialog}
+                        push={this.props.push}
+                        userInfo={this.props.userInfo}
                     />
                     <div className='content-page'>
                         {this.renderContent()}
@@ -122,7 +136,8 @@ class AdminContainer extends React.PureComponent {
 
 function mapStateToProps(state) {
     const { navigationData } = state.AdminReducer;
-    return { navigationData };
+    const { userInfo } = state.profileReducer;
+    return { navigationData, userInfo };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -130,6 +145,8 @@ function mapDispatchToProps(dispatch) {
         getNavigationBarData,
         getContainerData,
         getFilterData,
+        getUserInfo,
+        push,
     }, dispatch)
 }
 

@@ -31,13 +31,9 @@ function Header(props) {
     const signOut = () => {
         localStorage.clear();
         sessionStorage.clear();
+        props.push('/admin/login');
     }
 
-    // const handlePointsDialog = (event, value) => {
-    //     // props.handlePointsDialog(value);
-    // }
-
-// console.log('sddad',props);
     return (
         <div className="adHeader--container">
             <div>{props.page === 'points' &&
@@ -56,7 +52,7 @@ function Header(props) {
                         style={{ padding: "14px 20px" }}
                         onClick={() => setflyOutOpen(!flyOutOpen)}>
                         <img className='loggedInUser' src='/images/user_icon.png' alt='user_icon' />
-                        {(userInfo.hasOwnProperty("name") && userInfo.name) || 'batman'} <ExpandMoreIcon />
+                        {(userInfo.hasOwnProperty("name") && userInfo.name) || ''} <ExpandMoreIcon />
                     </div>
                     <div className={flyOutOpen ? "flyout open" : "flyout"} onClick={signOut}>Sign Out</div>
                 </div>
