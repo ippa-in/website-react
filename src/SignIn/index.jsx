@@ -3,6 +3,8 @@ import './signIn.scss';
 import Header from '../Header';
 import InputField from '../customComponents/InputField';
 import CustomButton from '../customComponents/CustomButton';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import GoogleLogin from 'react-google-login';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -97,20 +99,56 @@ class SignIn extends React.PureComponent {
         }
     }
 
+    responseFacebook = response => {
+        console.log(response);
+    };
+
+    componentClicked = response => {
+        console.log(response);
+    };
+
+    responseGoogle = (response) => {
+        console.log(response);
+    }
+
     renderSignIn = (showSocialLogin = true) => {
         return (
             <>
                 {showSocialLogin &&
                     <>
                         <div className='socialLogin--container'>
-                            <div className='socialLogin'>
+                            <FacebookLogin
+                                appId="1088597931155576"
+                                autoLoad={false}
+                                callback={() => this.responseFacebook}
+                                onClick={() => this.componentClicked}
+                                render={renderProps => (
+                                    <button className="socialLogin" onClick={renderProps.onClick}>
+                                        <img src='/images/facebook-signin.svg' alt='facebook-logo' />
+                                        Sign in with Facebook
+                                    </button>
+                                )} />
+                            {/* <div className='socialLogin'>
                                 <img src='/images/facebook-signin.svg' alt='facebook-logo' />
                                 Sign in with Facebook
-                    </div>
-                            <div className='socialLogin'>
+                            </div> */}
+                            <GoogleLogin
+                                clientId="498291790660-u0l5psfrffqbd6g8ijfg9ccjt26ia5in.apps.googleusercontent.com"
+                                render={renderProps => (
+                                    <button className="socialLogin" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                                        <img src='/images/gmail-logo.svg' alt='gmail-logo' />
+                                        Sign in with Gmail
+                                    </button>
+                                )}
+                                buttonText="Login"
+                                onSuccess={this.responseGoogle}
+                                onFailure={this.responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            />
+                            {/* <div className='socialLogin'>
                                 <img src='/images/gmail-logo.svg' alt='gmail-logo' />
                                 Sign in with Gmail
-                    </div>
+                            </div> */}
                         </div>
                         <div className='signIn-divider'>
                             <span>Or</span>
