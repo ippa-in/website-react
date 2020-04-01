@@ -100,15 +100,15 @@ class SignIn extends React.PureComponent {
     }
 
     responseFacebook = response => {
-        console.log(response);
+        console.log("facebook", response);
     };
 
     componentClicked = response => {
-        console.log(response);
+        console.log("google componentClicked", response);
     };
 
     responseGoogle = (response) => {
-        console.log(response);
+        console.log("google response", response);
     }
 
     renderSignIn = (showSocialLogin = true) => {
@@ -118,10 +118,12 @@ class SignIn extends React.PureComponent {
                     <>
                         <div className='socialLogin--container'>
                             <FacebookLogin
-                                appId="1088597931155576"
+                                appId="202128337633230"
                                 autoLoad={false}
+                                fields="name, email, picture"
                                 callback={() => this.responseFacebook}
                                 onClick={() => this.componentClicked}
+                                // cookiePolicy={'single_host_origin'}
                                 render={renderProps => (
                                     <button className="socialLogin" onClick={renderProps.onClick}>
                                         <img src='/images/facebook-signin.svg' alt='facebook-logo' />
@@ -143,7 +145,7 @@ class SignIn extends React.PureComponent {
                                 buttonText="Login"
                                 onSuccess={this.responseGoogle}
                                 onFailure={this.responseGoogle}
-                                cookiePolicy={'single_host_origin'}
+                                // cookiePolicy={'single_host_origin'}
                             />
                             {/* <div className='socialLogin'>
                                 <img src='/images/gmail-logo.svg' alt='gmail-logo' />
