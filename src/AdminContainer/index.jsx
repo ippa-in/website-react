@@ -12,6 +12,7 @@ import Points from './points';
 import Users from './users';
 import Transactions from './transactions';
 import Approvals from './approvals';
+import AdminRewards from './rewards';
 
 
 import _ from "lodash";
@@ -25,6 +26,7 @@ class AdminContainer extends React.PureComponent {
         this.page = _.get(props.match, 'params.page', '');
         this.state = {
             openPointsDialog: false,
+            openRewardsDialog: false
         }
     }
 
@@ -88,6 +90,12 @@ class AdminContainer extends React.PureComponent {
         this.setState({ openPointsDialog: value || !this.state.openPointsDialog });
     };
 
+    toggleRewardDialog = (bool) => {
+        this.setState({
+            openRewardsDialog: bool || !this.state.openRewardsDialog
+        })
+    }
+
     renderContent() {
         let pageName = this.page;
         if (pageName.includes('kyc')) pageName = 'kyc';
@@ -105,6 +113,10 @@ class AdminContainer extends React.PureComponent {
             case 'dashboard_images': return <UploadDashboard />;
             case 'users': return <Users />;
             case 'transaction_history': return <Transactions />;
+            case 'reward_uploads': return <AdminRewards
+                openRewardsDialog={this.state.openRewardsDialog} 
+                toggleRewardDialog={this.toggleRewardDialog}
+            />;
             default: return "404! Page not found!"
         }
     }
@@ -122,6 +134,7 @@ class AdminContainer extends React.PureComponent {
                     <Header
                         page={this.page}
                         togglePointsDialog={this.togglePointsDialog}
+                        toggleRewardDialog={this.toggleRewardDialog}
                         push={this.props.push}
                         userInfo={this.props.userInfo}
                     />

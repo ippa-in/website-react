@@ -2,7 +2,13 @@ import axios from 'axios';
 
 const BASEURL = `http://35.154.161.226:80/`;
 
+// const BASEURL = `http://d90c6a4c.ngrok.io/`;
+
+// const BASEURL = `http://b91dd6f2.ngrok.io/`
+
 // const BASEURL = 'http://192.168.1.112:9005/';
+
+// const BASEURL = 'http://999ed418.ngrok.io/';
 
 const makeAPIUrl = (url) => `${BASEURL}${url}`;
 

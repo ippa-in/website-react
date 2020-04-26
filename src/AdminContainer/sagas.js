@@ -100,6 +100,55 @@ function* tableAction(action) {
     }
 }
 
+// Admin Rewards
+
+function* rewardTable () {
+    try {
+        let playerToken = '', playerId = '';
+        playerId = localStorage.getItem('playerID') ? localStorage.getItem('playerID') : '';
+        playerToken = localStorage.getItem('playerToken') ? localStorage.getItem('playerToken') : '';
+        const colRes = yield call(Api.getRewardTabCol, {"display_name": "reward_content"});
+        const dataRes = yield call(Api.getRewardTabData, {
+            "display_name": "reward_content",
+            "limit": 50,
+            "offset": 0,
+            "data_type": "all",
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'PLAYER-ID': playerId,
+            'PLAYER-TOKEN': playerToken
+        });
+        let tabHeaders = colRes.data.res_data,
+            tabData = dataRes.data.res_data;
+        yield(put(AdminActions.getRewardColSuccess({tabHeaders, tabData})));
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+function* previewRewards (action) {
+    try {  
+        const res = yield call(Api.previewRewards, action.payload);
+        const colRes = yield call(Api.getRewardTabCol, {"display_name": "reward_content"});
+        let tabHeaders = colRes.data.res_data,
+            tabData = res.data.res_data;
+        yield(put(AdminActions.previewSuccess({tabHeaders, tabData})));
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+function* submitReward (action) {
+    console.log(action, "submit")
+    try {
+        yield call(Api.submitRewards, action.payload);
+        yield rewardTable();
+        console.log("Submitted");
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export default function* Watcher() {
     yield takeLatest(AdminActions.ADD_CAROUSEL_DATA, addCarouselData);
     yield takeLatest(AdminActions.GET_CAROUSEL_DATA, getCarouselData);
@@ -112,4 +161,7 @@ export default function* Watcher() {
     yield takeLatest(AdminActions.SUBMIT_POINTS, submitPoints);
     yield takeLatest(AdminActions.PREVIEW_POINTS, previewPoints);
     yield takeLatest(AdminActions.TABLE_ACTION, tableAction);
+    yield takeLatest(AdminActions.GET_REWARD_COL, rewardTable);
+    yield takeLatest(AdminActions.PREVIEW_REWARDS, previewRewards);
+    yield takeLatest(AdminActions.SUBMIT_REWARDS, submitReward);
 }

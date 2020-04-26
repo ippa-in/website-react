@@ -307,12 +307,15 @@ function BankDetails(props) {
 
     const dialogBody = () => {
         return (
-            <>
+            <div className="iform__container">
+                <div className="iform__group">
                 <CustomDropDown
                     label='New Bank Account'
                     menuList={getBankList()}
                     getDropDownValue={getDropDownValue}
                 />
+                </div>
+                <div className="iform__group">
                 <InputField
                     name='ifsc'
                     label='IFSC code'
@@ -320,28 +323,32 @@ function BankDetails(props) {
                     inputStyle={{ padding: 12 }}
                     onChange={handleOnInputChange}
                 />
+                </div>
+                <div className="iform__group">
                 <InputField
                     name='acc_name'
                     label='Account name'
                     hintText='Enter account name'
                     inputStyle={{ padding: 12 }}
                     onChange={handleOnInputChange}
-                />
+                /></div>
+                <div className="iform__group">
                 <InputField
                     name='acc_num'
                     label='Account number'
                     hintText='Enter account number'
                     inputStyle={{ padding: 12 }}
                     onChange={handleOnInputChange}
-                />
+                /></div>
+                <div className="iform__group">
                 <InputField
                     name='confirm_acc_num'
                     label='Confirm account number'
                     hintText='Confirm account number'
                     inputStyle={{ padding: 12 }}
                     onChange={handleOnInputChange}
-                />
-            </>
+                /></div>
+            </div>
         );
     }
 

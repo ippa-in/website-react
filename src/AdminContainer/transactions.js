@@ -51,6 +51,7 @@ class Transactions extends React.PureComponent {
 
     render() {
         const { columns, filters, containerData } = this.props;
+        console.log(columns, containerData, "Data");
         return (
             <>
                 <div className='adFilters--wrapper'>

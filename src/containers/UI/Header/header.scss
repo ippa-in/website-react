@@ -1,0 +1,145 @@
+.site {
+  &__header {
+    background-color: #ffffff;
+    display: flex;
+    border-bottom: 1px solid #ececf3;
+  }
+  &__nav {
+
+  }
+  &__brand {
+    .brand__link {
+      display: inline-flex;
+      padding: 1.5rem 2.5rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.nav {
+  &__list {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  &__item {
+    height: 100%;
+    display: inline-block;
+    a {
+      display: inline-flex;
+      align-items: center;
+      padding: 1.5rem 1.25rem;
+      font-size: 0.875rem;
+      color: #242247;
+      text-decoration: none;
+      font-weight: 500;
+      height: 100%;
+      font-family: 'SF UI Text Medium';
+    }
+    .nav__item--active {
+      color: #f32c4c;
+    }
+  }
+}
+
+.header__authContainer {
+  margin-left: auto;
+  .auth__btn {
+    font-size: 0.875rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1.25rem;
+    color: #242247;
+    height: 100%;
+    &-primary {
+      background-color: #f32c4c;
+      padding: 1.5rem 2.5rem;
+      color: #ffffff;
+    }
+  }
+}
+
+.auth {
+  &__profile {
+    position: relative;
+    &-user {
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    &-img {
+      display: inline-block;
+      margin-right: 12px;
+    }
+
+    &-name {
+      display: inline-flex;
+      font-size: 14px;
+      color: #242247;
+      align-items: center;
+      font-family: 'SF UI Text Medium';
+      cursor: pointer;
+    }
+
+    &-more {
+      display: block;
+      width: 25px;
+      height: 25px;
+      margin-left: 2px;
+      svg {
+        width: 100%;
+      }
+    }
+
+    &-detail {
+
+    }
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+  }
+
+  &__profile {
+    &-detail {
+      position: absolute;
+      top: 100%;
+      z-index: 10;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: none;
+      border-radius: 0 0 4px 4px;
+      transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+      transform: scaleY(0);
+      transform-origin: top center;
+      pointer-events: none;
+      &.active {
+        transform: scaleY(1);
+        pointer-events: auto;
+        box-shadow:  0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      }
+    }
+  }
+
+  &__detail {
+    &-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      &--item {
+        a {
+          display: block;
+          padding: 12px 30px;
+          cursor: pointer;
+          font-size: 12px;
+          text-decoration: none;
+          color: #242247;
+        }
+      }
+    }
+  }
+}

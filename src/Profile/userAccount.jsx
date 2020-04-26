@@ -40,7 +40,12 @@ class UserAccount extends React.PureComponent {
             tag_user_name: '',
             selectedCards: [],
             files: [],
-            title: ''
+            title: '',
+            labelArr: {
+                'monthly_points': 'Current Month\'s Point',
+                'redeemable_points': 'Redeemable Points',
+                'total_points': 'Lifetime Points'
+            }
         }
     }
 
@@ -80,10 +85,24 @@ class UserAccount extends React.PureComponent {
     }
 
     renderLoyaltyPoints() {
+        console.log(this.loyaltyPoints, "Points", this.props.userInfo.points)
         return (
             // Object.keys(this.props.userInfo).length > 0 &&
             <div className='loyaltyPoints--container'>
-                {this.loyaltyPoints.map(loyalty =>
+
+        
+        {this.props.userInfo.points && Object.keys(this.props.userInfo.points).map((key, i) => {
+            return this.state.labelArr.hasOwnProperty(key) ? <div key={i} className="loyaltyPoints--card">
+                <img src='/images/points-icon.svg' alt='points-icon' />
+                <div>
+                    <span>{this.props.userInfo.points[key]}</span>
+                    <span>{this.state.labelArr[key]}</span>
+                </div>
+                <img src='/images/help-icon.svg' alt='help' />
+            </div> : null 
+        })}
+
+                {/* {this.loyaltyPoints.map(loyalty =>
                     <div className='loyaltyPoints--card' key={`${loyalty.points}`}>
                         <img src='/images/points-icon.svg' alt='points-icon' />
                         <div>
@@ -92,8 +111,8 @@ class UserAccount extends React.PureComponent {
                         </div>
                         <img src='/images/help-icon.svg' alt='help' />
                     </div>
-                )}
-                <div className='loyalty-totalPoints-card'>
+                )} */}
+                {/* <div className='loyalty-totalPoints-card'>
                     <span>Total Redeemable points: <strong>{_.get(this.props.userInfo, 'points.total_points', '--')}</strong></span>
                     <CustomButton
                         style={{ padding: '12px 40px' }}
@@ -101,7 +120,7 @@ class UserAccount extends React.PureComponent {
                         isPrimary={true}
                         onClick={this.props.redeemPoints}
                     />
-                </div>
+                </div> */}
             </div>
         );
     }
@@ -130,12 +149,15 @@ class UserAccount extends React.PureComponent {
 
     dialogBody = () => {
         return (
-            <>
+            <div className="iform__container">
+                <div className="iform__group">
                 <CustomDropDown
                     label='Network'
                     menuList={this.getNetworkList()}
                     getDropDownValue={this.getDropDownValue}
                 />
+                </div>
+                <div className="iform__group">
                 <InputField
                     name='tag_user_name'
                     label='Username'
@@ -143,7 +165,8 @@ class UserAccount extends React.PureComponent {
                     inputStyle={{ padding: 12 }}
                     onChange={this.handleOnInputChange}
                 />
-            </>
+                </div>
+            </div>
         );
     }
 
@@ -407,8 +430,8 @@ class UserAccount extends React.PureComponent {
                 {this.cardWrapper('My Basic Info', this.basicInfo())}
                 {this.cardWrapper('Loyalty Points', this.renderLoyaltyPoints())}
                 {this.cardWrapper('Network Tagging', this.networkTagging())}
-                {this.cardWrapper('Favorite Hand', this.favoriteHand())}
-                {this.cardWrapper('Achievements', this.achievement())}
+                {/* {this.cardWrapper('Favorite Hand', this.favoriteHand())}
+                {this.cardWrapper('Achievements', this.achievement())} */}
                 <CustomDialog
                     open={dialogOpen}
                     handleClose={() => this.setDialogOpen('dialogOpen', false)}

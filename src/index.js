@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App/App';
 import Routing from './routes';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore, { history } from './store';
 import { ConnectedRouter } from 'connected-react-router'
@@ -11,9 +12,12 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
     <Provider store={configureStore()}>
         <ConnectedRouter history={history}>
-            <Routing>
+            {/* <Routing> */}
                 <App />
-            </Routing>
+            {/* </Routing> */}
+            {/* <BrowserRouter>
+                <App />
+            </BrowserRouter> */}
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root'));

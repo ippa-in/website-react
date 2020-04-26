@@ -46,3 +46,26 @@ export const previewPoints = (payload) => ({ type: PREVIEW_POINTS, payload });
 export const setPreviewPoints = (payload) => ({ type: SET_PREVIEW_POINTS, payload });
 
 export const tableAction = (payload) => ({ type: TABLE_ACTION, payload });
+
+// Admin Rewards
+
+export const GET_REWARD_COL = 'GET_REWARD_COL';
+export const GET_REWARD_COL_SUCCESS = 'GET_REWARD_COL_SUCCESS';
+export const PREVIEW_REWARDS = 'PREVIEW_REWARDS';
+export const SUBMIT_REWARDS = 'SUBMIT_REWARDS';
+export const PREVIEW_SUCCESS = 'PREVIEW_SUCCESS';
+export const CHANGE_FILE = 'CHANGE_FILE';
+
+export const getRewardCol = () => ({ type: GET_REWARD_COL });
+
+export const getRewardColSuccess = (payload) => ({ type: GET_REWARD_COL_SUCCESS, payload });
+
+export const previewRewards = (payload) => ({ type: PREVIEW_REWARDS, payload });
+
+export const submitRewards = (payload) => ({ type: SUBMIT_REWARDS, payload });
+
+export const previewSuccess = (payload) => ({ type: PREVIEW_SUCCESS, payload});
+
+export const changeFile = () => ({
+  type: CHANGE_FILE
+})

@@ -53,3 +53,21 @@ export const submitPoints = (data) => post('content/v1/points/', data);
 export const previewPoints = (data) => post('content/v1/preview_points/', data);
 
 export const tableAction = (data) => post('admin/v1/admin_action/', data);
+
+// export const rewardsData = data => get('content/v1/rewards', data);
+
+export const rewardsInfo = data => get('content/v1/get_rewards_network/', data);
+
+export const rewardsCoupon = data => get('content/v1/get_rewards/', data);
+
+export const redeemRew = data => post('content/v1/redeem/', data);
+
+// Admin Rewards
+
+export const getRewardTabCol = data => get('filter/v1/search_fields/', data);
+
+export const getRewardTabData = data => get("filter/v1/filter/", data);
+
+export const previewRewards = data => post("content/v1/preview_rewards/", data);
+
+export const submitRewards = data => post("content/v1/rewards/", data);

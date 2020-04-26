@@ -53,6 +53,8 @@ class LeftNavigation extends React.PureComponent {
                     {navigationData.map(data => {
                         const segmentName = data.segment.toLowerCase();
                         let path = segmentName.replace(" ", "_").toLowerCase();
+                        console.log(segmentName, "Name");
+                        if(segmentName === 'dashboard') return;
                         if(segmentName === "approvals") {
                             path = `approvals/${data.sub_segment[0].tertiary_segment[0].content_type.replace(" ", "_").toLowerCase()}`;
                         }
@@ -91,7 +93,7 @@ class LeftNavigation extends React.PureComponent {
                                 className={path === selected ? "selected" : ''}
                                 onClick={(event) => this.handleItemClick(event, data.sub_segment[0])}
                             >
-                                <img src={`/images/left_navigation/${segmentName}.svg`} alt={segmentName} />
+                                <img src={`/images/left_navigation/${segmentName.split(' ').join('_')}.svg`} alt={segmentName} />
                                 {data.segment}
                             </li>
                         )

@@ -29,6 +29,7 @@ function* signUpStep1(action) {
 }
 
 function* signUpStep2(action) {
+    console.log(action.payload);
     try {
         yield call(Api.updateUserDetails, action.payload);
         yield put(push('/'));

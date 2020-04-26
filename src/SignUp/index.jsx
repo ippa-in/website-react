@@ -217,7 +217,7 @@ class SignUp extends React.PureComponent {
 
     getYears = () => {
         let years = [];
-        for (let i = 1980; i <= 2100; i++) {
+        for (let i = 1940; i <= 2020; i++) {
             years.push({ key: i, value: i });
         }
         years.unshift({ key: 0, value: 'Year' });

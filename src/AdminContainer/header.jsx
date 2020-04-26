@@ -33,7 +33,7 @@ function Header(props) {
         sessionStorage.clear();
         props.push('/admin/login');
     }
-
+    console.log(props.page, "page");
     return (
         <div className="adHeader--container">
             <div>{props.page === 'points' &&
@@ -43,6 +43,14 @@ function Header(props) {
                     isPrimary={true}
                     onClick={() => props.togglePointsDialog()}
                 />}
+                {props.page === 'reward_uploads' &&
+                   <CustomButton
+                   style={{ marginLeft: 20 }}
+                   label={'Add Rewards'}
+                   isPrimary={true}
+                   onClick={() => props.toggleRewardDialog()}
+               /> 
+                }
             </div>
             <div className="d-flex" ref={setWrapperRef}>
                 <img className="mr-0-20 cur-pointer" src='/images/search-icon.svg' alt='search' />

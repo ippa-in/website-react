@@ -7,7 +7,7 @@ import Videos from './Videos';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Profile from './Profile';
-import AdminContainer from './AdminContainer'
+import AdminContainer from './AdminContainer';
 
 const Routes = () => {
     return (
@@ -28,6 +28,7 @@ const Routes = () => {
             <Route exact path="/admin/:page" component={AdminContainer} />
             <Route path="/admin/:page/:section" component={AdminContainer} />
             <Redirect from="/admin" to="/admin/dashboard" />
+          
             {/* <Route path="/admin/upload" component={AdminContainer} /> */}
             <Route path="*" component={NotFoundPage} />
         </Switch>

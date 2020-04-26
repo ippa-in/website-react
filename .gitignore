@@ -20,3 +20,4 @@ reports
 tags
 .vscode
 *.icloud
+node_modules
