@@ -12,6 +12,7 @@ import CustomDropDown from '../customComponents/customDropDown';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
+import * as moment from 'moment';
 
 import {
     requestSignUpStep1Data,
@@ -47,7 +48,11 @@ class SignUp extends React.PureComponent {
     }
 
     registerAccount = () => {
-        const { mobile_number, city } = this.state;
+        const { mobile_number, city, day, month, year } = this.state;
+        console.log("DOB", day, month, year);
+        let dob = month + '/' + day + '/' + year;
+        dob = (new Date(dob)).toString();
+        dob = moment(dob).format('DD-MM-YYYY');
         // if (!name) {
         //     //show email id error.
         //     console.log('Enter name.');
@@ -66,7 +71,7 @@ class SignUp extends React.PureComponent {
         //     return;
         // }
 
-        let data = { mobile_number, city };
+        let data = { mobile_number, city, dob };
 
         this.props.requestSignUpStep2Data(data);
     }
@@ -139,11 +144,13 @@ class SignUp extends React.PureComponent {
                     label='Full name'
                     hintText='First and last name'
                     required={true}
+                    value={this.state.name}
                     onChange={this.handleOnInputChange}
                 />
                 <InputField
                     name='email_id'
                     label='Your email'
+                    value={this.state.email_id}
                     hintText='you@email.com'
                     required={true}
                     onChange={this.handleOnInputChange}
@@ -152,6 +159,7 @@ class SignUp extends React.PureComponent {
                     name='password'
                     label='Password'
                     hintText='something secure'
+                    value={this.state.password}
                     type='password'
                     required={true}
                     onChange={this.handleOnInputChange}
@@ -177,7 +185,7 @@ class SignUp extends React.PureComponent {
                         value="isDisabledSignUpStep1"
                     />}
                     label={<div className='signup-ckbox-label'>I certify that I am 18 years of age or older,
-                     and I agree to the <br /> <a href=''>Terms & Conditions</a> and <a href=''>Privacy Policy</a></div>}
+                     and I agree to the <br /> <a href=''>Terms &amp; Conditions</a> and <a href=''>Privacy Policy</a></div>}
                     labelPlacement="end"
                 />
                 <CustomButton
@@ -236,6 +244,7 @@ class SignUp extends React.PureComponent {
                     name='mobile_number'
                     label='Phone number'
                     hintText='Something secure'
+                    value={this.state.mobile_number}
                     onChange={this.handleOnInputChange}
                 />
                 <label className='inputField--label'>Date of birth</label>
@@ -257,6 +266,7 @@ class SignUp extends React.PureComponent {
                     name='city'
                     label='City'
                     hintText='Type city name'
+                    value={this.state.city}
                     onChange={this.handleOnInputChange}
                 />
                 <div className="registerButtons">
